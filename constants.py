@@ -1,4 +1,5 @@
 token = "1062778180:AAHeLcSKVCAy23PKnRhMRy5Y3HR2bs3xblg"
+vpn = 'CgACAgIAAxkBAAIH1GFJK3uBEM69kSfWNxCinKG2XC6JAAINDgAClexRSgOcbRmSsJyZIAQ'
 perenos = """1 - Выясняем причину
 2 - Предлагаем доставку заказа в другой интервал сегодня же
 3 - Предлагаем доставку по другому адресу, главное чтобы клиент принял сегодня `адрес согласовываем с супервайзером`
