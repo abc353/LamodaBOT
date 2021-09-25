@@ -4,7 +4,7 @@ from telebot import types
 bot = telebot.TeleBot(constants.token)
 main_menu = types.ReplyKeyboardMarkup(False, True, False)
 main_menu.row('Заказ,Оплата,Опоздания,Нет соединения')
-main_menu.row('Где бумажный чек?')
+main_menu.row('Где бумажный чек?', 'Памятки')
 main_menu.row('Контактная информация', 'Где мой промокод')
 menu_pravila = types.ReplyKeyboardMarkup(False)
 menu_pravila.row('Как мне работать с отменами и переносами?')
@@ -12,6 +12,10 @@ menu_pravila.row('Когда отменять заказ?', 'Не успеваю
 menu_pravila.row('Заказ остался на карте', 'Не прошла оплата')
 menu_pravila.row('Нет соединения, Anyconnect', 'Планшет не включается')
 menu_pravila.row('Главное меню')
+menu_pamyatki = types.ReplyKeyboardMarkup(False)
+menu_pamyatki.row('БПС', 'Удаленная касса')
+menu_pamyatki.row('Подозрительный клиент')
+menu_pamyatki.row('Главное меню')
 menu_stop = types.ReplyKeyboardRemove()
 
 
@@ -35,8 +39,28 @@ def handle_text(message):
             bot.send_message(message.chat.id, constants.promokod, parse_mode="Markdown", reply_markup=menu_stop)
         elif message.text == "Где бумажный чек?":
             bot.send_message(message.chat.id, constants.elchek, parse_mode="Markdown", reply_markup=menu_stop)
+        elif message.text == "Памятки":
+            bot.send_message(message.chat.id, "Памятки", reply_markup=menu_pamyatki)
         elif message.text == "Заказ,Оплата,Опоздания,Нет соединения":
             bot.send_message(message.chat.id, "Соблюдай правила", reply_markup=menu_pravila)
+        elif message.text == "Подозрительный клиент":
+            bot.send_message(message.chat.id, constants.pk, parse_mode="Markdown")
+        elif message.text == "БПС":
+            bot.send_animation(message.chat.id, animation=constants.bps, parse_mode="Markdown")
+            bot.send_message(message.chat.id, """Сверяем позицию на соответствие:
+1 - Общий вид `достаем из прозрачного пакета`
+2 - Цвет, оттенок
+3 - Наличие пришитой бирки бренда
+4 - Вещь чистая, не пахнет, не стираная
+5 - Проверяем комплект `пояс, верх низ, капюшон, доп сумочка - смотрим фото`""", parse_mode="Markdown")
+        elif message.text == "Удаленная касса":
+            bot.send_message(message.chat.id, constants.uk1, parse_mode="Markdown")
+            bot.send_message(message.chat.id, "При пробитии такого чека, возможно появление сообщения вида:")
+            bot.send_photo(message.chat.id, photo='AgACAgIAAxkBAAILo2FOZlU_mPjUhaXSha6nax-FCthpAAIMtzEb8dhwSu6ArrZdGhuqAQADAgADeAADIQQ')
+            bot.send_message(message.chat.id, """Смело выбираем НЕТ, чек сформируется и отправится клиенту при восстановлении связи.
+`Важно: в момент отсутствия связи нельзя сбрасывать настройки ibox и обнулять кэш приложения, иначе
+сохраненный черновик чека затрется до момента отправки!
+В дальнейшем, в ibox будет добавлен счетчик отправленных чеков, чтобы видеть такие зависшие чеки.`""", parse_mode="Markdown")
         elif message.text == "Как мне работать с отменами и переносами?":
             bot.send_message(message.chat.id, constants.perenos, parse_mode="Markdown")
         elif message.text == "Когда отменять заказ?":
@@ -60,13 +84,17 @@ def handle_text(message):
             bot.send_message(message.chat.id, constants.perenos, parse_mode="Markdown")
         elif "отмен" in message.text.lower():
             bot.send_message(message.chat.id, constants.otmena, parse_mode="Markdown")
-#        elif "работает" and "айбокс" in message.text.lower():
-#            bot.reply_to(message.chat.id, "*Позвони в службу поддержки iBox +78003334526*", parse_mode="Markdown")
         else:
             bot.send_message(message.chat.id, "пиши /start")
- #   elif message.chat.type == 'group':
-  #      if "работает" and "айбокс" in message.text.lower():
-  #        bot.reply_to(message.chat.id, "*Позвони в службу поддержки iBox +78003334526*", parse_mode="Markdown")
+    elif message.chat.type == 'supergroup':
+        if "работает" in message.text.lower() and "айбокс" in message.text.lower():
+            bot.reply_to(message, "*Позвони в службу поддержки iBox +78003334526*", parse_mode="Markdown")
+        elif "срочно" in message.text.lower():
+            bot.send_message(message.chat.id, "*Запросы срочно обрабатываются в течение 5мин*", parse_mode="Markdown", disable_notification=True)
+        elif message.text.lower() == "спасибо":
+            bot.delete_message(message.chat.id, message.id)
+        elif "такси" in message.text.lower():
+            bot.reply_to(message, "Группируемся по 4 человека в одном направлении, доступно 3 машины", parse_mode="Markdown")
 
 
 bot.polling()
