@@ -57,13 +57,13 @@ def handle_text(message):
 4 - Вещь чистая, не пахнет, не стираная
 5 - Проверяем комплект `пояс, верх низ, капюшон, доп сумочка - смотрим фото`""", parse_mode="Markdown")
         elif message.text == "Удаленная касса":
-            bot.send_message(message.chat.id, constants.uk1, parse_mode="Markdown", reply_markup=menu_uk)
-            @bot.callback_query_handler(func=lambda call: True)
-            def answer(call):
-                if call.data == 'dalee':
-                    bot.send_message(message.chat.id, "При пробитии такого чека, возможно появление сообщения вида:")
-                    bot.send_photo(message.chat.id, photo='AgACAgIAAxkBAAILo2FOZlU_mPjUhaXSha6nax-FCthpAAIMtzEb8dhwSu6ArrZdGhuqAQADAgADeAADIQQ')
-                    bot.send_message(message.chat.id, """Смело выбираем НЕТ, чек сформируется и отправится клиенту при восстановлении связи.
+            bot.send_message(message.chat.id, constants.uk1, parse_mode="Markdown")
+          #  @bot.callback_query_handler(func=lambda call: True)
+           # def answer(call):
+               # if call.data == 'dalee':
+            bot.send_message(message.chat.id, "При пробитии такого чека, возможно появление сообщения вида:")
+            bot.send_photo(message.chat.id, photo='AgACAgIAAxkBAAILo2FOZlU_mPjUhaXSha6nax-FCthpAAIMtzEb8dhwSu6ArrZdGhuqAQADAgADeAADIQQ')
+            bot.send_message(message.chat.id, """Смело выбираем НЕТ, чек сформируется и отправится клиенту при восстановлении связи.
 `Важно: в момент отсутствия связи нельзя сбрасывать настройки ibox и обнулять кэш приложения, иначе
 сохраненный черновик чека затрется до момента отправки!
 В дальнейшем, в ibox будет добавлен счетчик отправленных чеков, чтобы видеть такие зависшие чеки.`""", parse_mode="Markdown")
