@@ -99,6 +99,13 @@ def handle_text(message):
             bot.send_message(message.chat.id, "*Запросы срочно обрабатываются в течение 5мин*", parse_mode="Markdown", disable_notification=True)
         elif message.text.lower() == "спасибо":
             bot.delete_message(message.chat.id, message.id)
+        elif "0 перенос" in message.text.lower() and "0 отмен" in message.text.lower() and "0 недоз" in message.text.lower():
+            bot.reply_to(message, "Молодец!")
+            bot.send_sticker(message.chat.id, constants.quality)
+        elif "перен" in message.text.lower():
+            bot.send_message(message.chat.id, constants.perenos, parse_mode="Markdown")
+        elif "отмен" in message.text.lower():
+            bot.send_message(message.chat.id, constants.otmena, parse_mode="Markdown")
         elif "такси" in message.text.lower():
             bot.reply_to(message, "Группируемся по 4 человека в одном направлении, доступно 3 машины", parse_mode="Markdown")
 
