@@ -128,6 +128,11 @@ def handle_text(message):
             bot.reply_to(message, "*Мокка* +78007077236", parse_mode="Markdown")
         elif "механик" in message.text.lower() and "номер" in message.text.lower():
             bot.reply_to(message, "*Дежурный механик* +79150110787", parse_mode="Markdown")
+        elif "лишн" in message.text.lower() and "вещ" in message.text.lower() or "лишн" in message.text.lower() and "позици" in message.text.lower() or "нет" in message.text.lower() and "позици" in message.text.lower() or "нет" in message.text.lower() and "вещ" in message.text.lower():
+            bot.reply_to(message, """Проверяем *LMномер* позиции в заказе. Если нет - составляем бумажный акт на излишек.
+`Посмотри внимательно, скорее всего 1 позиции в заказе не хватает электронный акт недостача`""", parse_mode="Markdown")
+            bot.send_message(message.chat.id, "Бумажный акт")
+            bot.send_photo(message.chat.id, photo='AgACAgIAAxkBAAIQrmFYsPYIPR5hUJx91rR2vHeOyK-4AAJWtDEb0R3JSgkNLQiFZJ_qAQADAgADeAADIQQ')
         elif "перен" in message.text.lower():
             bot.reply_to(message, "Проработай переносы!")
             bot.send_message(message.chat.id, constants.perenos, parse_mode="Markdown")
