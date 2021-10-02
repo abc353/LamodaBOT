@@ -27,7 +27,8 @@ menu_stop = types.ReplyKeyboardRemove()
 @bot.message_handler(commands='start')
 def welcome(message):
     if message.chat.type == 'private':
-        bot.send_sticker(message.chat.id, 'CAACAgIAAxkBAAIIQGFJQJ6aR-pSJuHPw2evH6cJJTOOAAJFAAN4qOYPxT4UDl0DPssgBA', reply_markup=main_menu)
+        bot.send_sticker(message.chat.id, 'CAACAgIAAxkBAAIIQGFJQJ6aR-pSJuHPw2evH6cJJTOOAAJFAAN4qOYPxT4UDl0DPssgBA',
+                         reply_markup=main_menu)
 
 
 @bot.message_handler(commands='gohome')
@@ -35,6 +36,8 @@ def handle_text(message):
     bot.send_location(message.chat.id, 55.728270423944274, 37.7148733308119)
 
 # ДЛЯ БОТА -------------------------------------------------------------------------------------------------------------
+
+
 @bot.message_handler(content_types='text')
 def handle_text(message):
     if message.chat.type == 'private':
@@ -60,9 +63,6 @@ def handle_text(message):
 5 - Проверяем комплект `пояс, верх низ, капюшон, доп сумочка - смотрим фото`""", parse_mode="Markdown")
         elif message.text == "Удаленная касса":
             bot.send_message(message.chat.id, constants.uk1, parse_mode="Markdown")
-          #  @bot.callback_query_handler(func=lambda call: True)
-           # def answer(call):
-               # if call.data == 'dalee':
             bot.send_message(message.chat.id, "При пробитии такого чека, возможно появление сообщения вида:")
             bot.send_photo(message.chat.id, photo='AgACAgIAAxkBAAILo2FOZlU_mPjUhaXSha6nax-FCthpAAIMtzEb8dhwSu6ArrZdGhuqAQADAgADeAADIQQ')
             bot.send_message(message.chat.id, """Смело выбираем НЕТ, чек сформируется и отправится клиенту при восстановлении связи.
@@ -92,6 +92,22 @@ def handle_text(message):
             bot.send_message(message.chat.id, constants.perenos, parse_mode="Markdown")
         elif "отмен" in message.text.lower():
             bot.send_message(message.chat.id, constants.otmena, parse_mode="Markdown")
+        elif "дежурн" in message.text.lower():
+            bot.reply_to(message, "*Дежурный СВ* +79160558030", parse_mode="Markdown")
+        elif "мокка" in message.text.lower() or "рево" in message.text.lower():
+            bot.reply_to(message, "*Мокка* +78007077236", parse_mode="Markdown")
+        elif "механик" in message.text.lower() and "номер" in message.text.lower():
+            bot.reply_to(message, "*Дежурный механик* +79150110787", parse_mode="Markdown")
+        elif "лишн" in message.text.lower() and "вещ" in message.text.lower() or "лишн" in message.text.lower() and "позици" in message.text.lower() or "нет" in message.text.lower() and "позици" in message.text.lower() or "нет" in message.text.lower() and "вещ" in message.text.lower():
+            bot.reply_to(message, """Проверяем *LMномер* позиции в заказе. Если нет - составляем бумажный акт на излишек.
+`Посмотри внимательно, скорее всего 1 позиции в заказе не хватает электронный акт недостача`""", parse_mode="Markdown")
+            bot.send_message(message.chat.id, "Бумажный акт")
+            bot.send_photo(message.chat.id, photo='AgACAgIAAxkBAAIQrmFYsPYIPR5hUJx91rR2vHeOyK-4AAJWtDEb0R3JSgkNLQiFZJ_qAQADAgADeAADIQQ')
+        elif "балл" in message.text.lower():
+            bot.send_message(message.chat.id, "[Баллы Август Июль](https://docs.google.com/spreadsheets/d/1tFo0Fat2gachSWIWZKkqN_VU1xa7EhvuDmgMOewIzVg/edit#gid=1648712497)", parse_mode="Markdown")
+            bot.send_message(message.chat.id, "[Баллы Октябрь Сентябрь](https://docs.google.com/spreadsheets/d/1-X9T4CkT8GP9xkLEiqj9IcX-gfS4AL_s1FNKO8m_ncQ/edit#gid=1127930766)", parse_mode="Markdown")
+        elif "работает" in message.text.lower() and "айбокс" in message.text.lower():
+            bot.reply_to(message, "*Позвони в службу поддержки iBox +78003334526*", parse_mode="Markdown")
         else:
             bot.send_message(message.chat.id, "пиши /start")
 # ДЛЯ ГРУППЫ -----------------------------------------------------------------------------------------------------------
@@ -139,6 +155,9 @@ def handle_text(message):
         elif "отмен" in message.text.lower():
             bot.reply_to(message, "Проработай отмены!, выясни причину!")
             bot.send_message(message.chat.id, constants.otmena, parse_mode="Markdown")
+        elif "vpn" in message.text.lower() or "впн" in message.text.lower() or "connect" in message.text.lower():
+            bot.send_animation(message.chat.id, animation=constants.vpn)
+            bot.send_message(message.chat.id, "Добавляем сертификат как на видео")
 #    elif message.chat.type == 'group':
 #        if "работает" in message.text.lower() and "айбокс" in message.text.lower():
 #            bot.reply_to(message, "*Позвони в службу поддержки iBox +78003334526*", parse_mode="Markdown")
