@@ -34,7 +34,7 @@ def welcome(message):
 def handle_text(message):
     bot.send_location(message.chat.id, 55.728270423944274, 37.7148733308119)
 
-
+# ДЛЯ БОТА -------------------------------------------------------------------------------------------------------------
 @bot.message_handler(content_types='text')
 def handle_text(message):
     if message.chat.type == 'private':
@@ -94,6 +94,7 @@ def handle_text(message):
             bot.send_message(message.chat.id, constants.otmena, parse_mode="Markdown")
         else:
             bot.send_message(message.chat.id, "пиши /start")
+# ДЛЯ ГРУППЫ -----------------------------------------------------------------------------------------------------------
     elif message.chat.type == 'supergroup':
         if "работает" in message.text.lower() and "айбокс" in message.text.lower():
             bot.reply_to(message, "*Позвони в службу поддержки iBox +78003334526*", parse_mode="Markdown")
@@ -101,9 +102,10 @@ def handle_text(message):
             bot.send_message(message.chat.id, "*Запросы срочно обрабатываются в течение 5мин*", parse_mode="Markdown", disable_notification=True)
         elif "балл" in message.text.lower():
             bot.send_message(message.chat.id, "[Баллы Август Июль](https://docs.google.com/spreadsheets/d/1tFo0Fat2gachSWIWZKkqN_VU1xa7EhvuDmgMOewIzVg/edit#gid=1648712497)", parse_mode="Markdown")
-            bot.send_message(message.chat.id, "[Баллы Сентябрь](https://docs.google.com/spreadsheets/d/1-X9T4CkT8GP9xkLEiqj9IcX-gfS4AL_s1FNKO8m_ncQ/edit#gid=1127930766)", parse_mode="Markdown")
+            bot.send_message(message.chat.id, "[Баллы Октябрь Сентябрь](https://docs.google.com/spreadsheets/d/1-X9T4CkT8GP9xkLEiqj9IcX-gfS4AL_s1FNKO8m_ncQ/edit#gid=1127930766)", parse_mode="Markdown")
         elif message.text.lower() == "спасибо":
             bot.delete_message(message.chat.id, message.id)
+        # КОСТИКА ------------------------
         elif "0 перенос" in message.text.lower() and "0 отмен" in message.text.lower() and "0 недоз" in message.text.lower():
             bot.reply_to(message, "Молодец!")
             reply = random.choice(constants.quality)
@@ -117,38 +119,43 @@ def handle_text(message):
         elif "0 перенос" in message.text.lower() or "0 недоз" in message.text.lower():
             bot.reply_to(message, "Проработай переносы!")
             bot.send_message(message.chat.id, constants.perenos, parse_mode="Markdown")
+        # КОСТИКА ------------------------
         elif "такси" in message.text.lower():
             bot.reply_to(message, "Группируемся по 4 человека в одном направлении, доступно 3 машины", parse_mode="Markdown")
         elif "дежурн" in message.text.lower():
             bot.reply_to(message, "*Дежурный СВ* +79160558030", parse_mode="Markdown")
+        elif "мокка" in message.text.lower() or "рево" in message.text.lower():
+            bot.reply_to(message, "*Мокка* +78007077236", parse_mode="Markdown")
+        elif "механик" in message.text.lower() and "номер" in message.text.lower():
+            bot.reply_to(message, "*Дежурный механик* +79150110787", parse_mode="Markdown")
         elif "перен" in message.text.lower():
             bot.reply_to(message, "Проработай переносы!")
             bot.send_message(message.chat.id, constants.perenos, parse_mode="Markdown")
         elif "отмен" in message.text.lower():
             bot.reply_to(message, "Проработай отмены!, выясни причину!")
             bot.send_message(message.chat.id, constants.otmena, parse_mode="Markdown")
-    elif message.chat.type == 'group':
-        if "работает" in message.text.lower() and "айбокс" in message.text.lower():
-            bot.reply_to(message, "*Позвони в службу поддержки iBox +78003334526*", parse_mode="Markdown")
-        elif "срочно" in message.text.lower():
-            bot.send_message(message.chat.id, "*Запросы срочно обрабатываются в течение 5мин*", parse_mode="Markdown", disable_notification=True)
-        elif message.text.lower() == "спасибо":
-            bot.delete_message(message.chat.id, message.id)
-        elif "0 перенос" in message.text.lower() and "0 отмен" in message.text.lower() and "0 недоз" in message.text.lower():
-            bot.reply_to(message, "Молодец!")
-            reply = random.choice(constants.quality)
-            bot.send_sticker(message.chat.id, reply)
-        elif "0 отмен" in message.text.lower():
-            bot.reply_to(message, "Проработай переносы!")
-            bot.send_message(message.chat.id, constants.perenos, parse_mode="Markdown")
-        elif "0 перенос" in message.text.lower() and "0 недоз" in message.text.lower():
-            bot.reply_to(message, "Проработай отмены!, выясни причину!")
-            bot.send_message(message.chat.id, constants.otmena, parse_mode="Markdown")
-        elif "0 перенос" in message.text.lower() or "0 недоз" in message.text.lower():
-            bot.reply_to(message, "Проработай переносы!")
-            bot.send_message(message.chat.id, constants.perenos, parse_mode="Markdown")
-        elif "такси" in message.text.lower():
-            bot.reply_to(message, "Группируемся по 4 человека в одном направлении, доступно 3 машины", parse_mode="Markdown")
+#    elif message.chat.type == 'group':
+#        if "работает" in message.text.lower() and "айбокс" in message.text.lower():
+#            bot.reply_to(message, "*Позвони в службу поддержки iBox +78003334526*", parse_mode="Markdown")
+#        elif "срочно" in message.text.lower():
+#            bot.send_message(message.chat.id, "*Запросы срочно обрабатываются в течение 5мин*", parse_mode="Markdown", disable_notification=True)
+#        elif message.text.lower() == "спасибо":
+#            bot.delete_message(message.chat.id, message.id)
+#        elif "0 перенос" in message.text.lower() and "0 отмен" in message.text.lower() and "0 недоз" in message.text.lower():
+#            bot.reply_to(message, "Молодец!")
+#            reply = random.choice(constants.quality)
+#            bot.send_sticker(message.chat.id, reply)
+#        elif "0 отмен" in message.text.lower():
+#            bot.reply_to(message, "Проработай переносы!")
+#            bot.send_message(message.chat.id, constants.perenos, parse_mode="Markdown")
+#        elif "0 перенос" in message.text.lower() and "0 недоз" in message.text.lower():
+#            bot.reply_to(message, "Проработай отмены!, выясни причину!")
+#            bot.send_message(message.chat.id, constants.otmena, parse_mode="Markdown")
+#        elif "0 перенос" in message.text.lower() or "0 недоз" in message.text.lower():
+#            bot.reply_to(message, "Проработай переносы!")
+#            bot.send_message(message.chat.id, constants.perenos, parse_mode="Markdown")
+#        elif "такси" in message.text.lower():
+#            bot.reply_to(message, "Группируемся по 4 человека в одном направлении, доступно 3 машины", parse_mode="Markdown")
 
 
 bot.polling()
