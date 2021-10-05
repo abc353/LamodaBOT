@@ -116,7 +116,7 @@ def handle_text(message):
         elif "работает" in message.text.lower() and "айбокс" in message.text.lower():
             bot.reply_to(message, "*Позвони в службу поддержки iBox +78003334526*", parse_mode="Markdown")
         else:
-            bot.send_message(message.chat.id, "нажми /start")
+            bot.send_message(message.chat.id, "нажми \U0001F449 /start \U0001F448")
 # ДЛЯ ГРУППЫ -----------------------------------------------------------------------------------------------------------
     elif message.chat.type == 'supergroup':
         if "работает" in message.text.lower() and "айбокс" in message.text.lower():
