@@ -23,7 +23,6 @@ menu_uk = types.InlineKeyboardMarkup()
 menu_uk.add(menu_uk_but)
 menu_stop = types.ReplyKeyboardRemove()
 
-
 @bot.message_handler(commands='start')
 def welcome(message):
     if message.chat.type == 'private':
@@ -40,6 +39,14 @@ def handle_text(message):
 
 @bot.message_handler(content_types='text')
 def handle_text(message):
+    # матный фильтр
+    for i in constants.mat:
+        if i in message.text.lower():
+            bot.delete_message(message.chat.id, message.id)
+            bot.send_message(message.chat.id, "`сообщение удалено`", parse_mode="Markdown")
+            bot.send_message(message.chat.id, "\U0001F910 не ругаемся!")
+            message.text = " "
+    # матный фильтр
     if message.chat.type == 'private':
         if message.text == "Контактная информация":
             bot.send_message(message.chat.id, constants.contact, parse_mode="Markdown", reply_markup=menu_stop)
@@ -108,12 +115,8 @@ def handle_text(message):
             bot.send_message(message.chat.id, "[Баллы Октябрь Сентябрь](https://docs.google.com/spreadsheets/d/1-X9T4CkT8GP9xkLEiqj9IcX-gfS4AL_s1FNKO8m_ncQ/edit#gid=1127930766)", parse_mode="Markdown")
         elif "работает" in message.text.lower() and "айбокс" in message.text.lower():
             bot.reply_to(message, "*Позвони в службу поддержки iBox +78003334526*", parse_mode="Markdown")
-        elif "бля" or "хуй" or "сука" or "черт" or "чёрт" or "ебат" or "пизд" or "наебал" or "ебал" or "ебан" or "заеб" in message.text.lower():
-            bot.delete_message(message.chat.id, message.id)
-            bot.send_message(message.chat.id, "`сообщение удалено`", parse_mode="Markdown")
-            bot.send_message(message.chat.id, "\U0001F910 не ругаемся!")
         else:
-            bot.send_message(message.chat.id, "пиши /start")
+            bot.send_message(message.chat.id, "нажми /start")
 # ДЛЯ ГРУППЫ -----------------------------------------------------------------------------------------------------------
     elif message.chat.type == 'supergroup':
         if "работает" in message.text.lower() and "айбокс" in message.text.lower():
@@ -125,10 +128,6 @@ def handle_text(message):
             bot.send_message(message.chat.id, "[Баллы Октябрь Сентябрь](https://docs.google.com/spreadsheets/d/1-X9T4CkT8GP9xkLEiqj9IcX-gfS4AL_s1FNKO8m_ncQ/edit#gid=1127930766)", parse_mode="Markdown")
         elif message.text.lower() == "спасибо":
             bot.delete_message(message.chat.id, message.id)
-        elif "бля" or "хуй" or "сука" or "черт" or "чёрт" or "ебат" or "пизд" or "наебал" or "ебал" or "ебан" or "заеб" in message.text.lower():
-            bot.delete_message(message.chat.id, message.id)
-            bot.send_message(message.chat.id, "`сообщение удалено`", parse_mode="Markdown")
-            bot.send_message(message.chat.id, "\U0001F910 не ругаемся!")
         # КОСТИКА ------------------------
         elif "0 перенос" in message.text.lower() and "0 отмен" in message.text.lower() and "0 недоз" in message.text.lower():
             bot.reply_to(message, "Молодец!")
@@ -148,7 +147,7 @@ def handle_text(message):
             bot.reply_to(message, "Группируемся по 4 человека в одном направлении, доступно 3 машины", parse_mode="Markdown")
         elif "дежурн" in message.text.lower():
             bot.reply_to(message, "*Дежурный СВ* +79160558030", parse_mode="Markdown")
-        elif "мокка" in message.text.lower() or "рево" in message.text.lower():
+        elif "мокка" in message.text.lower() or ("рево" in message.text.lower() and "перево" not in message.text.lower()):
             bot.reply_to(message, "*Мокка* +78007077236", parse_mode="Markdown")
         elif "механик" in message.text.lower() and "номер" in message.text.lower():
             bot.reply_to(message, "*Дежурный механик* +79150110787", parse_mode="Markdown")
