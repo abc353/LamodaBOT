@@ -207,8 +207,8 @@ def handle_text(message):
             bot.send_animation(message.chat.id, animation=constants.vpn)
             bot.send_message(message.chat.id, "Добавляем сертификат как на видео")
         elif "подключить" in message.text.lower() and "ридер" in message.text.lower():
-            bot.send_message(message.chat.id, "Подключаем ридер к телефону через *Bluetooth*"
-                                              "Заходим iBox - Настройки - P17 - Жмем на номер ридера",
+            bot.send_message(message.chat.id, "Подключаем ридер к телефону через *Bluetooth*\n"
+                                              "Заходим в iBox - Настройки - P17 - Жмем на номер ридера",
                              parse_mode="Markdown")
             photo1 = types.InputMediaPhoto(
                 media='AgACAgIAAxkBAAIUAAFhXWq_a4XctxVHDLvi-Zh0McuekwAC9rUxGzfi8UpW5N-ot69n9AEAAwIAA20AAyEE')
