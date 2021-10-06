@@ -138,6 +138,14 @@ def handle_text(message):
                              parse_mode="Markdown")
         elif "работает" in message.text.lower() and "айбокс" in message.text.lower():
             bot.reply_to(message, "*Позвони в службу поддержки iBox +78003334526*", parse_mode="Markdown")
+        elif "подключить" in message.text.lower() and "ридер" in message.text.lower():
+            bot.send_message(message.chat.id, "Подключаем ридер к телефону через *Bluetooth*\n"
+                                              "Заходим в iBox - Настройки - P17 - Жмем на номер ридера", parse_mode="Markdown")
+            photo1 = types.InputMediaPhoto(media= 'AgACAgIAAxkBAAIUAAFhXWq_a4XctxVHDLvi-Zh0McuekwAC9rUxGzfi8UpW5N-ot69n9AEAAwIAA20AAyEE')
+            photo2 = types.InputMediaPhoto(media= 'AgACAgIAAxkBAAIUAWFdat_jon5RlxhJdd16uC0STsyNAAL3tTEbN-LxSu-cKoefkYRVAQADAgADbQADIQQ')
+            photo3 = types.InputMediaPhoto(media= 'AgACAgIAAxkBAAIUAmFdavIDffCviWjuXY1iUvbztvRYAAL4tTEbN-LxSt_QLSu1ixVOAQADAgADbQADIQQ')
+            photo4 = types.InputMediaPhoto(media= 'AgACAgIAAxkBAAIT_2FdabvGkzEbrGsNpZX9xTcc28fJAAL0tTEbN-LxSqy5MNMeY6ymAQADAgADeAADIQQ')
+            bot.send_media_group(message.chat.id, [photo1, photo2, photo3, photo4])
         else:
             bot.send_message(message.chat.id, "нажми \U0001F449 /start \U0001F448")
     # ДЛЯ ГРУППЫ -----------------------------------------------------------------------------------------------------------
@@ -198,6 +206,19 @@ def handle_text(message):
         elif "vpn" in message.text.lower() or "впн" in message.text.lower() or "connect" in message.text.lower():
             bot.send_animation(message.chat.id, animation=constants.vpn)
             bot.send_message(message.chat.id, "Добавляем сертификат как на видео")
+        elif "подключить" in message.text.lower() and "ридер" in message.text.lower():
+            bot.send_message(message.chat.id, "Подключаем ридер к телефону через *Bluetooth*"
+                                              "Заходим iBox - Настройки - P17 - Жмем на номер ридера",
+                             parse_mode="Markdown")
+            photo1 = types.InputMediaPhoto(
+                media='AgACAgIAAxkBAAIUAAFhXWq_a4XctxVHDLvi-Zh0McuekwAC9rUxGzfi8UpW5N-ot69n9AEAAwIAA20AAyEE')
+            photo2 = types.InputMediaPhoto(
+                media='AgACAgIAAxkBAAIUAWFdat_jon5RlxhJdd16uC0STsyNAAL3tTEbN-LxSu-cKoefkYRVAQADAgADbQADIQQ')
+            photo3 = types.InputMediaPhoto(
+                media='AgACAgIAAxkBAAIUAmFdavIDffCviWjuXY1iUvbztvRYAAL4tTEbN-LxSt_QLSu1ixVOAQADAgADbQADIQQ')
+            photo4 = types.InputMediaPhoto(
+                media='AgACAgIAAxkBAAIT_2FdabvGkzEbrGsNpZX9xTcc28fJAAL0tTEbN-LxSqy5MNMeY6ymAQADAgADeAADIQQ')
+            bot.send_media_group(message.chat.id, [photo1, photo2, photo3, photo4])
 
 
 # elif message.chat.type == 'group': if "работает" in message.text.lower() and "айбокс" in message.text.lower():
