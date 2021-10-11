@@ -46,7 +46,6 @@ def handle_text(message):
         bot.send_location(message.chat.id, 55.728270423944274, 37.7148733308119)
 
 
-# ДЛЯ БОТА -------------------------------------------------------------------------------------------------------------
 
 
 @bot.message_handler(content_types='text')
@@ -59,6 +58,7 @@ def handle_text(message):
             bot.send_message(message.chat.id, "\U0001F910 `ненормативная лексика запрещена`\U0001F910 ", parse_mode="Markdown")
             message.text = " "
     # матный фильтр
+    # ДЛЯ БОТА ---------------------------------------------------------------------------------------------------------
     if message.chat.type == 'private':
         if message.text == "Контактная информация":
             bot.send_message(message.chat.id, constants.contact, parse_mode="Markdown")
@@ -113,27 +113,30 @@ def handle_text(message):
             bot.send_message(message.chat.id, constants.otmena, parse_mode="Markdown")
         elif "дежурн" in message.text.lower() and "механик" not in message.text.lower():
             bot.reply_to(message, "*Дежурный СВ* +79160558030", parse_mode="Markdown")
-        elif "мокка" in message.text.lower() or "рево" in message.text.lower():
+        elif "мокка" in message.text.lower() or "мокко" in message.text.lower():
             bot.reply_to(message, "*Мокка* +78007077236", parse_mode="Markdown")
         elif "механик" in message.text.lower() and "номер" in message.text.lower():
             bot.reply_to(message, "*Дежурный механик* +79150110787", parse_mode="Markdown")
+        elif "КЦ" in message.text or (("номер" in message.text.lower() or "звонит" in message.text.lower()) and "центр" in message.text.lower()):
+            bot.reply_to(message, "*Call Центр* +74995004959", parse_mode="Markdown")
         elif "лишн" in message.text.lower() and "вещ" in message.text.lower() or "лишн" in message.text.lower() and "позици" in message.text.lower() or "нет" in message.text.lower() and "позици" in message.text.lower() or "нет" in message.text.lower() and "вещ" in message.text.lower():
-            bot.reply_to(message, """Проверяем *LMномер* позиции в заказе. Если нет - составляем бумажный акт на 
-            излишек. `Посмотри внимательно, скорее всего 1 позиции в заказе не хватает электронный акт недостача`""", parse_mode="Markdown")
-            bot.send_message(message.chat.id, "Бумажный акт")
-            bot.send_photo(message.chat.id, photo='AgACAgIAAxkBAAIQrmFYsPYIPR5hUJx91rR2vHeOyK-4AAJWtDEb0R3JSgkNLQiFZJ_qAQADAgADeAADIQQ')
+            bot.reply_to(message, "Заполняем бумажный акт")
+            bot.send_photo(message.chat.id, photo='AgACAgIAAxkBAAIQrmFYsPYIPR5hUJx91rR2vHeOyK-4AAJWtDEb0R3JSgkNLQiFZJ_qAQADAgADeAADIQQ',
+                           caption="""Проверяем *LMномер* позиции в заказе. Если нет - составляем бумажный акт на излишек.
+`Посмотри внимательно, скорее всего 1 позиции в заказе не хватает электронный акт недостача`""",
+                           parse_mode="Markdown")
         elif "балл" in message.text.lower() and "мало" not in message.text.lower():
             bot.send_message(message.chat.id, "[Баллы Август Июль](https://docs.google.com/spreadsheets/d/1tFo0Fat2gachSWIWZKkqN_VU1xa7EhvuDmgMOewIzVg/edit#gid=1648712497)", parse_mode="Markdown")
             bot.send_message(message.chat.id, "[Баллы Октябрь Сентябрь](https://docs.google.com/spreadsheets/d/1-X9T4CkT8GP9xkLEiqj9IcX-gfS4AL_s1FNKO8m_ncQ/edit#gid=1127930766)", parse_mode="Markdown")
         elif "работает" in message.text.lower() and "айбокс" in message.text.lower():
             bot.reply_to(message, "*Позвони в службу поддержки iBox +78003334526*", parse_mode="Markdown")
+        elif "vpn" in message.text.lower() or "впн" in message.text.lower() or "connect" in message.text.lower():
+            bot.send_animation(message.chat.id, animation=constants.vpn, caption="Добавляем сертификат")
         elif "подключить" in message.text.lower() and "ридер" in message.text.lower():
-            bot.send_message(message.chat.id, "Подключаем ридер к телефону через *Bluetooth*\n"
-                                              "Заходим в iBox - Настройки - P17 - Жмем на номер ридера", parse_mode="Markdown")
-            photo1 = types.InputMediaPhoto(media='AgACAgIAAxkBAAIUAAFhXWq_a4XctxVHDLvi-Zh0McuekwAC9rUxGzfi8UpW5N-ot69n9AEAAwIAA20AAyEE')
-            photo2 = types.InputMediaPhoto(media='AgACAgIAAxkBAAIUAWFdat_jon5RlxhJdd16uC0STsyNAAL3tTEbN-LxSu-cKoefkYRVAQADAgADbQADIQQ')
-            photo3 = types.InputMediaPhoto(media='AgACAgIAAxkBAAIUAmFdavIDffCviWjuXY1iUvbztvRYAAL4tTEbN-LxSt_QLSu1ixVOAQADAgADbQADIQQ')
-            photo4 = types.InputMediaPhoto(media='AgACAgIAAxkBAAIT_2FdabvGkzEbrGsNpZX9xTcc28fJAAL0tTEbN-LxSqy5MNMeY6ymAQADAgADeAADIQQ')
+            photo2 = types.InputMediaPhoto(media='AgACAgIAAxkBAAIUAAFhXWq_a4XctxVHDLvi-Zh0McuekwAC9rUxGzfi8UpW5N-ot69n9AEAAwIAA20AAyEE', caption="Заходим в iBox - Настройки - P17")
+            photo3 = types.InputMediaPhoto(media='AgACAgIAAxkBAAIUAWFdat_jon5RlxhJdd16uC0STsyNAAL3tTEbN-LxSu-cKoefkYRVAQADAgADbQADIQQ', caption="- Жмем на номер ридера")
+            photo4 = types.InputMediaPhoto(media='AgACAgIAAxkBAAIUAmFdavIDffCviWjuXY1iUvbztvRYAAL4tTEbN-LxSt_QLSu1ixVOAQADAgADbQADIQQ')
+            photo1 = types.InputMediaPhoto(media='AgACAgIAAxkBAAIT_2FdabvGkzEbrGsNpZX9xTcc28fJAAL0tTEbN-LxSqy5MNMeY6ymAQADAgADeAADIQQ', caption="Подключаем ридер к телефону через *Bluetooth*", parse_mode="Markdown")
             bot.send_media_group(message.chat.id, [photo1, photo2, photo3, photo4])
         else:
             bot.send_message(message.chat.id, "нажми \U0001F449 /start \U0001F448, раздел памятки")
@@ -169,16 +172,18 @@ def handle_text(message):
             bot.reply_to(message, "Группируемся по 4 человека в одном направлении, доступно 3 машины", parse_mode="Markdown")
         elif "дежурн" in message.text.lower() and "механик" not in message.text.lower():
             bot.reply_to(message, "*Дежурный СВ* +79160558030", parse_mode="Markdown")
-        elif "мокка" in message.text.lower() or (
-                "рево" in message.text.lower() and "перево" not in message.text.lower()):
+        elif "мокка" in message.text.lower() or "мокко" in message.text.lower():
             bot.reply_to(message, "*Мокка* +78007077236", parse_mode="Markdown")
         elif "механик" in message.text.lower() and "номер" in message.text.lower():
             bot.reply_to(message, "*Дежурный механик* +79150110787", parse_mode="Markdown")
-        elif "лишн" in message.text.lower() and "вещ" in message.text.lower() or "лишн" in message.text.lower() and "позици" in message.text.lower() or "нет" in message.text.lower() and "позици" in message.text.lower():
-            bot.reply_to(message, """Проверяем *LMномер* позиции в заказе. Если нет - составляем бумажный акт на 
-            излишек. `Посмотри внимательно, скорее всего 1 позиции в заказе не хватает электронный акт недостача`""", parse_mode="Markdown")
-            bot.send_message(message.chat.id, "Бумажный акт")
-            bot.send_photo(message.chat.id, photo='AgACAgIAAxkBAAIQrmFYsPYIPR5hUJx91rR2vHeOyK-4AAJWtDEb0R3JSgkNLQiFZJ_qAQADAgADeAADIQQ')
+        elif "КЦ" in message.text or (("номер" in message.text.lower() or "звонит" in message.text.lower()) and "центр" in message.text.lower()):
+            bot.reply_to(message, "*Call Центр* +74995004959", parse_mode="Markdown")
+        elif "лишн" in message.text.lower() and "вещ" in message.text.lower() or "лишн" in message.text.lower() and "позици" in message.text.lower() or "нет" in message.text.lower() and "позици" in message.text.lower() or "нет" in message.text.lower() and "вещ" in message.text.lower():
+            bot.reply_to(message, "Заполняем бумажный акт")
+            bot.send_photo(message.chat.id, photo='AgACAgIAAxkBAAIQrmFYsPYIPR5hUJx91rR2vHeOyK-4AAJWtDEb0R3JSgkNLQiFZJ_qAQADAgADeAADIQQ',
+                           caption="""Проверяем *LMномер* позиции в заказе. Если нет - составляем бумажный акт на излишек.
+`Посмотри внимательно, скорее всего 1 позиции в заказе не хватает электронный акт недостача`""",
+                           parse_mode="Markdown")
         elif "перен" in message.text.lower():
             bot.reply_to(message, "Проработай переносы!")
             bot.send_message(message.chat.id, constants.perenos, parse_mode="Markdown")
@@ -186,15 +191,12 @@ def handle_text(message):
             bot.reply_to(message, "Проработай отмены!, выясни причину!")
             bot.send_message(message.chat.id, constants.otmena, parse_mode="Markdown")
         elif "vpn" in message.text.lower() or "впн" in message.text.lower() or "connect" in message.text.lower():
-            bot.send_animation(message.chat.id, animation=constants.vpn)
-            bot.send_message(message.chat.id, "Добавляем сертификат как на видео")
+            bot.send_animation(message.chat.id, animation=constants.vpn, caption="Добавляем сертификат")
         elif "подключить" in message.text.lower() and "ридер" in message.text.lower():
-            bot.send_message(message.chat.id, "Подключаем ридер к телефону через *Bluetooth*\n"
-                                              "Заходим в iBox - Настройки - P17 - Жмем на номер ридера", parse_mode="Markdown")
-            photo1 = types.InputMediaPhoto(media='AgACAgIAAxkBAAIUAAFhXWq_a4XctxVHDLvi-Zh0McuekwAC9rUxGzfi8UpW5N-ot69n9AEAAwIAA20AAyEE')
-            photo2 = types.InputMediaPhoto(media='AgACAgIAAxkBAAIUAWFdat_jon5RlxhJdd16uC0STsyNAAL3tTEbN-LxSu-cKoefkYRVAQADAgADbQADIQQ')
-            photo3 = types.InputMediaPhoto(media='AgACAgIAAxkBAAIUAmFdavIDffCviWjuXY1iUvbztvRYAAL4tTEbN-LxSt_QLSu1ixVOAQADAgADbQADIQQ')
-            photo4 = types.InputMediaPhoto(media='AgACAgIAAxkBAAIT_2FdabvGkzEbrGsNpZX9xTcc28fJAAL0tTEbN-LxSqy5MNMeY6ymAQADAgADeAADIQQ')
+            photo2 = types.InputMediaPhoto(media='AgACAgIAAxkBAAIUAAFhXWq_a4XctxVHDLvi-Zh0McuekwAC9rUxGzfi8UpW5N-ot69n9AEAAwIAA20AAyEE', caption="Заходим в iBox - Настройки - P17")
+            photo3 = types.InputMediaPhoto(media='AgACAgIAAxkBAAIUAWFdat_jon5RlxhJdd16uC0STsyNAAL3tTEbN-LxSu-cKoefkYRVAQADAgADbQADIQQ', caption="- Жмем на номер ридера")
+            photo4 = types.InputMediaPhoto(media='AgACAgIAAxkBAAIUAmFdavIDffCviWjuXY1iUvbztvRYAAL4tTEbN-LxSt_QLSu1ixVOAQADAgADbQADIQQ')
+            photo1 = types.InputMediaPhoto(media='AgACAgIAAxkBAAIT_2FdabvGkzEbrGsNpZX9xTcc28fJAAL0tTEbN-LxSqy5MNMeY6ymAQADAgADeAADIQQ', caption="Подключаем ридер к телефону через *Bluetooth*", parse_mode="Markdown")
             bot.send_media_group(message.chat.id, [photo1, photo2, photo3, photo4])
 
 
