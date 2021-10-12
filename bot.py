@@ -1,5 +1,5 @@
 import random
-
+import requests
 import telebot
 import constants
 from telebot import types
@@ -44,7 +44,6 @@ def welcome(message):
                          "Бот ответит на большинство вопросов здесь или в [группе](https://t.me/joinchat/MzSkAJsKihA3ODU6).\n"
                          "Ниже используй кнопки для быстрой навигации по памяткам. Изучи их все!\U0001F447", parse_mode="Markdown")
 
-
 @bot.message_handler(commands='new')
 def handle_text(message):
     if message.chat.type == 'private':
@@ -74,14 +73,28 @@ def handle_text(message):
                                       "И не забывай про памятки и инструкции \U0001F449 /start \U0001F448, а также бота, который ответит на все вопросы, например *номер кол центра*", parse_mode="Markdown")
 
 
-
-
 @bot.message_handler(commands='gohome')
 def handle_text(message):
     if message.chat.type == 'private':
-        bot.send_location(message.chat.id, 55.728270423944274, 37.7148733308119)
-
-
+        bot.reply_to(message, "Отправь мне свою Геопозицию \U0001F5FA. Нажми \U0001F4CE")
+        @bot.message_handler(content_types='location')
+        def handle_text(message):
+            opa = message.location
+            # print(opa)
+            long = opa.longitude
+            lat = opa.latitude
+            longlat = str(long)+","+str(lat)
+            # print(longlat)
+            PARAMS = {"apikey": "3a1f4689-5af6-4ae2-b912-208811535ee3", "lang": "ru_RU", "text": "Газпромнефть", "ll": longlat, "results": "2"}
+            r = requests.get(url="https://search-maps.yandex.ru/v1/", params=PARAMS)
+            json_data = r.json()
+            # print(json_data)
+            latitude_address_str = json_data["features"][0]["geometry"]["coordinates"][1]
+            longitude_address_str = json_data["features"][0]["geometry"]["coordinates"][0]
+            # print(latitude_address_str)
+            # print(longitude_address_str)
+            bot.send_message(message.chat.id, "Ближайшая заправка Газпромнефть")
+            bot.send_location(message.chat.id, latitude_address_str, longitude_address_str)
 
 
 @bot.message_handler(content_types='text')
