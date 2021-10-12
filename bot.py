@@ -20,6 +20,18 @@ menu_pamyatki.row('БПС', 'Удаленная касса')
 menu_pamyatki.row('Подозрительный клиент')
 menu_pamyatki.row('Главное меню')
 menu_stop = types.ReplyKeyboardRemove()
+new_menu1 = types.InlineKeyboardMarkup()
+button1 = types.InlineKeyboardButton('Что дальше?', callback_data='1')
+new_menu1.add(button1)
+new_menu2 = types.InlineKeyboardMarkup()
+button2 = types.InlineKeyboardButton('Я готов\U0001F44D', callback_data='2')
+new_menu2.add(button2)
+new_menu3 = types.InlineKeyboardMarkup()
+button3 = types.InlineKeyboardButton('Все взял\U0001F44D Хочу работать', callback_data='3')
+new_menu3.add(button3)
+new_menu4 = types.InlineKeyboardMarkup()
+button4 = types.InlineKeyboardButton('\U00002757Теперь уже точно все\U00002757', callback_data='4')
+new_menu4.add(button4)
 
 
 @bot.message_handler(commands='start')
@@ -36,7 +48,31 @@ def welcome(message):
 @bot.message_handler(commands='new')
 def handle_text(message):
     if message.chat.type == 'private':
-        bot.send_message(message.chat.id, "*" + message.chat.first_name + "*, обязательно изучи все памятки и инструкции. Жми \U0001F449 /start \U0001F448.", parse_mode="Markdown")
+        bot.send_message(message.chat.id, "*" + message.chat.first_name + "*, обязательно изучи все памятки и инструкции. Жми \U0001F449 /start \U0001F448.", parse_mode="Markdown", reply_markup=new_menu1)
+        @bot.callback_query_handler(func=lambda call: call.data in ['1', '2', '3', '4'])
+        def callback_inline(call):
+            if call.data == '1':
+                bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="Внимательно изучи [СТАНДАРТНЫЙ НАБОР ОПЕРАЦИЙ ТОРГОВОГО ПРЕДСТАВИТЕЛЯ](https://drive.google.com/file/d/19TFv_5iqnTdJK_bfFS8hW7ivFIcGyACp/view?usp=sharing)\n"
+                                      "В нем подробно расписан твой день, начиная с подготовки к маршруту, заканчивая вечерней приемкой.", parse_mode="Markdown", reply_markup=new_menu2)
+            elif call.data == '2':
+                bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="Возьми с собой:\n"
+                                      "\u0031\uFE0F\u20E3Зарядное устройство в прикуриватель или powerbank\n"
+                                      "\u0032\uFE0F\u20E3Type-C и MicroUSB провода для зарядки\n"
+                                      "\u0033\uFE0F\u20E3Ручки и акты несоответствия. `Можно получить с утра у СВ`\n"
+                                      "\u0034\uFE0F\u20E3Гарнитуру или наушник\n"
+                                      "\u0035\uFE0F\u20E3Фирменные пакеты Lamoda для клиентов"
+                                      , parse_mode="Markdown", reply_markup=new_menu3)
+            elif call.data == '3':
+                bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="Приведи в порядок внешний вид:\n"
+                                      "\u0031\uFE0F\u20E3Получи форму у своего СВ\n"
+                                      "\u0032\uFE0F\u20E3Выгляди опрятно и ухоженно\n"
+                                      "\u0033\uFE0F\u20E3Одень темные джинсы\n"
+                                      "\u0034\uFE0F\u20E3Получи бейдж-пропуск с твоим именем"
+                                      , parse_mode="Markdown", reply_markup=new_menu4)
+            elif call.data == '4':
+                bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="Подожди, ты уже получил QR код и логин+пароль iBox для работы? Напомни своему супервайзеру прислать их\n"
+                                      "И не забывай про памятки и инструкции \U0001F449 /start \U0001F448, а также бота, который ответит на все вопросы, например *номер кол центра*", parse_mode="Markdown")
+
 
 
 
@@ -125,6 +161,10 @@ def handle_text(message):
                            caption="""Проверяем *LMномер* позиции в заказе. Если нет - составляем бумажный акт на излишек.
 `Посмотри внимательно, скорее всего 1 позиции в заказе не хватает электронный акт недостача`""",
                            parse_mode="Markdown")
+        elif "акт" in message.text.lower() and "несоответ" in message.text.lower():
+            bot.send_photo(message.chat.id,
+                           photo='AgACAgIAAxkBAAIQrmFYsPYIPR5hUJx91rR2vHeOyK-4AAJWtDEb0R3JSgkNLQiFZJ_qAQADAgADeAADIQQ',
+                           caption="Бумажный акт несоответствия")
         elif "балл" in message.text.lower() and "мало" not in message.text.lower():
             bot.send_message(message.chat.id, "[Баллы Август Июль](https://docs.google.com/spreadsheets/d/1tFo0Fat2gachSWIWZKkqN_VU1xa7EhvuDmgMOewIzVg/edit#gid=1648712497)", parse_mode="Markdown")
             bot.send_message(message.chat.id, "[Баллы Октябрь Сентябрь](https://docs.google.com/spreadsheets/d/1-X9T4CkT8GP9xkLEiqj9IcX-gfS4AL_s1FNKO8m_ncQ/edit#gid=1127930766)", parse_mode="Markdown")
@@ -184,6 +224,10 @@ def handle_text(message):
                            caption="""Проверяем *LMномер* позиции в заказе. Если нет - составляем бумажный акт на излишек.
 `Посмотри внимательно, скорее всего 1 позиции в заказе не хватает электронный акт недостача`""",
                            parse_mode="Markdown")
+        elif "акт" in message.text.lower() and "несоответ" in message.text.lower():
+            bot.send_photo(message.chat.id,
+                           photo='AgACAgIAAxkBAAIQrmFYsPYIPR5hUJx91rR2vHeOyK-4AAJWtDEb0R3JSgkNLQiFZJ_qAQADAgADeAADIQQ',
+                           caption="Бумажный акт несоответствия")
         elif "перен" in message.text.lower():
             bot.reply_to(message, "Проработай переносы!")
             bot.send_message(message.chat.id, constants.perenos, parse_mode="Markdown")
