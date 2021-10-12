@@ -43,6 +43,8 @@ def welcome(message):
                          "*. Это твое имя в телеграм для всех остальных. Переименуй его, если оно тебе не нравится и твои коллеги будут знать, как к тебе обращаться.\n"
                          "Бот ответит на большинство вопросов здесь или в [группе](https://t.me/joinchat/MzSkAJsKihA3ODU6).\n"
                          "Ниже используй кнопки для быстрой навигации по памяткам. Изучи их все!\U0001F447", parse_mode="Markdown")
+    else:
+        bot.reply_to(message, "Команды доступны только в л.с. боту. Пиши @lamodadedbot")
 
 @bot.message_handler(commands='new')
 def handle_text(message):
@@ -71,6 +73,8 @@ def handle_text(message):
             elif call.data == '4':
                 bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="Подожди, ты уже получил QR код и логин+пароль iBox для работы? Напомни своему супервайзеру прислать их\n"
                                       "И не забывай про памятки и инструкции \U0001F449 /start \U0001F448, а также бота, который ответит на все вопросы, например *номер кол центра*", parse_mode="Markdown")
+    else:
+        bot.reply_to(message, "Команды доступны только в л.с. боту. Пиши @lamodadedbot")
 
 
 @bot.message_handler(commands='gohome')
@@ -95,6 +99,8 @@ def handle_text(message):
             # print(longitude_address_str)
             bot.send_message(message.chat.id, "Ближайшая заправка Газпромнефть")
             bot.send_location(message.chat.id, latitude_address_str, longitude_address_str)
+    else:
+        bot.reply_to(message, "Команды доступны только в л.с. боту. Пиши @lamodadedbot")
 
 
 @bot.message_handler(content_types='text')
