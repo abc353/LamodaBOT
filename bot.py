@@ -32,6 +32,10 @@ new_menu3.add(button3)
 new_menu4 = types.InlineKeyboardMarkup()
 button4 = types.InlineKeyboardButton('\U00002757Теперь уже точно все\U00002757', callback_data='4')
 new_menu4.add(button4)
+plansh_menu = types.InlineKeyboardMarkup()
+da_plansh = types.InlineKeyboardButton("Могу вынуть аккумулятор\U0001F50B", callback_data='dabattery')
+net_plansh = types.InlineKeyboardButton("Не могу вынуть, корпус цельный", callback_data='netbattery')
+plansh_menu.add(da_plansh,net_plansh)
 
 
 @bot.message_handler(commands='start')
@@ -187,7 +191,7 @@ def handle_text(message):
         elif "балл" in message.text.lower() and "мало" not in message.text.lower():
             bot.send_message(message.chat.id, "[Баллы Август Июль](https://docs.google.com/spreadsheets/d/1tFo0Fat2gachSWIWZKkqN_VU1xa7EhvuDmgMOewIzVg/edit#gid=1648712497)", parse_mode="Markdown")
             bot.send_message(message.chat.id, "[Баллы Октябрь Сентябрь](https://docs.google.com/spreadsheets/d/1-X9T4CkT8GP9xkLEiqj9IcX-gfS4AL_s1FNKO8m_ncQ/edit#gid=1127930766)", parse_mode="Markdown")
-        elif "работает" in message.text.lower() and "айбокс" in message.text.lower():
+        elif "ibox" in message.text.lower() or "айбокс" in message.text.lower():
             bot.reply_to(message, "*Позвони в службу поддержки iBox +78003334526*", parse_mode="Markdown")
         elif "vpn" in message.text.lower() or "впн" in message.text.lower() or "connect" in message.text.lower():
             bot.send_animation(message.chat.id, animation=constants.vpn, caption="Добавляем сертификат")
@@ -197,70 +201,96 @@ def handle_text(message):
             photo4 = types.InputMediaPhoto(media='AgACAgIAAxkBAAIUAmFdavIDffCviWjuXY1iUvbztvRYAAL4tTEbN-LxSt_QLSu1ixVOAQADAgADbQADIQQ')
             photo1 = types.InputMediaPhoto(media='AgACAgIAAxkBAAIT_2FdabvGkzEbrGsNpZX9xTcc28fJAAL0tTEbN-LxSqy5MNMeY6ymAQADAgADeAADIQQ', caption="Подключаем ридер к телефону через *Bluetooth*", parse_mode="Markdown")
             bot.send_media_group(message.chat.id, [photo1, photo2, photo3, photo4])
+        elif "включить" in message.text.lower() and "планшет" in message.text.lower():
+            bot.reply_to(message, "Можно вынуть АКБ?", reply_markup=plansh_menu)
+            @bot.callback_query_handler(func=lambda call: call.data in ['dabattery', 'netbattery'])
+            def callback_inline(call):
+                if call.data == 'dabattery':
+                    bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="\u0031\uFE0F\u20E3Вынь аккумулятор\n"
+                                          "\u0032\uFE0F\u20E3Вставь кабель от сети в планшет\n"
+                                          "\u0033\uFE0F\u20E3Дождись процентной индикации % заряда\n"
+                                          "\u0034\uFE0F\u20E3Быстро вынь затем вставь заряжающий кабель")
+                elif call.data == 'netbattery':
+                    bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="Зажми и удерживай кнопки включения и \U00002795")
         else:
             bot.send_message(message.chat.id, "нажми \U0001F449 /start \U0001F448, раздел памятки")
             bot.send_message(message.chat.id, "нажми \U0001F449 /new \U0001F448, раздел для стажеров")
             bot.send_message(message.chat.id, "нажми \U0001F449 /gohome \U0001F448, для навигации")
     # ДЛЯ ГРУППЫ -------------------------------------------------------------------------------------------------------
     elif message.chat.type == 'supergroup':
-        if "работает" in message.text.lower() and "айбокс" in message.text.lower():
-            bot.reply_to(message, "*Позвони в службу поддержки iBox +78003334526*", parse_mode="Markdown")
-        elif "срочно" in message.text.lower():
-            bot.send_message(message.chat.id, "*Запросы срочно обрабатываются в течение 5мин*", parse_mode="Markdown", disable_notification=True)
-        elif "балл" in message.text.lower() and "мало" not in message.text.lower():
-            bot.send_message(message.chat.id, "[Баллы Август Июль](https://docs.google.com/spreadsheets/d/1tFo0Fat2gachSWIWZKkqN_VU1xa7EhvuDmgMOewIzVg/edit#gid=1648712497)", parse_mode="Markdown")
-            bot.send_message(message.chat.id, "[Баллы Октябрь Сентябрь](https://docs.google.com/spreadsheets/d/1=-X9T4CkT8GP9xkLEiqj9IcX-gfS4AL_s1FNKO8m_ncQ/edit#gid=1127930766)", parse_mode="Markdown")
-        elif message.text.lower() == "спасибо":
-            bot.delete_message(message.chat.id, message.id)
-        # КОСТИКА ------------------------
-        elif "0 перенос" in message.text.lower() and "0 отмен" in message.text.lower() and "0 недоз" in message.text.lower():
-            bot.reply_to(message, "Молодец!")
-            reply = random.choice(constants.quality)
-            bot.send_sticker(message.chat.id, reply)
-        elif "0 отмен" in message.text.lower():
-            bot.reply_to(message, "Проработай переносы!")
-            bot.send_message(message.chat.id, constants.perenos, parse_mode="Markdown")
-        elif "0 перенос" in message.text.lower() and "0 недоз" in message.text.lower():
-            bot.reply_to(message, "Проработай отмены!, выясни причину!")
-            bot.send_message(message.chat.id, constants.otmena, parse_mode="Markdown")
-        elif "0 перенос" in message.text.lower() or "0 недоз" in message.text.lower():
-            bot.reply_to(message, "Проработай переносы!")
-            bot.send_message(message.chat.id, constants.perenos, parse_mode="Markdown")
-        # КОСТИКА ------------------------
-        elif "такси" in message.text.lower():
-            bot.reply_to(message, "Группируемся по 4 человека в одном направлении, доступно 3 машины", parse_mode="Markdown")
-        elif "дежурн" in message.text.lower() and "механик" not in message.text.lower():
-            bot.reply_to(message, "*Дежурный СВ* +79160558030", parse_mode="Markdown")
-        elif "мокка" in message.text.lower() or "мокко" in message.text.lower():
-            bot.reply_to(message, "*Мокка* +78007077236", parse_mode="Markdown")
-        elif "механик" in message.text.lower() and "номер" in message.text.lower():
-            bot.reply_to(message, "*Дежурный механик* +79150110787", parse_mode="Markdown")
-        elif "КЦ" in message.text or (("номер" in message.text.lower() or "звонит" in message.text.lower()) and "центр" in message.text.lower()):
-            bot.reply_to(message, "*Call Центр* +74995004959", parse_mode="Markdown")
-        elif "лишн" in message.text.lower() and "вещ" in message.text.lower() or "лишн" in message.text.lower() and "позици" in message.text.lower() or "нет" in message.text.lower() and "позици" in message.text.lower() or "нет" in message.text.lower() and "вещ" in message.text.lower():
-            bot.reply_to(message, "Заполняем бумажный акт")
-            bot.send_photo(message.chat.id, photo='AgACAgIAAxkBAAIQrmFYsPYIPR5hUJx91rR2vHeOyK-4AAJWtDEb0R3JSgkNLQiFZJ_qAQADAgADeAADIQQ',
-                           caption="""Проверяем *LMномер* позиции в заказе. Если нет - составляем бумажный акт на излишек.
+        if message.chat.title == "🚛Lamoda info👟" or message.chat.title == "Lamoda Dedovik":
+            if "ibox" in message.text.lower() or "айбокс" in message.text.lower():
+                bot.reply_to(message, "*Позвони в службу поддержки iBox +78003334526*", parse_mode="Markdown")
+            elif "срочно" in message.text.lower():
+                bot.send_message(message.chat.id, "*Запросы срочно обрабатываются в течение 5мин*", parse_mode="Markdown", disable_notification=True)
+            elif "балл" in message.text.lower() and "мало" not in message.text.lower():
+                bot.send_message(message.chat.id, "[Баллы Август Июль](https://docs.google.com/spreadsheets/d/1tFo0Fat2gachSWIWZKkqN_VU1xa7EhvuDmgMOewIzVg/edit#gid=1648712497)", parse_mode="Markdown")
+                bot.send_message(message.chat.id, "[Баллы Октябрь Сентябрь](https://docs.google.com/spreadsheets/d/1=-X9T4CkT8GP9xkLEiqj9IcX-gfS4AL_s1FNKO8m_ncQ/edit#gid=1127930766)", parse_mode="Markdown")
+            elif message.text.lower() == "спасибо":
+                bot.delete_message(message.chat.id, message.id)
+            # КОСТИКА ------------------------
+            elif "0 перенос" in message.text.lower() and "0 отмен" in message.text.lower() and "0 недоз" in message.text.lower():
+                bot.reply_to(message, "Молодец!")
+                reply = random.choice(constants.quality)
+                bot.send_sticker(message.chat.id, reply)
+            elif "0 отмен" in message.text.lower():
+                bot.reply_to(message, "Проработай переносы!")
+                bot.send_message(message.chat.id, constants.perenos, parse_mode="Markdown")
+            elif "0 перенос" in message.text.lower() and "0 недоз" in message.text.lower():
+                bot.reply_to(message, "Проработай отмены!, выясни причину!")
+                bot.send_message(message.chat.id, constants.otmena, parse_mode="Markdown")
+            elif "0 перенос" in message.text.lower() or "0 недоз" in message.text.lower():
+                bot.reply_to(message, "Проработай переносы!")
+                bot.send_message(message.chat.id, constants.perenos, parse_mode="Markdown")
+            # КОСТИКА ------------------------
+            elif "такси" in message.text.lower():
+                bot.reply_to(message, "Группируемся по 4 человека в одном направлении, доступно 3 машины", parse_mode="Markdown")
+            elif "дежурн" in message.text.lower() and "механик" not in message.text.lower():
+                bot.reply_to(message, "*Дежурный СВ* +79160558030", parse_mode="Markdown")
+            elif "мокка" in message.text.lower() or "мокко" in message.text.lower():
+                bot.reply_to(message, "*Мокка* +78007077236", parse_mode="Markdown")
+            elif "механик" in message.text.lower() and "номер" in message.text.lower():
+                bot.reply_to(message, "*Дежурный механик* +79150110787", parse_mode="Markdown")
+            elif "КЦ" in message.text or (("номер" in message.text.lower() or "звонит" in message.text.lower()) and "центр" in message.text.lower()):
+                bot.reply_to(message, "*Call Центр* +74995004959", parse_mode="Markdown")
+            elif "лишн" in message.text.lower() and "вещ" in message.text.lower() or "лишн" in message.text.lower() and "позици" in message.text.lower() or "нет" in message.text.lower() and "позици" in message.text.lower() or "нет" in message.text.lower() and "вещ" in message.text.lower():
+                bot.reply_to(message, "Заполняем бумажный акт")
+                bot.send_photo(message.chat.id, photo='AgACAgIAAxkBAAIQrmFYsPYIPR5hUJx91rR2vHeOyK-4AAJWtDEb0R3JSgkNLQiFZJ_qAQADAgADeAADIQQ',
+                               caption="""Проверяем *LMномер* позиции в заказе. Если нет - составляем бумажный акт на излишек.
 `Посмотри внимательно, скорее всего 1 позиции в заказе не хватает электронный акт недостача`""",
-                           parse_mode="Markdown")
-        elif "акт" in message.text.lower() and "несоответ" in message.text.lower():
-            bot.send_photo(message.chat.id,
-                           photo='AgACAgIAAxkBAAIQrmFYsPYIPR5hUJx91rR2vHeOyK-4AAJWtDEb0R3JSgkNLQiFZJ_qAQADAgADeAADIQQ',
-                           caption="Бумажный акт несоответствия")
-        elif "перен" in message.text.lower():
-            bot.reply_to(message, "Проработай переносы!")
-            bot.send_message(message.chat.id, constants.perenos, parse_mode="Markdown")
-        elif "отмен" in message.text.lower():
-            bot.reply_to(message, "Проработай отмены!, выясни причину!")
-            bot.send_message(message.chat.id, constants.otmena, parse_mode="Markdown")
-        elif "vpn" in message.text.lower() or "впн" in message.text.lower() or "connect" in message.text.lower():
-            bot.send_animation(message.chat.id, animation=constants.vpn, caption="Добавляем сертификат")
-        elif "подключить" in message.text.lower() and "ридер" in message.text.lower():
-            photo2 = types.InputMediaPhoto(media='AgACAgIAAxkBAAIUAAFhXWq_a4XctxVHDLvi-Zh0McuekwAC9rUxGzfi8UpW5N-ot69n9AEAAwIAA20AAyEE', caption="Заходим в iBox - Настройки - P17")
-            photo3 = types.InputMediaPhoto(media='AgACAgIAAxkBAAIUAWFdat_jon5RlxhJdd16uC0STsyNAAL3tTEbN-LxSu-cKoefkYRVAQADAgADbQADIQQ', caption="- Жмем на номер ридера")
-            photo4 = types.InputMediaPhoto(media='AgACAgIAAxkBAAIUAmFdavIDffCviWjuXY1iUvbztvRYAAL4tTEbN-LxSt_QLSu1ixVOAQADAgADbQADIQQ')
-            photo1 = types.InputMediaPhoto(media='AgACAgIAAxkBAAIT_2FdabvGkzEbrGsNpZX9xTcc28fJAAL0tTEbN-LxSqy5MNMeY6ymAQADAgADeAADIQQ', caption="Подключаем ридер к телефону через *Bluetooth*", parse_mode="Markdown")
-            bot.send_media_group(message.chat.id, [photo1, photo2, photo3, photo4])
+                               parse_mode="Markdown")
+            elif "акт" in message.text.lower() and "несоответ" in message.text.lower():
+                bot.send_photo(message.chat.id,
+                               photo='AgACAgIAAxkBAAIQrmFYsPYIPR5hUJx91rR2vHeOyK-4AAJWtDEb0R3JSgkNLQiFZJ_qAQADAgADeAADIQQ',
+                               caption="Бумажный акт несоответствия")
+            elif "перен" in message.text.lower():
+                bot.reply_to(message, "Проработай переносы!")
+                bot.send_message(message.chat.id, constants.perenos, parse_mode="Markdown")
+            elif "отмен" in message.text.lower():
+                bot.reply_to(message, "Проработай отмены!, выясни причину!")
+                bot.send_message(message.chat.id, constants.otmena, parse_mode="Markdown")
+            elif "vpn" in message.text.lower() or "впн" in message.text.lower() or "connect" in message.text.lower():
+                bot.send_animation(message.chat.id, animation=constants.vpn, caption="Добавляем сертификат")
+            elif "подключить" in message.text.lower() and "ридер" in message.text.lower():
+                photo2 = types.InputMediaPhoto(media='AgACAgIAAxkBAAIUAAFhXWq_a4XctxVHDLvi-Zh0McuekwAC9rUxGzfi8UpW5N-ot69n9AEAAwIAA20AAyEE', caption="Заходим в iBox - Настройки - P17")
+                photo3 = types.InputMediaPhoto(media='AgACAgIAAxkBAAIUAWFdat_jon5RlxhJdd16uC0STsyNAAL3tTEbN-LxSu-cKoefkYRVAQADAgADbQADIQQ', caption="- Жмем на номер ридера")
+                photo4 = types.InputMediaPhoto(media='AgACAgIAAxkBAAIUAmFdavIDffCviWjuXY1iUvbztvRYAAL4tTEbN-LxSt_QLSu1ixVOAQADAgADbQADIQQ')
+                photo1 = types.InputMediaPhoto(media='AgACAgIAAxkBAAIT_2FdabvGkzEbrGsNpZX9xTcc28fJAAL0tTEbN-LxSqy5MNMeY6ymAQADAgADeAADIQQ', caption="Подключаем ридер к телефону через *Bluetooth*", parse_mode="Markdown")
+                bot.send_media_group(message.chat.id, [photo1, photo2, photo3, photo4])
+            elif "включить" in message.text.lower() and "планшет" in message.text.lower():
+                bot.reply_to(message, "Можно вынуть АКБ?", reply_markup=plansh_menu)
+                @bot.callback_query_handler(func=lambda call: call.data in ['dabattery', 'netbattery'])
+                def callback_inline(call):
+                    if call.data == 'dabattery':
+                        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="\u0031\uFE0F\u20E3Вынь аккумулятор\n"
+                                              "\u0032\uFE0F\u20E3Вставь кабель от сети в планшет\n"
+                                              "\u0033\uFE0F\u20E3Дождись процентной индикации % заряда\n"
+                                              "\u0034\uFE0F\u20E3Быстро вынь затем вставь заряжающий кабель")
+                    elif call.data == 'netbattery':
+                        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="Зажми и удерживай кнопки включения и \U00002795")
+        else:
+            bot.send_message(message.chat.id, "Некорректная группа\U000026D4")
+
 
 
 bot.polling()
