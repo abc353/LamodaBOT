@@ -53,14 +53,15 @@ zakaz_menu_klient.row(zakaz_button3, zakaz_button4)
 zakaz_menu_klient.row(zakaz_button5, zakaz_button_exit)
 klient1 = types.InlineKeyboardMarkup()
 klient_button1 = types.InlineKeyboardButton("подозрительный", callback_data='podozrit')
-klient_button2 = types.InlineKeyboardButton("поменял пакеты (мошенник", callback_data='pomenyal')
+klient_button2 = types.InlineKeyboardButton("поменял пакеты", callback_data='pomenyal')
 klient_button3 = types.InlineKeyboardButton("не отдает вещь", callback_data='neotdaet')
 klient_button4 = types.InlineKeyboardButton("не открывает\U0001F6AA, 15мин", callback_data='neotkrivaet')
 klient_button5 = types.InlineKeyboardButton("хочет сделать возврат", callback_data='vozvrat')
 klient_button11 = types.InlineKeyboardButton("требует бумажный чек", callback_data='elchek')
+klient_button14 = types.InlineKeyboardButton("Заказ свыше 100000р", callback_data='more100000')
 klient1.row(klient_button1, klient_button2)
 klient1.row(klient_button3, klient_button4)
-klient1.row(klient_button11)
+klient1.row(klient_button11, klient_button14)
 klient1.row(klient_button5, zakaz_button_exit)
 klient2 = types.InlineKeyboardMarkup()
 klient_button6 = types.InlineKeyboardButton("Не сканируется QRкод", callback_data='qr')
@@ -68,8 +69,11 @@ klient_button7 = types.InlineKeyboardButton("В пакете другая вещ
 klient_button8 = types.InlineKeyboardButton("Не проходит оплата", callback_data='oplata')
 klient_button9 = types.InlineKeyboardButton("В заказе Брак", callback_data='brak')
 klient_button10 = types.InlineKeyboardButton("Вещь другого размера", callback_data='razmer')
+klient_button12 = types.InlineKeyboardButton("Не проходит оплата по карте", callback_data='oplatakarta')
+klient_button13 = types.InlineKeyboardButton("завис Мокка", callback_data='mokka')
 klient2.row(klient_button6, klient_button7)
 klient2.row(klient_button8, klient_button9)
+klient2.row(klient_button12, klient_button13)
 klient2.row(klient_button10, zakaz_button_exit)
 zakaz_menu_marshrut = types.InlineKeyboardMarkup()
 zakaz_button6 = types.InlineKeyboardButton("c клиентом", callback_data='s_klientom_marsh')
@@ -91,17 +95,15 @@ marshrut1.row(marsh_button5, marsh_button6)
 marshrut1.row(marsh_button7, zakaz_button_exit)
 marshrut2 = types.InlineKeyboardMarkup()
 marsh_button8 = types.InlineKeyboardButton("адрес не полный", callback_data='nepoln')
-marsh_button9 = types.InlineKeyboardButton("завис Мокка", callback_data='mokka')
 marsh_button10 = types.InlineKeyboardButton("не успеваю к клиенту", callback_data='neuspevau')
 marsh_button11 = types.InlineKeyboardButton("заказ остался на карте, чек пробил", callback_data='zavis')
 marsh_button12 = types.InlineKeyboardButton("не включается планшет", callback_data='nevkl')
 marsh_button13 = types.InlineKeyboardButton("не могу подключить ридер", callback_data='rider')
-marshrut2.row(marsh_button8, marsh_button9)
-marshrut2.row(marsh_button10, marsh_button11)
+marsh_button14 = types.InlineKeyboardButton("не работает iBox", callback_data='ibox')
+marshrut2.row(marsh_button8, marsh_button10)
+marshrut2.row(marsh_button11)
 marshrut2.row(marsh_button12, marsh_button13)
-marshrut2.row(zakaz_button_exit)
-
-
+marshrut2.row(marsh_button14, zakaz_button_exit)
 
 
 @bot.message_handler(commands='start')
@@ -154,24 +156,27 @@ def handle_text(message):
         @bot.message_handler(content_types='location')
         def handle_text(message):
             opa = message.location
-            # print(opa)
             long = opa.longitude
             lat = opa.latitude
             longlat = str(long)+","+str(lat)
-            # print(longlat)
             PARAMS = {"apikey": "3a1f4689-5af6-4ae2-b912-208811535ee3", "lang": "ru_RU", "text": "Газпромнефть", "ll": longlat, "results": "2"}
             r = requests.get(url="https://search-maps.yandex.ru/v1/", params=PARAMS)
             json_data = r.json()
-            # print(json_data)
             latitude_address_str = json_data["features"][0]["geometry"]["coordinates"][1]
             longitude_address_str = json_data["features"][0]["geometry"]["coordinates"][0]
-            # print(latitude_address_str)
-            # print(longitude_address_str)
             bot.send_message(message.chat.id, "Ближайшая заправка Газпромнефть")
             bot.send_location(message.chat.id, latitude_address_str, longitude_address_str)
     else:
         bot.reply_to(message, "Команды доступны только в л.с. боту. Пиши @lamodadedbot")
 
+
+@bot.message_handler(commands='help')
+def handle_text(message):
+    if message.chat.type == 'private':
+        bot.send_message(message.chat.id, "`По всем возникающим вопросам прошу связаться` [со мной](https://t.me/dedovik).\n\n`При возникновении ошибки, неточности или при отсутствии ответа на запрос, прошу сообщить суть проблемы и приложить скриншот.`", parse_mode="Markdown")
+        bot.send_sticker(message.chat.id, "CAACAgIAAxkBAAIdYGFtK4gz9qzQpUPoOetTCt9137XXAALvAQACygMGC3h-hZvLvMChIQQ")
+    else:
+        bot.reply_to(message, "Команды доступны только в л.с. боту. Пиши @lamodadedbot")
 
 @bot.message_handler(content_types='text')
 def handle_text(message):
@@ -232,11 +237,11 @@ def handle_text(message):
             bot.send_message(message.chat.id, "Добавляем сертификат как на видео")
         elif message.text == "Главное меню":
             bot.send_message(message.chat.id, "Главное меню", reply_markup=main_menu)
-        elif "отмен" in message.text.lower() or "перен" in message.text.lower():
+        elif "отмен" in message.text.lower() or "перен" in message.text.lower() or "инфа" in message.text.lower() or "недозвон" in message.text.lower() or "примерк" in message.text.lower() or "доп номер" in message.text.lower() or "проблем" in message.text.lower() or "возврат" in message.text.lower() or "брак" in message.text.lower():
             # bot.send_message(message.chat.id, constants.otmena, parse_mode="Markdown")
             # message_to_delete = message.id + 1
             bot.send_message(message.chat.id, text="*Не можешь доставить заказ? Возникла проблема с клиентом?*", parse_mode="Markdown", reply_to_message_id=message.id, reply_markup=zakaz_menu)
-            @bot.callback_query_handler(func=lambda call: call.data in ['zakaz1', 'zakaz_exit', 'zakaz_marshrut', 'zakaz_klient', 'zakaz_marshrut', 's_klientom', 's_vesch', 'podozrit', 'pomenyal', 'neotdaet','neotkrivaet', 'vozvrat', 'qr', 'drugves', 'oplata', 'brak', 'razmer', 'elchek', 's_klientom_marsh', 'nedozvon', 'multi', 'perenos_vr', 'otmena', 'perenos', 'adres', 'bezprimerki', 's_oborud', 'neuspevau', 'zavis','nepoln','mokka', 'nevkl', 'rider'])
+            @bot.callback_query_handler(func=lambda call: call.data in ['zakaz1', 'zakaz_exit', 'zakaz_marshrut', 'zakaz_klient', 'zakaz_marshrut', 's_klientom', 's_vesch', 'podozrit', 'pomenyal', 'neotdaet','neotkrivaet', 'vozvrat', 'qr', 'drugves', 'oplata', 'brak', 'razmer', 'elchek', 's_klientom_marsh', 'nedozvon', 'multi', 'perenos_vr', 'otmena', 'perenos', 'adres', 'bezprimerki', 's_oborud', 'neuspevau', 'zavis','nepoln','mokka', 'nevkl', 'rider', 'oplatakarta', 'ibox', 'more100000'])
             def callback_inline(call): #нужно добавить переменную id сообщения, чтобы менялось одно и то же сообщение ?
                 if call.data == 'zakaz1':
                     bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="*Ты у клиента или на маршруте?*", reply_markup=zakaz_menu1, parse_mode="Markdown")
@@ -244,60 +249,60 @@ def handle_text(message):
                     bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="*Возникла проблема:*", reply_markup=zakaz_menu_klient, parse_mode="Markdown")
                 elif call.data == 's_klientom':
                     bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="*Что случилось?* \U0001F447*Клиент*\U0001F447", reply_markup=klient1, parse_mode="Markdown")
-                elif call.data == 'podozrit': #У КЛИЕНТА
-                    bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Свяжись с дежурным СВ до и после примерки. Необходимо сообщить кол-во выкупленных позиций, сумму, метод оплаты. Правила доставки ПК уточняй у [Бота](https://t.me/lamodadedbot). Пиши *Подозрительный клиент*", parse_mode="Markdown")
+                elif call.data == 'podozrit' or call.data == 'more100000': #У КЛИЕНТА
+                    bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Свяжись с дежурным СВ до и после примерки. Необходимо _сообщить кол-во выкупленных позиций_, _сумму_, _метод оплаты_.\n\nПравила доставки ПК уточняй у [Бота](https://t.me/lamodadedbot). Пиши *Подозрительный клиент*", parse_mode="Markdown")
                 elif call.data == 'pomenyal': #У КЛИЕНТА
-                    bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Покажи клиенту отличительные особенности позиции, которую он собирается оплатить.")
+                    bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Покажи клиенту, чем отличаются позиции. Сообщи, что продать позицию по ложной цене не сможешь.")
                 elif call.data == 'neotdaet': #У КЛИЕНТА
-                    bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Проверил позиции? Сообщи клиенту, что будешь вынужден вызвать полицию\U0001F693. При отказе звони дежурному СВ.\nКак проверить позиции уточняй у [Бота](https://t.me/lamodadedbot). Пиши *БПС*")
+                    bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="*Проверил позиции?* Попроси клиента вернуть вещь, которую ты *проверил* вместе с ним *ДО* примерки.\nНе отдает? Сообщи клиенту, что будешь вынужден вызвать полицию\U0001F693. При отказе звони дежурному СВ.\n\nКак проверить позиции уточняй у [Бота](https://t.me/lamodadedbot). Пиши *БПС*", parse_mode="Markdown")
                 elif call.data == 'elchek': #У КЛИЕНТА
-                    bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Lamoda отказалась от бумажных чеков. Чек придёт клиент на email, указанный при регистрации на сайте.\nЧек ничем не отличается от бумажного и при этом дольше хранится, безопасен для клиента и природы.")
+                    bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Lamoda отказалась от бумажных чеков. Чек придёт клиент на email, указанный при регистрации на сайте.\nЧек ничем не отличается от бумажного и при этом дольше хранится, безопасен для клиента и природы.\n\nВсе возражения смотри у [Бота](https://t.me/lamodadedbot). Пиши *Где бумажный чек?*", parse_mode="Markdown")
                 elif call.data == 'neotkrivaet': #У КЛИЕНТА
-                    bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Сообщи клиенту, что будешь вынужден вызвать полицию\U0001F693. Сообщи дежурному СВ. Будь готов звонить в полицию.")
+                    bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Хочешь, чтобы клиент примерял вещи быстрее - договорись с клиентом *ДО* примерки о времени.\nПолучи ответ - обратную связь - согласие клиента.\nВидишь заранее, что клиент не уложится в 15мин - *договорись* о большем времени.\n\nЕсли КЛ пропал, не отвечает на звонки и не открывает дверь -  Сообщи дежурному СВ.\nБудь готов вызвать полицию\U0001F693.")
                 elif call.data == 'vozvrat': #У КЛИЕНТА
                     bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Возврат *СТРОГО ЗАПРЕЩЕН*. Говори клиенту, что возврат доступен через ПВЗ.\n`Если ты все-таки сделал возврат и не можешь заново пробить позицию, то необходимо сбросить кэш и данные у приложения LmExpress`", parse_mode="Markdown")
                 elif call.data == 's_vesch': #У КЛИЕНТА
                     bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="\U0001F447*Уточни проблему*\U0001F447", reply_markup=klient2, parse_mode="Markdown")
                 elif call.data == 'qr': #У КЛИЕНТА
-                    bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Включи вспышку. Ищи код на бирке, коробке, ярлыке. Введи вручную символы под кодом. Если не удалось - пиши запрос в группу с номером позиции. *LM123456789*", parse_mode="Markdown")
+                    bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Включи вспышку. Ищи код на бирке, коробке, ярлыке. Вводи вручную символы под кодом.\nЕсли не удалось - пиши запрос в группу с номером позиции *LM123456789*", parse_mode="Markdown")
                 elif call.data == 'drugves': #У КЛИЕНТА
-                    bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Номер на прозрачном пакете совпадает с планшетом - \U00002757Фиксируй *пересорт* в причине отказа\nПакета с таким номером нет в планшете - \U00002757Фиксируй *недостачу* в причине отказа\n и *излишек* на бумажном акте. Как заполнить бумажный акт уточняй у [Бота](https://t.me/lamodadedbot).", parse_mode="Markdown")
-                elif call.data == 'oplata': #У КЛИЕНТА
-                    bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Убедись, что есть соединение с интернетом, iBox работает у твоих коллег, Cardreader корректно подключен к планшету.\nКак подключить ридер уточняй у [Бота](https://t.me/lamodadedbot", parse_mode="Markdown")
+                    bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Номер LM123456789 на прозрачном пакете совпадает с планшетом? - \U00002757Фиксируй *пересорт* в причине отказа\nПакета с таким номером нет в планшете - \U00002757Фиксируй *недостачу* в причине отказа и *излишек* на бумажном акте.\n\nКак заполнить бумажный акт уточняй у [Бота](https://t.me/lamodadedbot).", parse_mode="Markdown")
+                elif call.data == 'oplata' or call.data == 'oplatakarta' or call.data == 'ibox': #У КЛИЕНТА
+                    bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Убедись, что есть соединение с интернетом, iBox работает у твоих коллег, Cardreader корректно подключен к планшету.\nНе работает? - перезапусти оборудование.\n\nКак подключить ридер и номер iBox уточняй у [Бота](https://t.me/lamodadedbot", parse_mode="Markdown")
                 elif call.data == 'brak': #У КЛИЕНТА
                     bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="\U00002757Фиксируй *брак* в причине отказа.\nНе забудь проинформировать клиента.", parse_mode="Markdown")
                 elif call.data == 'razmer': #У КЛИЕНТА
-                    bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Убедись, что размер совпадает с накладной и выбран в соответствие с размерной сеткой.\nНапример Ботинок с отштамповкой 39 будет иметь RU38 и EU39\nЕсли размер не совпадает - \U00002757Фиксируй *пересорт* в причине отказа", parse_mode="Markdown")
+                    bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Убедись, что размер совпадает с накладной и выбран в соответствие с размерной сеткой.\nНапример: Ботинок с отштамповкой *39* будет иметь *RU38* и *EU39*.\nЕсли размер не совпадает - \U00002757Фиксируй *пересорт* в причине отказа.", parse_mode="Markdown")
                 elif call.data == 'zakaz_marshrut':
                     bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="*Возникла проблема:*", reply_markup=zakaz_menu_marshrut, parse_mode="Markdown")
                 elif call.data == 's_klientom_marsh':
                     bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="*Что случилось?* \U0001F447*Клиент*\U0001F447", reply_markup=marshrut1, parse_mode="Markdown")
                 elif call.data == 'nedozvon':
-                    bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Убедись, что номер корректный. Если адрес полный - езжай до двери\U0001F6AA, если нет - запрос в КЦ.\nПродолжай попытки связи в течение смены.\nТакже обязательно совершить минимум 3 звонка в интервал клиента не чаще, чем раз в 15мин.")
+                    bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Убедись, что номер корректный. Если адрес полный - езжай до двери\U0001F6AA, если нет - запроси номер и адрес в КЦ.\nПродолжай попытки связи в течение дня.\n\n*Обязательно совершить минимум 3 звонка в интервал клиента не чаще, чем раз в 15мин.*", parse_mode="Markdown")
                 elif call.data == 'multi':
-                    bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Сообщи дежурному СВ. Если общая сумма свыше 100000р - звони на дежурный СВ и действую по правилам подозрительного клиента.\nПравила доставки ПК уточняй у [Бота](https://t.me/lamodadedbot). Пиши *Подозрительный клиент*", parse_mode="Markdown")
+                    bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Общая сумма свыше 100000р - сообщи дежурному супервайзеру и действую по правилам подозрительного клиента.\n\nПравила доставки ПК уточняй у [Бота](https://t.me/lamodadedbot). Пиши *Подозрительный клиент*", parse_mode="Markdown")
                 elif call.data == 'perenos_vr' or call.data == 'neuspevau':
-                    bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="*Договорись* с клиентом о доставке или о звонке позже *в течение дня*. Зафиксируй заказ, чтобы не было опоздания\n`После можно перенести заказ в планшете день в день`", parse_mode="Markdown")
+                    bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="*Договорись* с клиентом о доставке или о звонке позже *в течение дня*. Зафиксируй заказ, чтобы не было опоздания. Доставь заказ позже.\n\n`После можно перенести заказ в планшете день в день`", parse_mode="Markdown")
                 elif call.data == 'otmena':
-                    bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Отменяй заказ строго в этих случаях:\n"+constants.otmena, parse_mode="Markdown")
+                    bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="*Отменяй заказ строго если:*\n\n"+constants.otmena, parse_mode="Markdown")
                 elif call.data == 'perenos':
-                    bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Действуй по пунктам:\n"+constants.perenos, parse_mode="Markdown")
+                    bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Действуй по пунктам:\n\n"+constants.perenos, parse_mode="Markdown")
                 elif call.data == 'adres':
                     bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Выясни полный адрес. Не отказывай клиенту сразу, предложи доставку позже в течение дня. Позвони дежурному СВ для согласования доставки\n`Вполне возможно в конце смены появится окно. Если ты откажешь клиенту сразу, он перенесет заказ на другой день`", parse_mode="Markdown")
                 elif call.data == 'bezprimerki':
-                    bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="*Примерка партнерских заказов строго запрещена.* Заказы Lamoda по согласованию с дежурным СВ\n`В отдельных случаях можно разрешить примерку и повлиять на выкуп для повышения общей лояльности клиента к компании.`", parse_mode="Markdown")
+                    bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="*Примерка партнерских заказов строго запрещена.* Заказы Lamoda по согласованию с дежурным СВ.\n\n`В отдельных случаях можно разрешить примерку и повлиять на выкуп для повышения общей лояльности клиента к компании.`", parse_mode="Markdown")
                 elif call.data == 's_oborud':
                     bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="\U0001F447*Уточни проблему*\U0001F447", reply_markup=marshrut2, parse_mode="Markdown")
                 elif call.data == 'nepoln':
-                    bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Уточни полный адрес в КЦ или сделай запрос в чат. Езжай до двери\U0001F6AA")
+                    bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Запиши всю информацию по адресу при первом звонке клиенту. Если клиент больше не отвечает - уточни адрес в КЦ или сделай запрос в чат. Езжай до двери\U0001F6AA")
                 elif call.data == 'mokka':
                     bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Включи впн, обнови заказы. Позвони в Мокка, чтобы уточнить статус оплаты.\nКак включить впн и узнать номер Мокка ты можешь у [Бота](https://t.me/lamodadedbot). Пиши *впн* и *номер мокка*", parse_mode="Markdown")
                 elif call.data == 'zavis':
                     bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text=constants.bezcheka, parse_mode="Markdown")
                 elif call.data == 'nevkl':
-                    bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Пиши [Боту](https://t.me/lamodadedbot) *как включить планшет*", parse_mode="Markdown")
+                    bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Пиши [Боту](https://t.me/lamodadedbot)- *как включить планшет*", parse_mode="Markdown")
                 elif call.data == 'rider':
-                    bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Пиши [Боту](https://t.me/lamodadedbot) *как подключить ридер*", parse_mode="Markdown")
+                    bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Пиши [Боту](https://t.me/lamodadedbot)- *как подключить ридер*", parse_mode="Markdown")
                 elif call.data == 'zakaz_exit':
                     bot.delete_message(call.message.chat.id, call.message.id)
 
@@ -344,9 +349,10 @@ def handle_text(message):
                 elif call.data == 'netbattery':
                     bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="Зажми и удерживай кнопки включения и \U00002795")
         else:
-            bot.send_message(message.chat.id, "нажми \U0001F449 /start \U0001F448, раздел памятки")
-            bot.send_message(message.chat.id, "нажми \U0001F449 /new \U0001F448, раздел для стажеров")
-            bot.send_message(message.chat.id, "нажми \U0001F449 /gohome \U0001F448, для навигации")
+            bot.send_message(message.chat.id, "жми \U0001F449 /start \U0001F448 *памятки, инструкции*", parse_mode="Markdown")
+            bot.send_message(message.chat.id, "жми \U0001F449 /new \U0001F448 *стажерам*", parse_mode="Markdown")
+            bot.send_message(message.chat.id, "жми \U0001F449 /gohome \U0001F448 *навигация*", parse_mode="Markdown")
+            bot.send_message(message.chat.id, "жми \U0001F449 /help \U0001F448 *обратная связь, контакты*", parse_mode="Markdown")
     # ДЛЯ ГРУППЫ -------------------------------------------------------------------------------------------------------
     elif message.chat.type == 'supergroup':
         if message.chat.title == "🚛Lamoda info👟" or message.chat.title == "Lamoda Dedovik":
@@ -379,136 +385,75 @@ def handle_text(message):
                 bot.send_photo(message.chat.id,
                                photo='AgACAgIAAxkBAAIQrmFYsPYIPR5hUJx91rR2vHeOyK-4AAJWtDEb0R3JSgkNLQiFZJ_qAQADAgADeAADIQQ',
                                caption="Бумажный акт несоответствия")
-            elif "отмен" in message.text.lower() or "перен" in message.text.lower():
+            elif "отмен" in message.text.lower() or "перен" in message.text.lower() or "инфа" in message.text.lower() or "недозвон" in message.text.lower() or "примерк" in message.text.lower() or "доп номер" in message.text.lower() or "проблем" in message.text.lower() or "возврат" in message.text.lower() or "брак" in message.text.lower():
                 # bot.send_message(message.chat.id, constants.otmena, parse_mode="Markdown")
                 # message_to_delete = message.id + 1
-                bot.send_message(message.chat.id, text="*Не можешь доставить заказ? Возникла проблема с клиентом?*",
-                                 parse_mode="Markdown", reply_to_message_id=message.id, reply_markup=zakaz_menu)
-
-                @bot.callback_query_handler(
-                    func=lambda call: call.data in ['zakaz1', 'zakaz_exit', 'zakaz_marshrut', 'zakaz_klient',
-                                                    'zakaz_marshrut', 's_klientom', 's_vesch', 'podozrit', 'pomenyal',
-                                                    'neotdaet', 'neotkrivaet', 'vozvrat', 'qr', 'drugves', 'oplata',
-                                                    'brak', 'razmer', 'elchek', 's_klientom_marsh', 'nedozvon', 'multi',
-                                                    'perenos_vr', 'otmena', 'perenos', 'adres', 'bezprimerki',
-                                                    's_oborud', 'neuspevau', 'zavis', 'nepoln', 'mokka', 'nevkl',
-                                                    'rider'])
-                def callback_inline(
-                        call):  # нужно добавить переменную id сообщения, чтобы менялось одно и то же сообщение ?
+                bot.send_message(message.chat.id, text="*Не можешь доставить заказ? Возникла проблема с клиентом?*", parse_mode="Markdown", reply_to_message_id=message.id, reply_markup=zakaz_menu)
+                @bot.callback_query_handler(func=lambda call: call.data in ['zakaz1', 'zakaz_exit', 'zakaz_marshrut', 'zakaz_klient', 'zakaz_marshrut', 's_klientom', 's_vesch', 'podozrit', 'pomenyal', 'neotdaet','neotkrivaet', 'vozvrat', 'qr', 'drugves', 'oplata', 'brak', 'razmer', 'elchek', 's_klientom_marsh', 'nedozvon', 'multi', 'perenos_vr', 'otmena', 'perenos', 'adres', 'bezprimerki', 's_oborud', 'neuspevau', 'zavis','nepoln','mokka', 'nevkl', 'rider', 'oplatakarta', 'ibox', 'more100000'])
+                def callback_inline(call): #нужно добавить переменную id сообщения, чтобы менялось одно и то же сообщение ?
                     if call.data == 'zakaz1':
-                        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id,
-                                              text="*Ты у клиента или на маршруте?*", reply_markup=zakaz_menu1,
-                                              parse_mode="Markdown")
+                        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="*Ты у клиента или на маршруте?*", reply_markup=zakaz_menu1, parse_mode="Markdown")
                     elif call.data == 'zakaz_klient':
-                        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id,
-                                              text="*Возникла проблема:*", reply_markup=zakaz_menu_klient,
-                                              parse_mode="Markdown")
+                        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="*Возникла проблема:*", reply_markup=zakaz_menu_klient, parse_mode="Markdown")
                     elif call.data == 's_klientom':
-                        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id,
-                                              text="*Что случилось?* \U0001F447*Клиент*\U0001F447",
-                                              reply_markup=klient1, parse_mode="Markdown")
-                    elif call.data == 'podozrit':  # У КЛИЕНТА
-                        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id,
-                                              text="Свяжись с дежурным СВ до и после примерки. Необходимо сообщить кол-во выкупленных позиций, сумму, метод оплаты. Правила доставки ПК уточняй у [Бота](https://t.me/lamodadedbot). Пиши *Подозрительный клиент*",
-                                              parse_mode="Markdown")
-                    elif call.data == 'pomenyal':  # У КЛИЕНТА
-                        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id,
-                                              text="Покажи клиенту отличительные особенности позиции, которую он собирается оплатить.")
-                    elif call.data == 'neotdaet':  # У КЛИЕНТА
-                        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id,
-                                              text="Проверил позиции? Сообщи клиенту, что будешь вынужден вызвать полицию\U0001F693. При отказе звони дежурному СВ.\nКак проверить позиции уточняй у [Бота](https://t.me/lamodadedbot). Пиши *БПС*")
-                    elif call.data == 'elchek':  # У КЛИЕНТА
-                        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id,
-                                              text="Lamoda отказалась от бумажных чеков. Чек придёт клиент на email, указанный при регистрации на сайте.\nЧек ничем не отличается от бумажного и при этом дольше хранится, безопасен для клиента и природы.")
-                    elif call.data == 'neotkrivaet':  # У КЛИЕНТА
-                        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id,
-                                              text="Сообщи клиенту, что будешь вынужден вызвать полицию\U0001F693. Сообщи дежурному СВ. Будь готов звонить в полицию.")
-                    elif call.data == 'vozvrat':  # У КЛИЕНТА
-                        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id,
-                                              text="Возврат *СТРОГО ЗАПРЕЩЕН*. Говори клиенту, что возврат доступен через ПВЗ.\n`Если ты все-таки сделал возврат и не можешь заново пробить позицию, то необходимо сбросить кэш и данные у приложения LmExpress`",
-                                              parse_mode="Markdown")
-                    elif call.data == 's_vesch':  # У КЛИЕНТА
-                        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id,
-                                              text="\U0001F447*Уточни проблему*\U0001F447", reply_markup=klient2,
-                                              parse_mode="Markdown")
-                    elif call.data == 'qr':  # У КЛИЕНТА
-                        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id,
-                                              text="Включи вспышку. Ищи код на бирке, коробке, ярлыке. Введи вручную символы под кодом. Если не удалось - пиши запрос в группу с номером позиции. *LM123456789*",
-                                              parse_mode="Markdown")
-                    elif call.data == 'drugves':  # У КЛИЕНТА
-                        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id,
-                                              text="Номер на прозрачном пакете совпадает с планшетом - \U00002757Фиксируй *пересорт* в причине отказа\nПакета с таким номером нет в планшете - \U00002757Фиксируй *недостачу* в причине отказа\n и *излишек* на бумажном акте. Как заполнить бумажный акт уточняй у [Бота](https://t.me/lamodadedbot).",
-                                              parse_mode="Markdown")
-                    elif call.data == 'oplata':  # У КЛИЕНТА
-                        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id,
-                                              text="Убедись, что есть соединение с интернетом, iBox работает у твоих коллег, Cardreader корректно подключен к планшету.\nКак подключить ридер уточняй у [Бота](https://t.me/lamodadedbot",
-                                              parse_mode="Markdown")
-                    elif call.data == 'brak':  # У КЛИЕНТА
-                        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id,
-                                              text="\U00002757Фиксируй *брак* в причине отказа.\nНе забудь проинформировать клиента.",
-                                              parse_mode="Markdown")
-                    elif call.data == 'razmer':  # У КЛИЕНТА
-                        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id,
-                                              text="Убедись, что размер совпадает с накладной и выбран в соответствие с размерной сеткой.\nНапример Ботинок с отштамповкой 39 будет иметь RU38 и EU39\nЕсли размер не совпадает - \U00002757Фиксируй *пересорт* в причине отказа",
-                                              parse_mode="Markdown")
+                        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="*Что случилось?* \U0001F447*Клиент*\U0001F447", reply_markup=klient1, parse_mode="Markdown")
+                    elif call.data == 'podozrit' or call.data == 'more100000': #У КЛИЕНТА
+                        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Свяжись с дежурным СВ до и после примерки. Необходимо _сообщить кол-во выкупленных позиций_, _сумму_, _метод оплаты_.\n\nПравила доставки ПК уточняй у [Бота](https://t.me/lamodadedbot). Пиши *Подозрительный клиент*", parse_mode="Markdown")
+                    elif call.data == 'pomenyal': #У КЛИЕНТА
+                        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Покажи клиенту, чем отличаются позиции. Сообщи, что продать позицию по ложной цене не сможешь.")
+                    elif call.data == 'neotdaet': #У КЛИЕНТА
+                        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="*Проверил позиции?* Попроси клиента вернуть вещь, которую ты *проверил* вместе с ним *ДО* примерки.\nНе отдает? Сообщи клиенту, что будешь вынужден вызвать полицию\U0001F693. При отказе звони дежурному СВ.\n\nКак проверить позиции уточняй у [Бота](https://t.me/lamodadedbot). Пиши *БПС*", parse_mode="Markdown")
+                    elif call.data == 'elchek': #У КЛИЕНТА
+                        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Lamoda отказалась от бумажных чеков. Чек придёт клиент на email, указанный при регистрации на сайте.\nЧек ничем не отличается от бумажного и при этом дольше хранится, безопасен для клиента и природы.\n\nВсе возражения смотри у [Бота](https://t.me/lamodadedbot). Пиши *Где бумажный чек?*", parse_mode="Markdown")
+                    elif call.data == 'neotkrivaet': #У КЛИЕНТА
+                        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Хочешь, чтобы клиент примерял вещи быстрее - договорись с клиентом *ДО* примерки о времени.\nПолучи ответ - обратную связь - согласие клиента.\nВидишь заранее, что клиент не уложится в 15мин - *договорись* о большем времени.\n\nЕсли КЛ пропал, не отвечает на звонки и не открывает дверь -  Сообщи дежурному СВ.\nБудь готов вызвать полицию\U0001F693.")
+                    elif call.data == 'vozvrat': #У КЛИЕНТА
+                        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Возврат *СТРОГО ЗАПРЕЩЕН*. Говори клиенту, что возврат доступен через ПВЗ.\n`Если ты все-таки сделал возврат и не можешь заново пробить позицию, то необходимо сбросить кэш и данные у приложения LmExpress`", parse_mode="Markdown")
+                    elif call.data == 's_vesch': #У КЛИЕНТА
+                        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="\U0001F447*Уточни проблему*\U0001F447", reply_markup=klient2, parse_mode="Markdown")
+                    elif call.data == 'qr': #У КЛИЕНТА
+                        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Включи вспышку. Ищи код на бирке, коробке, ярлыке. Вводи вручную символы под кодом.\nЕсли не удалось - пиши запрос в группу с номером позиции *LM123456789*", parse_mode="Markdown")
+                    elif call.data == 'drugves': #У КЛИЕНТА
+                        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Номер LM123456789 на прозрачном пакете совпадает с планшетом? - \U00002757Фиксируй *пересорт* в причине отказа\nПакета с таким номером нет в планшете - \U00002757Фиксируй *недостачу* в причине отказа и *излишек* на бумажном акте.\n\nКак заполнить бумажный акт уточняй у [Бота](https://t.me/lamodadedbot).", parse_mode="Markdown")
+                    elif call.data == 'oplata' or call.data == 'oplatakarta' or call.data == 'ibox': #У КЛИЕНТА
+                        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Убедись, что есть соединение с интернетом, iBox работает у твоих коллег, Cardreader корректно подключен к планшету.\nНе работает? - перезапусти оборудование.\n\nКак подключить ридер и номер iBox уточняй у [Бота](https://t.me/lamodadedbot", parse_mode="Markdown")
+                    elif call.data == 'brak': #У КЛИЕНТА
+                        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="\U00002757Фиксируй *брак* в причине отказа.\nНе забудь проинформировать клиента.", parse_mode="Markdown")
+                    elif call.data == 'razmer': #У КЛИЕНТА
+                        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Убедись, что размер совпадает с накладной и выбран в соответствие с размерной сеткой.\nНапример: Ботинок с отштамповкой *39* будет иметь *RU38* и *EU39*.\nЕсли размер не совпадает - \U00002757Фиксируй *пересорт* в причине отказа.", parse_mode="Markdown")
                     elif call.data == 'zakaz_marshrut':
-                        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id,
-                                              text="*Возникла проблема:*", reply_markup=zakaz_menu_marshrut,
-                                              parse_mode="Markdown")
+                        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="*Возникла проблема:*", reply_markup=zakaz_menu_marshrut, parse_mode="Markdown")
                     elif call.data == 's_klientom_marsh':
-                        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id,
-                                              text="*Что случилось?* \U0001F447*Клиент*\U0001F447",
-                                              reply_markup=marshrut1, parse_mode="Markdown")
+                        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="*Что случилось?* \U0001F447*Клиент*\U0001F447", reply_markup=marshrut1, parse_mode="Markdown")
                     elif call.data == 'nedozvon':
-                        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id,
-                                              text="Убедись, что номер корректный. Если адрес полный - езжай до двери\U0001F6AA, если нет - запрос в КЦ.\nПродолжай попытки связи в течение смены.\nТакже обязательно совершить минимум 3 звонка в интервал клиента не чаще, чем раз в 15мин.")
+                        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Убедись, что номер корректный. Если адрес полный - езжай до двери\U0001F6AA, если нет - запроси номер и адрес в КЦ.\nПродолжай попытки связи в течение дня.\n\n*Обязательно совершить минимум 3 звонка в интервал клиента не чаще, чем раз в 15мин.*", parse_mode="Markdown")
                     elif call.data == 'multi':
-                        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id,
-                                              text="Сообщи дежурному СВ. Если общая сумма свыше 100000р - звони на дежурный СВ и действую по правилам подозрительного клиента.\nПравила доставки ПК уточняй у [Бота](https://t.me/lamodadedbot). Пиши *Подозрительный клиент*",
-                                              parse_mode="Markdown")
+                        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Общая сумма свыше 100000р - сообщи дежурному супервайзеру и действую по правилам подозрительного клиента.\n\nПравила доставки ПК уточняй у [Бота](https://t.me/lamodadedbot). Пиши *Подозрительный клиент*", parse_mode="Markdown")
                     elif call.data == 'perenos_vr' or call.data == 'neuspevau':
-                        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id,
-                                              text="*Договорись* с клиентом о доставке или о звонке позже *в течение дня*. Зафиксируй заказ, чтобы не было опоздания\n`После можно перенести заказ в планшете день в день`",
-                                              parse_mode="Markdown")
+                        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="*Договорись* с клиентом о доставке или о звонке позже *в течение дня*. Зафиксируй заказ, чтобы не было опоздания. Доставь заказ позже.\n\n`После можно перенести заказ в планшете день в день`", parse_mode="Markdown")
                     elif call.data == 'otmena':
-                        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id,
-                                              text="Отменяй заказ строго в этих случаях:\n" + constants.otmena,
-                                              parse_mode="Markdown")
+                        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="*Отменяй заказ строго если:*\n\n"+constants.otmena, parse_mode="Markdown")
                     elif call.data == 'perenos':
-                        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id,
-                                              text="Действуй по пунктам:\n" + constants.perenos, parse_mode="Markdown")
+                        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Действуй по пунктам:\n\n"+constants.perenos, parse_mode="Markdown")
                     elif call.data == 'adres':
-                        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id,
-                                              text="Выясни полный адрес. Не отказывай клиенту сразу, предложи доставку позже в течение дня. Позвони дежурному СВ для согласования доставки\n`Вполне возможно в конце смены появится окно. Если ты откажешь клиенту сразу, он перенесет заказ на другой день`",
-                                              parse_mode="Markdown")
+                        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Выясни полный адрес. Не отказывай клиенту сразу, предложи доставку позже в течение дня. Позвони дежурному СВ для согласования доставки\n`Вполне возможно в конце смены появится окно. Если ты откажешь клиенту сразу, он перенесет заказ на другой день`", parse_mode="Markdown")
                     elif call.data == 'bezprimerki':
-                        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id,
-                                              text="*Примерка партнерских заказов строго запрещена.* Заказы Lamoda по согласованию с дежурным СВ\n`В отдельных случаях можно разрешить примерку и повлиять на выкуп для повышения общей лояльности клиента к компании.`",
-                                              parse_mode="Markdown")
+                        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="*Примерка партнерских заказов строго запрещена.* Заказы Lamoda по согласованию с дежурным СВ.\n\n`В отдельных случаях можно разрешить примерку и повлиять на выкуп для повышения общей лояльности клиента к компании.`", parse_mode="Markdown")
                     elif call.data == 's_oborud':
-                        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id,
-                                              text="\U0001F447*Уточни проблему*\U0001F447", reply_markup=marshrut2,
-                                              parse_mode="Markdown")
+                        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="\U0001F447*Уточни проблему*\U0001F447", reply_markup=marshrut2, parse_mode="Markdown")
                     elif call.data == 'nepoln':
-                        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id,
-                                              text="Уточни полный адрес в КЦ или сделай запрос в чат. Езжай до двери\U0001F6AA")
+                        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Запиши всю информацию по адресу при первом звонке клиенту. Если клиент больше не отвечает - уточни адрес в КЦ или сделай запрос в чат. Езжай до двери\U0001F6AA")
                     elif call.data == 'mokka':
-                        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id,
-                                              text="Включи впн, обнови заказы. Позвони в Мокка, чтобы уточнить статус оплаты.\nКак включить впн и узнать номер Мокка ты можешь у [Бота](https://t.me/lamodadedbot). Пиши *впн* и *номер мокка*",
-                                              parse_mode="Markdown")
+                        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Включи впн, обнови заказы. Позвони в Мокка, чтобы уточнить статус оплаты.\nКак включить впн и узнать номер Мокка ты можешь у [Бота](https://t.me/lamodadedbot). Пиши *впн* и *номер мокка*", parse_mode="Markdown")
                     elif call.data == 'zavis':
-                        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id,
-                                              text=constants.bezcheka, parse_mode="Markdown")
+                        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text=constants.bezcheka, parse_mode="Markdown")
                     elif call.data == 'nevkl':
-                        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id,
-                                              text="Пиши [Боту](https://t.me/lamodadedbot) *как включить планшет*",
-                                              parse_mode="Markdown")
+                        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Пиши [Боту](https://t.me/lamodadedbot)- *как включить планшет*", parse_mode="Markdown")
                     elif call.data == 'rider':
-                        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id,
-                                              text="Пиши [Боту](https://t.me/lamodadedbot) *как подключить ридер*",
-                                              parse_mode="Markdown")
+                        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Пиши [Боту](https://t.me/lamodadedbot)- *как подключить ридер*", parse_mode="Markdown")
                     elif call.data == 'zakaz_exit':
                         bot.delete_message(call.message.chat.id, call.message.id)
+
             elif "vpn" in message.text.lower() or "впн" in message.text.lower() or "connect" in message.text.lower():
                 bot.send_animation(message.chat.id, animation=constants.vpn, caption="Добавляем сертификат")
             elif "подключить" in message.text.lower() and "ридер" in message.text.lower():
