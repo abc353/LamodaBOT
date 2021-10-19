@@ -4,6 +4,7 @@ import telebot
 import constants
 from telebot import types
 
+
 bot = telebot.TeleBot(constants.token)
 main_menu = types.ReplyKeyboardMarkup(True)
 main_menu.row('Заказ,Оплата,Опоздания,Нет соединения')
@@ -98,8 +99,6 @@ marsh_but6 = types.InlineKeyboardButton("другой адрес", callback_data
 marsh.row(marsh_but1, marsh_but2)
 marsh.row(marsh_but6, marsh_but4, marsh_but5)
 marsh.row(marsh_but3, zakaz_button_exit)
-
-
 
 
 
@@ -235,7 +234,7 @@ def handle_text(message):
             bot.send_message(message.chat.id, "Добавляем сертификат как на видео")
         elif message.text == "Главное меню":
             bot.send_message(message.chat.id, "Главное меню", reply_markup=main_menu)
-        elif "отмен" in message.text.lower() or "перен" in message.text.lower() or "инфа" in message.text.lower() or "недозвон" in message.text.lower() or "примерк" in message.text.lower() or ("доп" in message.text.lower() and "номер" in message.text.lower()) or "проблем" in message.text.lower() or "возврат" in message.text.lower() or "брак" in message.text.lower() or "контакт" in message.text.lower() or "недоступ" in message.text.lower() or "подозрит" in message.text.lower() or "дорогой" in message.text.lower():
+        elif "отмен" in message.text.lower() or "перен" in message.text.lower() or "инфа" in message.text.lower() or "недозвон" in message.text.lower() or "примерк" in message.text.lower() or ("доп" in message.text.lower() and "номер" in message.text.lower()) or "проблем" in message.text.lower() or "возврат" in message.text.lower() or "брак" in message.text.lower() or "контакт" in message.text.lower() or "недоступ" in message.text.lower() or "подозрит" in message.text.lower() or "дорогой" in message.text.lower() or "недостач" in message.text.lower() or "отсутству" in message.text.lower() or "платеж" in message.text.lower() or "оплат" in message.text.lower() or "закрыть" in message.text.lower() or "что делать" in message.text.lower():
             bot.send_message(message.chat.id, text="*Не можешь доставить заказ? Возникла проблема с клиентом или на маршруте? Тупит планшет? \U0001F447Уточни:\U0001F447*", parse_mode="Markdown", reply_to_message_id=message.id, reply_markup=zakaz_menu)
             @bot.callback_query_handler(func=lambda call: call.data in ['zakaz_exit', 's_klientom', 's_vesch', 's_oborud', 's_marsh', 'pomenyal', 'neotdaet','neotkrivaet', 'vozvrat', 'qr', 'drugves', 'oplata', 'brak', 'razmer', 'elchek', 's_klientom_marsh', 'nedozvon', 'multi', 'perenos_vr', 'otmena', 'perenos', 'adres', 'bezprimerki', 'neuspevau', 'zavis','nepoln','mokka', 'nevkl', 'rider', 'oplatakarta', 'ibox', 'more100000','tovarivozvrat'])
             def callback_inline(call): #нужно добавить переменную id сообщения, чтобы менялось одно и то же сообщение ?
@@ -302,6 +301,8 @@ def handle_text(message):
             bot.reply_to(message, "*Мокка* +78007077236", parse_mode="Markdown")
         elif "механик" in message.text.lower() and "номер" in message.text.lower():
             bot.reply_to(message, "*Дежурный механик* +79150110787", parse_mode="Markdown")
+        elif "паркоматик" in message.text.lower():
+            bot.reply_to(message, "*Паркоматика* +78003015748", parse_mode="Markdown")
         elif "КЦ" in message.text or (("номер" in message.text.lower() or "звонит" in message.text.lower()) and "центр" in message.text.lower()):
             bot.reply_to(message, "*Call Центр* +74995004959", parse_mode="Markdown")
         elif "лишн" in message.text.lower() and "вещ" in message.text.lower() or "лишн" in message.text.lower() and "позици" in message.text.lower() or "нет" in message.text.lower() and "позици" in message.text.lower() or "нет" in message.text.lower() and "вещ" in message.text.lower():
@@ -356,13 +357,15 @@ def handle_text(message):
             elif message.text.lower() == "спасибо":
                 bot.delete_message(message.chat.id, message.id)
             elif "такси" in message.text.lower():
-                bot.reply_to(message, "Группируемся по 4 человека в одном направлении, доступно 3 машины", parse_mode="Markdown")
+                bot.reply_to(message, "🚕Группируемся по 4 человека в одном направлении, доступно 3 машины🚕\nПарни, в сообщении пишем *НАПРАВЛЕНИЕ* и примерное *время*.\n`Еду в Бирюлево ЮГ 23:30.`", parse_mode="Markdown")
             elif "дежурн" in message.text.lower() and "механик" not in message.text.lower():
                 bot.reply_to(message, "*Дежурный СВ* +79160558030", parse_mode="Markdown")
             elif "мокка" in message.text.lower() or "мокко" in message.text.lower():
                 bot.reply_to(message, "*Мокка* +78007077236", parse_mode="Markdown")
             elif "механик" in message.text.lower() and "номер" in message.text.lower():
                 bot.reply_to(message, "*Дежурный механик* +79150110787", parse_mode="Markdown")
+            elif "паркоматик" in message.text.lower():
+                bot.reply_to(message, "*Паркоматика* +78003015748", parse_mode="Markdown")
             elif "КЦ" in message.text or (("номер" in message.text.lower() or "звонит" in message.text.lower()) and "центр" in message.text.lower()):
                 bot.reply_to(message, "*Call Центр* +74995004959", parse_mode="Markdown")
             elif "лишн" in message.text.lower() and "вещ" in message.text.lower() or "лишн" in message.text.lower() and "позици" in message.text.lower() or "нет" in message.text.lower() and "позици" in message.text.lower() or "нет" in message.text.lower() and "вещ" in message.text.lower():
@@ -375,7 +378,7 @@ def handle_text(message):
                 bot.send_photo(message.chat.id,
                                photo='AgACAgIAAxkBAAIQrmFYsPYIPR5hUJx91rR2vHeOyK-4AAJWtDEb0R3JSgkNLQiFZJ_qAQADAgADeAADIQQ',
                                caption="Бумажный акт несоответствия")
-            elif "отмен" in message.text.lower() or "перен" in message.text.lower() or "инфа" in message.text.lower() or "недозвон" in message.text.lower() or "примерк" in message.text.lower() or ("доп" in message.text.lower() and "номер" in message.text.lower()) or "проблем" in message.text.lower() or "возврат" in message.text.lower() or "брак" in message.text.lower() or "контакт" in message.text.lower() or "недоступ" in message.text.lower() or "подозрит" in message.text.lower() or "дорогой" in message.text.lower():
+            elif "отмен" in message.text.lower() or "перен" in message.text.lower() or "инфа" in message.text.lower() or "недозвон" in message.text.lower() or "примерк" in message.text.lower() or ("доп" in message.text.lower() and "номер" in message.text.lower()) or "проблем" in message.text.lower() or "возврат" in message.text.lower() or "брак" in message.text.lower() or "контакт" in message.text.lower() or "недоступ" in message.text.lower() or "подозрит" in message.text.lower() or "дорогой" in message.text.lower() or "недостач" in message.text.lower() or "отсутству" in message.text.lower() or "платеж" in message.text.lower() or "оплат" in message.text.lower() or "закрыть" in message.text.lower() or "что делать" in message.text.lower():
                 bot.send_message(message.chat.id, text="*Не можешь доставить заказ? Возникла проблема с клиентом или на маршруте? Тупит планшет? \U0001F447Уточни:\U0001F447*", parse_mode="Markdown", reply_to_message_id=message.id, reply_markup=zakaz_menu)
                 @bot.callback_query_handler(func=lambda call: call.data in ['zakaz_exit', 's_klientom', 's_vesch', 's_oborud', 's_marsh', 'pomenyal', 'neotdaet','neotkrivaet', 'vozvrat', 'qr', 'drugves', 'oplata', 'brak', 'razmer', 'elchek', 's_klientom_marsh', 'nedozvon', 'multi', 'perenos_vr', 'otmena', 'perenos', 'adres', 'bezprimerki', 'neuspevau', 'zavis','nepoln','mokka', 'nevkl', 'rider', 'oplatakarta', 'ibox', 'more100000','tovarivozvrat'])
                 def callback_inline(call): #нужно добавить переменную id сообщения, чтобы менялось одно и то же сообщение ?
@@ -461,16 +464,8 @@ def handle_text(message):
                 bot.reply_to(message, "Молодец!")
                 reply = random.choice(constants.quality)
                 bot.send_sticker(message.chat.id, reply)
-            # elif "0 отмен" in message.text.lower():
-            #     bot.reply_to(message, "Проработай переносы!")
-            # elif "0 перенос" in message.text.lower() and "0 недоз" in message.text.lower():
-            #     bot.reply_to(message, "Проработай отмены!, выясни причину!")
-            # elif "0 перенос" in message.text.lower() or "0 недоз" in message.text.lower():
-            #     bot.reply_to(message, "Проработай переносы!")
         # КОСТИКА ------------------------
         else:
             bot.send_message(message.chat.id, "Некорректная группа\U000026D4")
-
-
 
 bot.polling()
