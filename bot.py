@@ -18,7 +18,7 @@ menu_pravila.row('Нет соединения, Anyconnect', 'Планшет не
 menu_pravila.row('Главное меню')
 menu_pamyatki = types.ReplyKeyboardMarkup(True)
 menu_pamyatki.row('БПС', 'Удаленная касса')
-menu_pamyatki.row('Подозрительный клиент')
+menu_pamyatki.row('Подозрительный клиент', 'Правила звонков')
 menu_pamyatki.row('Главное меню')
 menu_stop = types.ReplyKeyboardRemove()
 new_menu1 = types.InlineKeyboardMarkup()
@@ -36,7 +36,8 @@ new_menu4.add(button4)
 plansh_menu = types.InlineKeyboardMarkup()
 da_plansh = types.InlineKeyboardButton("Могу вынуть аккумулятор\U0001F50B", callback_data='dabattery')
 net_plansh = types.InlineKeyboardButton("Не могу вынуть, корпус цельный", callback_data='netbattery')
-plansh_menu.add(da_plansh, net_plansh)
+plansh_menu.row(da_plansh)
+plansh_menu.row(net_plansh)
 #меню Алгоритм работы с заказом. Переносы, отмены.
 zakaz_menu = types.InlineKeyboardMarkup()
 zakaz_button1 = types.InlineKeyboardButton("c клиентом", callback_data='s_klientom')
@@ -75,9 +76,10 @@ vesch_button7 = types.InlineKeyboardButton("не подлежат возврат
 vesch_button8 = types.InlineKeyboardButton("не отдает вещь", callback_data='neotdaet')
 vesch_button9 = types.InlineKeyboardButton("примерка запрещена\U0001F6AB", callback_data='bezprimerki')
 vesch_button10 = types.InlineKeyboardButton("нет вещи", callback_data='nedosdacha')
-vesch.row(vesch_button1, vesch_button2, vesch_button3)
-vesch.row(vesch_button4, vesch_button5, vesch_button6)
-vesch.row(vesch_button7, vesch_button8, vesch_button10)
+vesch.row(vesch_button10, vesch_button2, vesch_button3)
+vesch.row(vesch_button4, vesch_button5)
+vesch.row(vesch_button7, vesch_button8)
+vesch.row(vesch_button1, vesch_button6)
 vesch.row(vesch_button9, zakaz_button_exit)
 # ОБОРУДОВАНИЕ
 oborudovan = types.InlineKeyboardMarkup()
@@ -218,6 +220,13 @@ def handle_text(message):
 восстановлении связи. `Важно: в момент отсутствия связи нельзя сбрасывать настройки ibox и обнулять кэш 
 приложения, иначе сохраненный черновик чека затрется до момента отправки! В дальнейшем, в ibox будет 
 добавлен счетчик отправленных чеков, чтобы видеть такие зависшие чеки.`""", parse_mode="Markdown")
+        elif message.text == "Правила звонков":
+            bot.send_message(message.chat.id, "1️⃣*Общая вежливость и приветствие*\nТП представился по скрипту, вежливо и доброжелательно общался с клиентом\n\n"
+"2️⃣*Предупреждение о доставке (2 звонок) и информирование при опоздании*\nТП связывался с клиентом дважды. В первом звонке - напомнил о доставке (кроме утреннего интервала!), во втором - уточнил, что будет через 20-40 мин. Допустимо отклонение в 5-10 мин.Если ТП опаздывал, то заранее предупредил об этом клиента.\n\n"
+"3️⃣*Отработка переносов (согласование) и отмен*\nПри отмене - ТП уточнил причины, предпринимал попытки отработать отмену. При переносе - ТП предпринимал попытки отработать перенос. В городах со сверхлимитом - обозначил с клиентом дату и интервал доставки.\n\n"
+"4️⃣*Хамство или грубость*\nНа протяжении всего разговора с клиентом, ТП не грубил, не хамил, не оказывал давления, сохранял ровный тон разговора\n\n"
+"5️⃣*Жалобы на компанию / рассказы о внутренних процедурах компании / озвучивание персональных данных других КЛ*\nНа протяжении всего разговора ТП не высказывал недовольство работой всей компании, не рассказывал о внутренних процедурах (что отмены и переносы влияют на статистику и т.д.),  не озвучивал персональные данные других клиентов (ФИО, номер телефона и т.д.).\n\n"
+"6️⃣*Статусы заказов в LEOS*\nВсе статусы в ЛЕОС соответствовали данным, полученным от клиента. Если записей с отменой или переносом нет - это 0", parse_mode="Markdown")
         elif message.text == "Как мне работать с отменами и переносами?":
             bot.send_message(message.chat.id, constants.perenos, parse_mode="Markdown")
         elif message.text == "Когда отменять заказ?":
@@ -243,7 +252,7 @@ def handle_text(message):
             test_photo3 = types.InputMediaPhoto(media="AgACAgIAAxkBAAIf72Fx10M-AWJTCnjZWQiFk8Pq8-g9AALDujEbGAqRS7h-_tAkSodGAQADAgADeAADIQQ")
             bot.send_media_group(message.chat.id, [test_photo1, test_photo2, test_photo3])
             bot.send_message(message.chat.id, "Войди на портал обучения *lamoda.csod.com*, используя логин и пароль от iBox.\nЖми *Я хочу настроить другой метод*\nПодтверди свой контактный номер телефона и закрой вкладку.\nЗаново авторизируйся по ссылке и нажми *Пропустить настройку*.", parse_mode="Markdown")
-        elif "отмен" in message.text.lower() or "перен" in message.text.lower() or "инфа" in message.text.lower() or "недозвон" in message.text.lower() or "примерк" in message.text.lower() or ("доп" in message.text.lower() and "номер" in message.text.lower()) or "проблем" in message.text.lower() or "возврат" in message.text.lower() or "брак" in message.text.lower() or "контакт" in message.text.lower() or "недоступ" in message.text.lower() or "подозрит" in message.text.lower() or "дорогой" in message.text.lower() or "недостач" in message.text.lower() or "отсутству" in message.text.lower() or "платеж" in message.text.lower() or "оплат" in message.text.lower() or "закрыть" in message.text.lower() or "что делать" in message.text.lower() or "поддельн" in message.text.lower() or "фальшив" in message.text.lower() or "ненастоящ" in message.text.lower():
+        elif "отмен" in message.text.lower() or "перен" in message.text.lower() or "инфа" in message.text.lower() or "недозвон" in message.text.lower() or "примерк" in message.text.lower() or ("доп" in message.text.lower() and "номер" in message.text.lower()) or "проблем" in message.text.lower() or "возврат" in message.text.lower() or "брак" in message.text.lower() or "контакт" in message.text.lower() or "недоступ" in message.text.lower() or "подозрит" in message.text.lower() or "дорогой" in message.text.lower() or "недостач" in message.text.lower() or "отсутству" in message.text.lower() or "платеж" in message.text.lower() or "оплат" in message.text.lower() or "закрыть" in message.text.lower() or "что делать" in message.text.lower() or "поддельн" in message.text.lower() or "фальшив" in message.text.lower() or "ненастоящ" in message.text.lower() or "ненастоящ" in message.text.lower() or "сбой" in message.text.lower():
             bot.send_message(message.chat.id, text="*Не можешь доставить заказ? Возникла проблема с клиентом или на маршруте? Тупит планшет? \U0001F447Уточни:\U0001F447*", parse_mode="Markdown", reply_to_message_id=message.id, reply_markup=zakaz_menu)
             @bot.callback_query_handler(func=lambda call: call.data in ['zakaz_exit', 's_klientom', 's_vesch', 's_oborud', 's_marsh', 'pomenyal', 'neotdaet','neotkrivaet', 'vozvrat', 'qr', 'drugves', 'oplata', 'brak', 'razmer', 'elchek', 's_klientom_marsh', 'nedozvon', 'multi', 'perenos_vr', 'otmena', 'perenos', 'adres', 'bezprimerki', 'neuspevau', 'zavis','nepoln','mokka', 'nevkl', 'rider', 'oplatakarta', 'ibox', 'more100000','tovarivozvrat', 'nedosdacha', 'falsh'])
             def callback_inline(call): #нужно добавить переменную id сообщения, чтобы менялось одно и то же сообщение ?
@@ -274,9 +283,9 @@ def handle_text(message):
                 elif call.data == 'drugves': #КЛИЕНТ
                     bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Номер LM123456789 на прозрачном пакете совпадает с планшетом? - ❗Фиксируй *пересорт* в причине отказа\nПакета с таким номером нет в планшете - \U00002757Фиксируй *недостачу* в причине отказа и *излишек* на бумажном акте.\n\nКак заполнить бумажный акт уточняй у [Бота](https://t.me/lamodadedbot).", parse_mode="Markdown")
                 elif call.data == 'nedosdacha': #ВЕЩЬ
-                    bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="*Проверил все позиции до примерки при клиенте?\nЕсли не хватает позиции - нет вещи и пакета.\n❗Фиксируй *недостачу* в причине отказа*", parse_mode="Markdown")
+                    bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="*Проверил все позиции до примерки при клиенте?\nЕсли не хватает позиции - нет вещи и пакета.\n❗Фиксируй *недостачу* в причине отказа*\n\nЕсли позиция отсутсвтует частично (костюм верх низ) - ❗Фиксируй *брак* в причине отказа.", parse_mode="Markdown")
                 elif call.data == 'oplata' or call.data == 'ibox': #КЛИЕНТ
-                    bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Убедись, что есть соединение с интернетом, iBox работает у твоих коллег, Cardreader корректно подключен к планшету.\nНе работает? - перезапусти оборудование.\n\nКак подключить ридер и номер iBox уточняй у [Бота](https://t.me/lamodadedbot", parse_mode="Markdown")
+                    bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Убедись, что есть соединение с интернетом, iBox работает у твоих коллег, Cardreader корректно подключен к планшету.\nНе работает? - перезапусти оборудование.\n\nЕсли связи нет - *ЗАПРЕЩЕНО чистить кэш и данные iBox*, при появлении сообщения *Продолжить без формирования чека?* жмем *НЕТ*, чек сформируется и отправится клиенту при восстановлении связи. *ИНАЧЕ ЗАДВОИТСЯ ПЛАТЕЖ*\n\nПодробнее смотри [бот](https://t.me/lamodadedbot)-`/start-памятки-удаленная касса`. Как подключить ридер и номер iBox уточняй у [Бота](https://t.me/lamodadedbot)", parse_mode="Markdown")
                 elif call.data == 'brak': #КЛИЕНТ
                     bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="❗Фиксируй *брак* в причине отказа.\nНе забудь проинформировать клиента.", parse_mode="Markdown")
                 elif call.data == 'razmer': #КЛИЕНТ
@@ -341,6 +350,9 @@ def handle_text(message):
             photo4 = types.InputMediaPhoto(media='AgACAgIAAxkBAAIUAmFdavIDffCviWjuXY1iUvbztvRYAAL4tTEbN-LxSt_QLSu1ixVOAQADAgADbQADIQQ')
             photo1 = types.InputMediaPhoto(media='AgACAgIAAxkBAAIT_2FdabvGkzEbrGsNpZX9xTcc28fJAAL0tTEbN-LxSqy5MNMeY6ymAQADAgADeAADIQQ', caption="Подключаем ридер к телефону через *Bluetooth*", parse_mode="Markdown")
             bot.send_media_group(message.chat.id, [photo1, photo2, photo3, photo4])
+        elif ("ввести" in message.text.lower() and "дм" in message.text.lower()) or ("вводить" in message.text.lower() and "дм" in message.text.lower()):
+            bot.send_animation(message.chat.id, animation='CgACAgIAAxkBAAIhVWFzeKqygUGgFvEogq3allXc3bTtAAMNAALPxKBLFT1AYtwmmtAhBA')
+            bot.send_message(message.chat.id, "Вводи необходимое кол-во символов *подряд* и *c учетом регистра*.\nОшибка? - вводи еще несколько символов.", parse_mode="Markdown")
         elif "включить" in message.text.lower() and "планшет" in message.text.lower():
             bot.reply_to(message, "Можно вынуть АКБ?", reply_markup=plansh_menu)
             @bot.callback_query_handler(func=lambda call: call.data in ['dabattery', 'netbattery'])
@@ -391,7 +403,7 @@ def handle_text(message):
                 bot.send_photo(message.chat.id,
                                photo='AgACAgIAAxkBAAIQrmFYsPYIPR5hUJx91rR2vHeOyK-4AAJWtDEb0R3JSgkNLQiFZJ_qAQADAgADeAADIQQ',
                                caption="Бумажный акт несоответствия")
-            elif "отмен" in message.text.lower() or "перен" in message.text.lower() or "инфа" in message.text.lower() or "недозвон" in message.text.lower() or "примерк" in message.text.lower() or ("доп" in message.text.lower() and "номер" in message.text.lower()) or "проблем" in message.text.lower() or "возврат" in message.text.lower() or "брак" in message.text.lower() or "контакт" in message.text.lower() or "недоступ" in message.text.lower() or "подозрит" in message.text.lower() or "дорогой" in message.text.lower() or "недостач" in message.text.lower() or "отсутству" in message.text.lower() or "платеж" in message.text.lower() or "оплат" in message.text.lower() or "закрыть" in message.text.lower() or "что делать" in message.text.lower() or "поддельн" in message.text.lower() or "фальшив" in message.text.lower() or "ненастоящ" in message.text.lower():
+            elif "отмен" in message.text.lower() or "перен" in message.text.lower() or "инфа" in message.text.lower() or "недозвон" in message.text.lower() or "примерк" in message.text.lower() or ("доп" in message.text.lower() and "номер" in message.text.lower()) or "проблем" in message.text.lower() or "возврат" in message.text.lower() or "брак" in message.text.lower() or "контакт" in message.text.lower() or "недоступ" in message.text.lower() or "подозрит" in message.text.lower() or "дорогой" in message.text.lower() or "недостач" in message.text.lower() or "отсутству" in message.text.lower() or "платеж" in message.text.lower() or "оплат" in message.text.lower() or "закрыть" in message.text.lower() or "что делать" in message.text.lower() or "поддельн" in message.text.lower() or "фальшив" in message.text.lower() or "ненастоящ" in message.text.lower() or "ненастоящ" in message.text.lower() or "сбой" in message.text.lower():
                 bot.send_message(message.chat.id, text="*Не можешь доставить заказ? Возникла проблема с клиентом или на маршруте? Тупит планшет? \U0001F447Уточни:\U0001F447*", parse_mode="Markdown", reply_to_message_id=message.id, reply_markup=zakaz_menu)
                 @bot.callback_query_handler(func=lambda call: call.data in ['zakaz_exit', 's_klientom', 's_vesch', 's_oborud', 's_marsh', 'pomenyal', 'neotdaet','neotkrivaet', 'vozvrat', 'qr', 'drugves', 'oplata', 'brak', 'razmer', 'elchek', 's_klientom_marsh', 'nedozvon', 'multi', 'perenos_vr', 'otmena', 'perenos', 'adres', 'bezprimerki', 'neuspevau', 'zavis','nepoln','mokka', 'nevkl', 'rider', 'oplatakarta', 'ibox', 'more100000','tovarivozvrat', 'nedosdacha', 'falsh'])
                 def callback_inline(call): #нужно добавить переменную id сообщения, чтобы менялось одно и то же сообщение ?
@@ -422,9 +434,9 @@ def handle_text(message):
                     elif call.data == 'drugves': #КЛИЕНТ
                         bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Номер LM123456789 на прозрачном пакете совпадает с планшетом? - \U00002757Фиксируй *пересорт* в причине отказа\nПакета с таким номером нет в планшете - \U00002757Фиксируй *недостачу* в причине отказа и *излишек* на бумажном акте.\n\nКак заполнить бумажный акт уточняй у [Бота](https://t.me/lamodadedbot).", parse_mode="Markdown")
                     elif call.data == 'nedosdacha':  # ВЕЩЬ
-                        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="*Проверил все позиции до примерки при клиенте?\nЕсли не хватает позиции - нет вещи и пакета.\n❗Фиксируй *недостачу* в причине отказа*", parse_mode="Markdown")
+                        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="*Проверил все позиции до примерки при клиенте?\nЕсли не хватает позиции - нет вещи и пакета.\n❗Фиксируй *недостачу* в причине отказа*\n\nЕсли позиция отсутсвтует частично (костюм верх низ) - ❗Фиксируй *брак* в причине отказа.", parse_mode="Markdown")
                     elif call.data == 'oplata' or call.data == 'ibox': #КЛИЕНТ
-                        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Убедись, что есть соединение с интернетом, iBox работает у твоих коллег, Cardreader корректно подключен к планшету.\nНе работает? - перезапусти оборудование.\n\nКак подключить ридер и номер iBox уточняй у [Бота](https://t.me/lamodadedbot", parse_mode="Markdown")
+                        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Убедись, что есть соединение с интернетом, iBox работает у твоих коллег, Cardreader корректно подключен к планшету.\nНе работает? - перезапусти оборудование.\n\nЕсли связи нет - *ЗАПРЕЩЕНО чистить кэш и данные iBox*, при появлении сообщения *Продолжить без формирования чека?* жмем *НЕТ*, чек сформируется и отправится клиенту при восстановлении связи. *ИНАЧЕ ЗАДВОИТСЯ ПЛАТЕЖ*\n\nПодробнее смотри [бот](https://t.me/lamodadedbot)-`/start-памятки-удаленная касса`. Как подключить ридер и номер iBox уточняй у [Бота](https://t.me/lamodadedbot)", parse_mode="Markdown")
                     elif call.data == 'brak': #КЛИЕНТ
                         bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="\U00002757Фиксируй *брак* в причине отказа.\nНе забудь проинформировать клиента.", parse_mode="Markdown")
                     elif call.data == 'razmer': #КЛИЕНТ
@@ -464,6 +476,9 @@ def handle_text(message):
                 photo4 = types.InputMediaPhoto(media='AgACAgIAAxkBAAIUAmFdavIDffCviWjuXY1iUvbztvRYAAL4tTEbN-LxSt_QLSu1ixVOAQADAgADbQADIQQ')
                 photo1 = types.InputMediaPhoto(media='AgACAgIAAxkBAAIT_2FdabvGkzEbrGsNpZX9xTcc28fJAAL0tTEbN-LxSqy5MNMeY6ymAQADAgADeAADIQQ', caption="Подключаем ридер к телефону через *Bluetooth*", parse_mode="Markdown")
                 bot.send_media_group(message.chat.id, [photo1, photo2, photo3, photo4])
+            elif ("ввести" in message.text.lower() and "дм" in message.text.lower()) or ("вводить" in message.text.lower() and "дм" in message.text.lower()):
+                bot.send_animation(message.chat.id, animation='CgACAgIAAxkBAAIhVWFzeKqygUGgFvEogq3allXc3bTtAAMNAALPxKBLFT1AYtwmmtAhBA')
+                bot.send_message(message.chat.id, "Вводи необходимое кол-во символов *подряд* и *c учетом регистра*.\nОшибка? - вводи еще несколько символов.", parse_mode="Markdown")
             elif "включить" in message.text.lower() and "планшет" in message.text.lower():
                 bot.reply_to(message, "Можно вынуть АКБ?", reply_markup=plansh_menu)
                 @bot.callback_query_handler(func=lambda call: call.data in ['dabattery', 'netbattery'])
