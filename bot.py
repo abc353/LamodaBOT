@@ -104,8 +104,10 @@ marsh_but3 = types.InlineKeyboardButton("заказ остался на карт
 marsh_but4 = types.InlineKeyboardButton("отмена", callback_data='otmena')
 marsh_but5 = types.InlineKeyboardButton("перенос", callback_data='perenos')
 marsh_but6 = types.InlineKeyboardButton("другой адрес", callback_data='adres')
+marsh_but7 = types.InlineKeyboardButton("не отвечает на звонок", callback_data='nedozvon')
 marsh.row(marsh_but1, marsh_but2)
-marsh.row(marsh_but6, marsh_but4, marsh_but5)
+marsh.row(marsh_but6, marsh_but4)
+marsh.row(marsh_but5, marsh_but7)
 marsh.row(marsh_but3, zakaz_button_exit)
 
 
