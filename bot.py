@@ -84,6 +84,7 @@ vesch.row(vesch_button10, vesch_button2)
 vesch.row(vesch_button4, vesch_button5)
 vesch.row(vesch_button3, vesch_button11)
 vesch.row(vesch_button7, vesch_button8)
+
 vesch.row(vesch_button1, vesch_button6)
 # ОБОРУДОВАНИЕ
 oborudovan = types.InlineKeyboardMarkup()
