@@ -382,10 +382,10 @@ def handle_text(message):
                 elif call.data == 'netbattery':
                     bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="Зажми и удерживай кнопки включения и \U00002795")
         else:
-            bot.send_message(message.chat.id, "жми \U0001F449 /start \U0001F448 *памятки, инструкции*", parse_mode="Markdown")
-            bot.send_message(message.chat.id, "жми \U0001F449 /new \U0001F448 *стажерам*", parse_mode="Markdown")
-            bot.send_message(message.chat.id, "жми \U0001F449 /gohome \U0001F448 *навигация*", parse_mode="Markdown")
-            bot.send_message(message.chat.id, "жми \U0001F449 /help \U0001F448 *обратная связь, контакты*", parse_mode="Markdown")
+            bot.send_message(message.chat.id, "жми \U0001F449 /start \U0001F448 *памятки, инструкции*\n"
+"жми \U0001F449 /new \U0001F448 *стажерам*\n"
+"жми \U0001F449 /gohome \U0001F448 *навигация*\n"
+"жми \U0001F449 /help \U0001F448 *обратная связь, контакты*", parse_mode="Markdown")
 
     # ДЛЯ ГРУППЫ -------------------------------------------------------------------------------------------------------
 
