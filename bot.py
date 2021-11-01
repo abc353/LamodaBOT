@@ -2,6 +2,7 @@ import random
 import requests
 import telebot
 import constants
+import time
 from telebot import types
 
 
@@ -395,9 +396,9 @@ def handle_text(message):
 "жми \U0001F449 /new \U0001F448 *стажерам*\n"
 "жми \U0001F449 /gohome \U0001F448 *навигация*\n"
 "жми \U0001F449 /help \U0001F448 *обратная связь, контакты*", parse_mode="Markdown")
-            file_name = str(message.from_user.last_name) + str(message.from_user.first_name) + ".txt"
-            f = open(file_name, 'a')
-            f.write(message.text + ' ')
+            file_name = "logi.txt"
+            f = open(file=file_name, mode='a')
+            f.write(str(time.strftime("%H:%M:%S %d.%m.%Y")) + ' ' + str(message.from_user.last_name) + ' ' + str(message.from_user.first_name) + ' написал: ' + message.text + '\n')
             f.close()
 
     # ДЛЯ ГРУППЫ -------------------------------------------------------------------------------------------------------
