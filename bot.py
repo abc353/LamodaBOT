@@ -60,12 +60,14 @@ klient_button8 = types.InlineKeyboardButton("мультизаказы", callback
 klient_button9 = types.InlineKeyboardButton("не открывает\U0001F6AA, 15мин", callback_data='neotkrivaet')
 klient_button10 = types.InlineKeyboardButton("фальшивая купюра", callback_data='falsh')
 klient_button11 = types.InlineKeyboardButton("другая цена", callback_data='cena')
+klient_button12 = types.InlineKeyboardButton("деньги списались, заказ не закрылся", callback_data='uwel')
 klient.row(klient_button9, zakaz_button_exit)
 klient.row(klient_button8, klient_button2)
 klient.row(klient_button4, klient_button5)
 klient.row(klient_button3, klient_button6)
 klient.row(klient_button7, klient_button10)
 klient.row(klient_button1, klient_button11)
+klient.row(klient_button12)
 # ВЕЩЬ
 vesch = types.InlineKeyboardMarkup()
 vesch_button1 = types.InlineKeyboardButton("QRне сканируется", callback_data='qr')
@@ -268,7 +270,7 @@ def handle_text(message):
         elif "отмен" in message.text.lower() or "перен" in message.text.lower() or "инфа" in message.text.lower() or "недозвон" in message.text.lower() or "примерк" in message.text.lower() or ("доп" in message.text.lower() and "номер" in message.text.lower()) or "проблем" in message.text.lower() or "возврат" in message.text.lower() or "брак" in message.text.lower() or "контакт" in message.text.lower() or "недоступ" in message.text.lower() or "подозрит" in message.text.lower() or "дорогой" in message.text.lower() or "недостач" in message.text.lower() or "отсутству" in message.text.lower() or "платеж" in message.text.lower() or "оплат" in message.text.lower() or "закрыть" in message.text.lower() or "что делать" in message.text.lower() or "поддельн" in message.text.lower() or "фальшив" in message.text.lower() or "ненастоящ" in message.text.lower() or "ненастоящ" in message.text.lower() or "сбой" in message.text.lower() or "пересорт" in message.text.lower() or "цен" in message.text.lower() and "сайт" in message.text.lower() or "вылетает" in message.text.lower() or "экспрес" in message.text.lower() or "не тот" in message.text.lower() or "вернут" in message.text.lower() or "остался" in message.text.lower() or "висит" in message.text.lower() or "завис" in message.text.lower() or "парковк" in message.text.lower():
             bot.send_message(message.chat.id, text="*Не можешь доставить заказ? Возникла проблема с клиентом или на маршруте? Тупит планшет?\n\U0001F447Жми кнопку\U0001F447*", parse_mode="Markdown", reply_to_message_id=message.id, reply_markup=zakaz_menu)
 
-            @bot.callback_query_handler(func=lambda call: call.data in ['zakaz_exit', 's_klientom', 's_vesch', 's_oborud', 's_marsh', 'pomenyal', 'neotdaet', 'neotkrivaet', 'vozvrat', 'qr', 'drugves', 'oplata', 'brak', 'razmer', 'elchek', 's_klientom_marsh', 'nedozvon', 'multi', 'perenos_vr', 'otmena', 'perenos', 'adres', 'bezprimerki', 'neuspevau', 'zavis', 'nepoln', 'mokka', 'nevkl', 'rider', 'oplatakarta', 'ibox', 'more100000', 'tovarivozvrat', 'nedosdacha', 'falsh', 'cena', 'lmexp', 'parkovka'])
+            @bot.callback_query_handler(func=lambda call: call.data in ['zakaz_exit', 's_klientom', 's_vesch', 's_oborud', 's_marsh', 'pomenyal', 'neotdaet', 'neotkrivaet', 'vozvrat', 'qr', 'drugves', 'oplata', 'brak', 'razmer', 'elchek', 's_klientom_marsh', 'nedozvon', 'multi', 'perenos_vr', 'otmena', 'perenos', 'adres', 'bezprimerki', 'neuspevau', 'zavis', 'nepoln', 'mokka', 'nevkl', 'rider', 'oplatakarta', 'ibox', 'more100000', 'tovarivozvrat', 'nedosdacha', 'falsh', 'cena', 'lmexp', 'parkovka', 'uwel'])
             def callback_inline(call):
                 if call.data == 's_klientom':
                     bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="*Что случилось?* \U0001F447*Жми кнопку*\U0001F447", reply_markup=klient, parse_mode="Markdown")
@@ -294,6 +296,8 @@ def handle_text(message):
                     bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Возврат *СТРОГО ЗАПРЕЩЕН*. Говори клиенту, что возврат доступен через ПВЗ.\n`Если ты все-таки сделал возврат и не можешь заново пробить позицию, то необходимо сбросить кэш и данные у приложения LmExpress`\n\nТакже смотри [Товары, не подлежащие возврату.](https://www.lamoda.ru/help/article/tovary-ne-podlezhashie-vozvratu-i-obmenu-ru/)", parse_mode="Markdown")
                 elif call.data == 'qr':  # КЛИЕНТ
                     bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Включи вспышку. Ищи код на бирке, коробке, ярлыке. Вводи вручную символы под кодом.\nЕсли не удалось - пиши запрос в группу с номером позиции *LM123456789*", parse_mode="Markdown")
+                elif call.data == 'uwel':  # КЛИЕНТ
+                    bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text=constants.oplata, parse_mode="Markdown")
                 elif call.data == 'drugves':  # КЛИЕНТ
                     bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Номер LM123456789 на прозрачном пакете совпадает с планшетом? - ❗Фиксируй *пересорт* в причине отказа.\n\nПакета с таким номером нет в планшете - ❗Фиксируй *недостачу* в причине отказа и *излишек* на бумажном акте.\n\nКак заполнить бумажный акт уточняй у [Бота](https://t.me/lamodadedbot).", parse_mode="Markdown")
                 elif call.data == 'nedosdacha':  # ВЕЩЬ
@@ -381,8 +385,9 @@ def handle_text(message):
                 if call.data == 'dabattery':
                     bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="\u0031\uFE0F\u20E3Вынь аккумулятор\n"
                                           "\u0032\uFE0F\u20E3Вставь кабель от сети в планшет\n"
-                                          "\u0033\uFE0F\u20E3Дождись процентной индикации % заряда\n"
-                                          "\u0034\uFE0F\u20E3Быстро вынь затем вставь заряжающий кабель")
+                                          "\u0033\uFE0F\u20E3Вставь аккумулятор и дождись процентной индикации *%* зарядки\n"
+                                          "\u0034\uFE0F\u20E3Быстро вынь затем вставь акумулятор\n"
+                                          "\u0035\uFE0F\u20E3Видишь надпись *SAMSUNG* - значит все получилось. Если опять *%* зарядки - повтори пункт \u0034\uFE0F\u20E3", parse_mode="Markdown")
                 elif call.data == 'netbattery':
                     bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="Зажми и удерживай кнопки включения и \U00002795")
         else:
@@ -398,7 +403,7 @@ def handle_text(message):
             if "отмен" in message.text.lower() or "перен" in message.text.lower() or "инфа" in message.text.lower() or "недозвон" in message.text.lower() or "примерк" in message.text.lower() or ("доп" in message.text.lower() and "номер" in message.text.lower()) or "проблем" in message.text.lower() or "возврат" in message.text.lower() or "брак" in message.text.lower() or "контакт" in message.text.lower() or "недоступ" in message.text.lower() or "подозрит" in message.text.lower() or "дорогой" in message.text.lower() or "недостач" in message.text.lower() or "отсутству" in message.text.lower() or "платеж" in message.text.lower() or "оплат" in message.text.lower() or "закрыть" in message.text.lower() or "что делать" in message.text.lower() or "поддельн" in message.text.lower() or "фальшив" in message.text.lower() or "ненастоящ" in message.text.lower() or "ненастоящ" in message.text.lower() or "сбой" in message.text.lower() or "пересорт" in message.text.lower() or "цен" in message.text.lower() and "сайт" in message.text.lower() or "вылетает" in message.text.lower() or "экспрес" in message.text.lower() or "не тот" in message.text.lower() or "вернут" in message.text.lower() or "остался" in message.text.lower() or "висит" in message.text.lower() or "завис" in message.text.lower() or "парковк" in message.text.lower():
                 bot.send_message(message.chat.id, text="*Не можешь доставить заказ? Возникла проблема с клиентом или на маршруте? Тупит планшет?\n\U0001F447Жми кнопку\U0001F447*", parse_mode="Markdown", reply_to_message_id=message.id, reply_markup=zakaz_menu)
 
-                @bot.callback_query_handler(func=lambda call: call.data in ['zakaz_exit', 's_klientom', 's_vesch', 's_oborud', 's_marsh', 'pomenyal', 'neotdaet', 'neotkrivaet', 'vozvrat', 'qr', 'drugves', 'oplata', 'brak', 'razmer', 'elchek', 's_klientom_marsh', 'nedozvon', 'multi', 'perenos_vr', 'otmena', 'perenos', 'adres', 'bezprimerki', 'neuspevau', 'zavis', 'nepoln', 'mokka', 'nevkl', 'rider', 'oplatakarta', 'ibox', 'more100000', 'tovarivozvrat', 'nedosdacha', 'falsh', 'cena', 'lmexp', 'parkovka'])
+                @bot.callback_query_handler(func=lambda call: call.data in ['zakaz_exit', 's_klientom', 's_vesch', 's_oborud', 's_marsh', 'pomenyal', 'neotdaet', 'neotkrivaet', 'vozvrat', 'qr', 'drugves', 'oplata', 'brak', 'razmer', 'elchek', 's_klientom_marsh', 'nedozvon', 'multi', 'perenos_vr', 'otmena', 'perenos', 'adres', 'bezprimerki', 'neuspevau', 'zavis', 'nepoln', 'mokka', 'nevkl', 'rider', 'oplatakarta', 'ibox', 'more100000', 'tovarivozvrat', 'nedosdacha', 'falsh', 'cena', 'lmexp', 'parkovka', 'uwel'])
                 def callback_inline(call):
                     if call.data == 's_klientom':
                         bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="*Что случилось?* \U0001F447*Жми кнопку*\U0001F447", reply_markup=klient, parse_mode="Markdown")
@@ -424,6 +429,8 @@ def handle_text(message):
                         bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="*Попроси клиента оплатить товар подлинной купюрой.*\nЕсли клиент отказал или не идет на контакт - вызывай полицию🚓, проинформируй дежурного супервайзера.\n\nТелефон дежурного СВ уточняй у [Бота](https://t.me/lamodadedbot).", parse_mode="Markdown")
                     elif call.data == 'qr':  # КЛИЕНТ
                         bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Включи вспышку. Ищи код на бирке, коробке, ярлыке. Вводи вручную символы под кодом.\nЕсли не удалось - пиши запрос в группу с номером позиции *LM123456789*", parse_mode="Markdown")
+                    elif call.data == 'uwel':  # КЛИЕНТ
+                        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text=constants.oplata, parse_mode="Markdown")
                     elif call.data == 'drugves':  # КЛИЕНТ
                         bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Номер LM123456789 на прозрачном пакете совпадает с планшетом? - ❗Фиксируй *пересорт* в причине отказа\nПакета с таким номером нет в планшете - ❗Фиксируй *недостачу* в причине отказа и *излишек* на бумажном акте.\n\nКак заполнить бумажный акт уточняй у [Бота](https://t.me/lamodadedbot).", parse_mode="Markdown")
                     elif call.data == 'nedosdacha':  # ВЕЩЬ
@@ -519,9 +526,10 @@ def handle_text(message):
                 def callback_inline(call):
                     if call.data == 'dabattery':
                         bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="\u0031\uFE0F\u20E3Вынь аккумулятор\n"
-                                              "\u0032\uFE0F\u20E3Вставь кабель от сети в планшет\n"
-                                              "\u0033\uFE0F\u20E3Дождись процентной индикации % заряда\n"
-                                              "\u0034\uFE0F\u20E3Быстро вынь затем вставь заряжающий кабель")
+                                          "\u0032\uFE0F\u20E3Вставь кабель от сети в планшет\n"
+                                          "\u0033\uFE0F\u20E3Вставь аккумулятор и дождись процентной индикации *%* зарядки\n"
+                                          "\u0034\uFE0F\u20E3Быстро вынь затем вставь акумулятор\n"
+                                          "\u0035\uFE0F\u20E3Видишь надпись *SAMSUNG* - значит все получилось. Если опять *%* зарядки - повтори пункт \u0034\uFE0F\u20E3", parse_mode="Markdown")
                     elif call.data == 'netbattery':
                         bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="Зажми и удерживай кнопки включения и \U00002795")
         elif message.chat.title == "LMF":
