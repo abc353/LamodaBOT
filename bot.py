@@ -316,7 +316,7 @@ def handle_text(message):
                 elif call.data == 'multi':
                     bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Общая сумма свыше 100000р - сообщи дежурному супервайзеру и действую по правилам подозрительного клиента.\n\nПравила доставки ПК уточняй у [Бота](https://t.me/lamodadedbot). Пиши *Подозрительный клиент*", parse_mode="Markdown")
                 elif call.data == 'perenos_vr' or call.data == 'neuspevau':
-                    bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="*Договорись* с клиентом о доставке или о звонке позже *в течение дня*. Зафиксируй заказ, чтобы не было опоздания. Доставь заказ позже.\nЕсли не смог дозвониться в конце смены - ставь *недозвон*.\n\n`После можно перенести заказ в планшете день в день`\n\nКак убрать опоздание - пиши в группу *без опоздания*", parse_mode="Markdown")
+                    bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Сообщи, что опаздываешь до окончания интервала доставки.\n\n*Договорись* с клиентом о доставке или о звонке позже *в течение дня*. Зафиксируй заказ, чтобы не было опоздания.\n`После можно перенести заказ в планшете день в день`\n\nДоставь заказ позже. Если не смог дозвониться в конце смены - ставь *недозвон*.\n\nКак убрать опоздание - пиши в группу *без опоздания*", parse_mode="Markdown")
                 elif call.data == 'parkovka':
                     bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Не смог начать парковку через паркоматику?\n\n*Временно выключи ВПН.*\n\nКак включать/выключать vpn уточняй у [Бота](https://t.me/lamodadedbot).", parse_mode="Markdown")
                 elif call.data == 'otmena':
@@ -453,7 +453,7 @@ def handle_text(message):
                     elif call.data == 'multi':
                         bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Общая сумма свыше 100000р - сообщи дежурному супервайзеру и действую по правилам подозрительного клиента.\n\nПравила доставки ПК уточняй у [Бота](https://t.me/lamodadedbot). Пиши *Подозрительный клиент*", parse_mode="Markdown")
                     elif call.data == 'perenos_vr' or call.data == 'neuspevau':
-                        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="*Договорись* с клиентом о доставке или о звонке позже *в течение дня*. Зафиксируй заказ, чтобы не было опоздания. Доставь заказ позже.\nЕсли не смог дозвониться в конце смены - ставь *недозвон*.\n\n`После можно перенести заказ в планшете день в день`", parse_mode="Markdown")
+                        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Сообщи, что опаздываешь до окончания интервала доставки.\n\n*Договорись* с клиентом о доставке или о звонке позже *в течение дня*. Зафиксируй заказ, чтобы не было опоздания.\n`После можно перенести заказ в планшете день в день`\n\nДоставь заказ позже. Если не смог дозвониться в конце смены - ставь *недозвон*.\n\nКак убрать опоздание - пиши в группу *без опоздания*", parse_mode="Markdown")
                     elif call.data == 'parkovka':
                         bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Не смог начать парковку через паркоматику?\n\n*Временно выключи ВПН*.\n\nКак включать/выключать vpn уточняй у [Бота](https://t.me/lamodadedbot).", parse_mode="Markdown")
                     elif call.data == 'otmena':
