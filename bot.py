@@ -254,9 +254,18 @@ def handle_text(message):
         elif message.text == "Не прошла оплата":
             bot.send_message(message.chat.id, constants.oplata, parse_mode="Markdown")
         elif message.text == "Планшет не включается":
-            bot.send_message(message.chat.id, """Вынимаешь АКБ, вставляешь кабель питания. `он должен заряжать`
-Вставляешь АКБ, появляется молния, потом начинают бежать проценты зеленым - перетыкаешь АКБ именно в этот момент.
-Планшет включается""", parse_mode="Markdown")
+            bot.send_message(message.chat.id, "Можно вынуть АКБ?", reply_markup=plansh_menu)
+
+            @bot.callback_query_handler(func=lambda call: call.data in ['dabattery', 'netbattery'])
+            def callback_inline(call):
+                if call.data == 'dabattery':
+                    bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="\u0031\uFE0F\u20E3Вынь аккумулятор\n"
+                                          "\u0032\uFE0F\u20E3Вставь кабель от сети в планшет\n"
+                                          "\u0033\uFE0F\u20E3Вставь аккумулятор и дождись процентной индикации *%* зарядки\n"
+                                          "\u0034\uFE0F\u20E3Быстро вынь затем вставь акумулятор\n"
+                                          "\u0035\uFE0F\u20E3Видишь надпись *SAMSUNG* - значит все получилось. Если опять *%* зарядки - повтори пункт \u0034\uFE0F\u20E3", parse_mode="Markdown")
+                elif call.data == 'netbattery':
+                    bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="Зажми и удерживай кнопки включения и \U00002795")
         elif message.text == "Нет соединения, Anyconnect":
             bot.send_animation(message.chat.id, animation=constants.vpn)
             bot.send_message(message.chat.id, "Добавляем сертификат как на видео")
