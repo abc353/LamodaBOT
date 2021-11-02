@@ -316,7 +316,7 @@ def handle_text(message):
                 elif call.data == 'multi':
                     bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Общая сумма свыше 100000р - сообщи дежурному супервайзеру и действую по правилам подозрительного клиента.\n\nПравила доставки ПК уточняй у [Бота](https://t.me/lamodadedbot). Пиши *Подозрительный клиент*", parse_mode="Markdown")
                 elif call.data == 'perenos_vr' or call.data == 'neuspevau':
-                    bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="*Договорись* с клиентом о доставке или о звонке позже *в течение дня*. Зафиксируй заказ, чтобы не было опоздания. Доставь заказ позже.\nЕсли не смог дозвониться в конце смены - ставь *недозвон*.\n\n`После можно перенести заказ в планшете день в день`", parse_mode="Markdown")
+                    bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="*Договорись* с клиентом о доставке или о звонке позже *в течение дня*. Зафиксируй заказ, чтобы не было опоздания. Доставь заказ позже.\nЕсли не смог дозвониться в конце смены - ставь *недозвон*.\n\n`После можно перенести заказ в планшете день в день`\n\nКак убрать опоздание - пиши в группу *без опоздания*", parse_mode="Markdown")
                 elif call.data == 'parkovka':
                     bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Не смог начать парковку через паркоматику?\n\n*Временно выключи ВПН.*\n\nКак включать/выключать vpn уточняй у [Бота](https://t.me/lamodadedbot).", parse_mode="Markdown")
                 elif call.data == 'otmena':
@@ -481,6 +481,11 @@ def handle_text(message):
 
             elif "ibox" in message.text.lower() or "айбокс" in message.text.lower():
                 bot.reply_to(message, "*Позвони в службу поддержки iBox +78003334526*", parse_mode="Markdown")
+            elif "без опоздани" in message.text.lower():
+                bot.send_animation(message.from_user.id, "CgACAgIAAxkBAAIo_2GBgvs_gnm0bKoRU_u8GhZJmVmCAAKLEwAC8WSZSiELjVbYtgQDIQQ")
+                bot.send_message(message.from_user.id, "Позвони клиенту до окончания интервала `за 30-60мин` и сообщи о возможном опоздании.\n"
+                                 "Смотри видео. Закрой заказ *до окончания интервала* на выбор за нал. Сними галочку с платной доставки. Сразу поменяй статус на *В доставку*.\n\n"
+                                 "Заказ остался на карте. Можешь перенести заказ день в день, если тебе удобно.", parse_mode="Markdown")
             elif "срочно" in message.text.lower():
                 bot.send_message(message.chat.id, "*Запросы срочно обрабатываются в течение 5мин*", parse_mode="Markdown", disable_notification=True)
             elif "балл" in message.text.lower() and "мало" not in message.text.lower():
