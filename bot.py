@@ -125,7 +125,7 @@ def welcome(message):
                          reply_markup=main_menu)
         bot.send_message(message.chat.id, "Привет, *" + message.chat.first_name +
                          "*. Это твое имя в телеграм для всех остальных. Переименуй его, если оно тебе не нравится и твои коллеги будут знать, как к тебе обращаться.\n"
-                         "Бот ответит на большинство вопросов здесь или в [группе](https://t.me/joinchat/MzSkAJsKihA3ODU6).\n"
+                         "Бот ответит на большинство вопросов здесь или в [группе](https://t.me/joinchat/ZCNej5lPJhg3YjU6).\n"
                          "Ниже используй кнопки для быстрой навигации по памяткам. Изучи их все!\U0001F447", parse_mode="Markdown")
     else:
         bot.reply_to(message, "Команды доступны только в л.с. боту. Пиши @lamodadedbot")
@@ -309,7 +309,7 @@ def handle_text(message):
                 elif call.data == 'uwel':  # КЛИЕНТ
                     bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text=constants.oplata, parse_mode="Markdown")
                 elif call.data == 'drugves':  # КЛИЕНТ
-                    bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Номер LM123456789 на прозрачном пакете совпадает с планшетом? - ❗Фиксируй *пересорт* в причине отказа.\n\nПакета с таким номером нет в планшете - ❗Фиксируй *недостачу* в причине отказа и *излишек* на бумажном акте.\n\nКак заполнить бумажный акт уточняй у [Бота](https://t.me/lamodadedbot).", parse_mode="Markdown")
+                    bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Номер LM123456789 на прозрачном пакете совпадает с планшетом? - ❗Фиксируй *пересорт* в причине отказа.\n\nПакета с таким номером нет в планшете - ❗Фиксируй *недостачу* в причине отказа и *излишек* на бумажном акте.\n\nКлиент отказывается платить за доставку? - Сними ☑ с доставки. Запиши себе в заметки дату,номер заказа и причину отказа.\n\nКак заполнить бумажный акт уточняй у [Бота](https://t.me/lamodadedbot).", parse_mode="Markdown")
                 elif call.data == 'nedosdacha':  # ВЕЩЬ
                     bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="*Проверил все позиции до примерки при клиенте?\nЕсли не хватает позиции - нет вещи и пакета.\n❗Фиксируй *недостачу* в причине отказа*\n\nЕсли позиция отсутсвтует частично (костюм верх низ) - ❗Фиксируй *брак* в причине отказа.", parse_mode="Markdown")
                 elif call.data == 'ibox' or call.data == 'oplata':  # КЛИЕНТ
@@ -333,7 +333,7 @@ def handle_text(message):
                 elif call.data == 'perenos':
                     bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Действуй по пунктам:\n\n"+constants.perenos, parse_mode="Markdown")
                 elif call.data == 'adres':
-                    bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Выясни полный адрес. Не отказывай клиенту сразу, предложи доставку позже в течение дня. Позвони дежурному СВ для согласования доставки\n`Вполне возможно в конце смены появится окно. Если ты откажешь клиенту сразу, он перенесет заказ на другой день`", parse_mode="Markdown")
+                    bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Выясни полный адрес. Не отказывай клиенту сразу, предложи доставку позже в течение дня. Позвони дежурному СВ для согласования доставки.\n`Вполне возможно в конце смены появится окно. Если ты откажешь клиенту сразу, он перенесет заказ на другой день`\n\nЕсли ты не смог доставить заказ и клиент просит изменить адрес, то необходимо согласовать перенос и зафиксировать его в планшете.\n*Сообщить* логисту на складе *номер* заказа *и* новый *адрес*.\n\n⚠*ВНИМАНИЕ*⚠, *перенос* заказа на территорию северного транзитного склада *невозможен*. Только отмена заказа и оформление нового с корректным адресом.", parse_mode="Markdown")
                 elif call.data == 'bezprimerki':
                     bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Заказ без примерки? Частичный Выкуп запрещен?\n*Примерка партнерских заказов строго запрещена.* Заказы Lamoda по согласованию с дежурным СВ.\n\n`В отдельных случаях можно разрешить примерку и повлиять на выкуп для повышения общей лояльности клиента к компании.`", parse_mode="Markdown")
                 elif call.data == 'nepoln':
@@ -446,7 +446,7 @@ def handle_text(message):
                     elif call.data == 'uwel':  # КЛИЕНТ
                         bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text=constants.oplata, parse_mode="Markdown")
                     elif call.data == 'drugves':  # КЛИЕНТ
-                        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Номер LM123456789 на прозрачном пакете совпадает с планшетом? - ❗Фиксируй *пересорт* в причине отказа\nПакета с таким номером нет в планшете - ❗Фиксируй *недостачу* в причине отказа и *излишек* на бумажном акте.\n\nКак заполнить бумажный акт уточняй у [Бота](https://t.me/lamodadedbot).", parse_mode="Markdown")
+                        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Номер LM123456789 на прозрачном пакете совпадает с планшетом? - ❗Фиксируй *пересорт* в причине отказа\nПакета с таким номером нет в планшете - ❗Фиксируй *недостачу* в причине отказа и *излишек* на бумажном акте.\n\nКлиент отказывается платить за доставку? - Сними ☑ с доставки. Запиши себе в заметки дату,номер заказа и причину отказа.\n\nКак заполнить бумажный акт уточняй у [Бота](https://t.me/lamodadedbot).", parse_mode="Markdown")
                     elif call.data == 'nedosdacha':  # ВЕЩЬ
                         bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="*Проверил все позиции до примерки при клиенте?\nЕсли не хватает позиции - нет вещи и пакета.\n❗Фиксируй *недостачу* в причине отказа*\n\nЕсли позиция отсутсвтует частично (костюм верх низ) - ❗Фиксируй *брак* в причине отказа.", parse_mode="Markdown")
                     elif call.data == 'oplata' or call.data == 'ibox':  # КЛИЕНТ
@@ -470,7 +470,7 @@ def handle_text(message):
                     elif call.data == 'perenos':
                         bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Действуй по пунктам:\n\n"+constants.perenos, parse_mode="Markdown")
                     elif call.data == 'adres':
-                        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Выясни полный адрес. Не отказывай клиенту сразу, предложи доставку позже в течение дня. Позвони дежурному СВ для согласования доставки\n`Вполне возможно в конце смены появится окно. Если ты откажешь клиенту сразу, он перенесет заказ на другой день`", parse_mode="Markdown")
+                        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Выясни полный адрес. Не отказывай клиенту сразу, предложи доставку позже в течение дня. Позвони дежурному СВ для согласования доставки.\n`Вполне возможно в конце смены появится окно. Если ты откажешь клиенту сразу, он перенесет заказ на другой день`\n\nЕсли ты не смог доставить заказ и клиент просит изменить адрес, то необходимо согласовать перенос и зафиксировать его в планшете.\n*Сообщить* логисту на складе *номер* заказа *и* новый *адрес*.\n\n⚠*ВНИМАНИЕ*⚠, *перенос* заказа на территорию северного транзитного склада *невозможен*. Только отмена заказа и оформление нового с корректным адресом.", parse_mode="Markdown")
                     elif call.data == 'bezprimerki':
                         bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Заказ без примерки? Частичный Выкуп запрещен?\n*Примерка партнерских заказов строго запрещена.* Заказы Lamoda по согласованию с дежурным СВ.\n\n`В отдельных случаях можно разрешить примерку и повлиять на выкуп для повышения общей лояльности клиента к компании.`", parse_mode="Markdown")
                     elif call.data == 'nepoln':
