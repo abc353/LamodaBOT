@@ -20,8 +20,7 @@ menu_pravila.row('Главное меню')
 menu_pamyatki = types.ReplyKeyboardMarkup(True)
 menu_pamyatki.row('БПС', 'Удаленная касса')
 menu_pamyatki.row('Подозрительный клиент', 'Правила звонков')
-menu_pamyatki.row('Электронные чаевые')
-menu_pamyatki.row('Главное меню')
+menu_pamyatki.row('Электронные чаевые', 'Главное меню')
 menu_stop = types.ReplyKeyboardRemove()
 new_menu1 = types.InlineKeyboardMarkup()
 button1 = types.InlineKeyboardButton('Что дальше?', callback_data='1')
@@ -228,7 +227,15 @@ def handle_text(message):
         elif message.text == "Подозрительный клиент":
             bot.send_message(message.chat.id, constants.pk, parse_mode="Markdown")
         elif message.text == "Электронные чаевые":
-            bot.send_message(message.chat.id, "Про", parse_mode="Markdown")
+            bot.send_message(message.chat.id, "*Lamoda* дает возможность получать чаевые от клиентов на карту.\n"
+                             "Для этого зарегистрируйся по [ссылке.](https://lk.cloudtips.ru/sign-up?plc=5fb69de7701a1fedbc28da6e)\n"
+                             "Загрузи фотографию “портрет” в корпоративной форме на белом фоне. Добавь карту.\n"
+                             "После регистрации ты сможешь скачать из личного кабинета свой Qr-код и выслать его СВ для визитки.\n\n"
+                             "Отдай визитку клиенту после примерки. Так клиент сможет оценить твой сервис.\n"
+                             "Скачай и используй примеры скриптов.\n\n"
+                             "`Для самостоятельно печати визиткой скачай шаблон.`", parse_mode="Markdown")
+            bot.send_document(message.chat.id, "BQACAgIAAxkBAAIsC2GKd7tIa-kRToaSQqeKOdNKlnP2AALTEQACQzZZSJm7cwMywcyuIgQ")
+            bot.send_document(message.chat.id, "BQACAgIAAxkBAAIsCmGKd7jatvuNYzn0AhATS1_YNgSaAALSEQACQzZZSM9YHRq2EvQ5IgQ")
         elif message.text == "БПС":
             bot.send_animation(message.chat.id, animation=constants.bps, parse_mode="Markdown")
             bot.send_message(message.chat.id, """Сверяем позицию на соответствие:
