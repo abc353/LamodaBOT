@@ -45,9 +45,10 @@ zakaz_button1 = types.InlineKeyboardButton("c клиентом", callback_data='
 zakaz_button2 = types.InlineKeyboardButton("с вещью", callback_data='s_vesch')
 zakaz_button3 = types.InlineKeyboardButton("с оборудованием", callback_data='s_oborud')
 zakaz_button4 = types.InlineKeyboardButton("на маршруте", callback_data='s_marsh')
-zakaz_button_exit = types.InlineKeyboardButton("🚫УБРАТЬ КНОПКИ🚫", callback_data='zakaz_exit')
-zakaz_menu.row(zakaz_button1, zakaz_button2, zakaz_button3)
-zakaz_menu.row(zakaz_button4, zakaz_button_exit)
+zakaz_button_exit = types.InlineKeyboardButton("🚫УБРАТЬ КНОПКИ, ПОМОЩЬ НЕ НУЖНА🚫", callback_data='zakaz_exit')
+zakaz_menu.row(zakaz_button_exit)
+zakaz_menu.row(zakaz_button1, zakaz_button2)
+zakaz_menu.row(zakaz_button3, zakaz_button4)
 nazad_menu = types.InlineKeyboardMarkup()
 nazad_button = types.InlineKeyboardButton("🚫НАЗАД В МЕНЮ🚫", callback_data='zakaz_menu')
 nazad_menu.row(nazad_button)
@@ -105,9 +106,9 @@ oborudovan_but7 = types.InlineKeyboardButton("не проходит оплата
 oborudovan_but8 = types.InlineKeyboardButton("LMexp не сканируется", callback_data='lmexp')
 oborudovan_but9 = types.InlineKeyboardButton("Не включается парковка", callback_data='parkovka')
 oborudovan.row(oborudovan_but7, zakaz_button_exit)
-oborudovan.row(oborudovan_but1, oborudovan_but2)
+oborudovan.row(oborudovan_but9, oborudovan_but2)
 oborudovan.row(oborudovan_but3, oborudovan_but4)
-oborudovan.row(oborudovan_but9)
+oborudovan.row(oborudovan_but1)
 oborudovan.row(oborudovan_but6, oborudovan_but8)
 # МАРШРУТ
 marsh = types.InlineKeyboardMarkup()
@@ -384,7 +385,7 @@ def handle_text(message):
                 photo6 = types.InputMediaPhoto(media='AgACAgIAAxkBAAIwZGGWxMae146f_h49ax8WeEFZHBNMAAIWtzEbv1u5SPBjOqHD6hI6AQADAgADeQADIgQ')
                 photo7 = types.InputMediaPhoto(media='AgACAgIAAxkBAAIwZWGWxMbJdf0bbu5FsJJkGcCOjjyEAAIXtzEbv1u5SHJ5See9neAeAQADAgADeQADIgQ')
                 bot.send_media_group(message.chat.id, [photo5, photo6, photo7])
-        elif "КЦ" in message.text or (("номер" in message.text.lower() or "звонит" in message.text.lower()) and "центр" in message.text.lower()):
+        elif "КЦ" in message.text or (("номер" in message.text.lower() or "звонит" in message.text.lower() or "телефон" in message.text.lower()) and "центр" in message.text.lower()):
             bot.reply_to(message, "*Call Центр* +74995004959", parse_mode="Markdown")
         elif "лишн" in message.text.lower() and "вещ" in message.text.lower() or "лишн" in message.text.lower() and "позици" in message.text.lower() or "нет" in message.text.lower() and "позици" in message.text.lower() or "нет" in message.text.lower() and "вещ" in message.text.lower():
             bot.reply_to(message, "Заполняем бумажный акт")
@@ -546,7 +547,7 @@ def handle_text(message):
                 photo6 = types.InputMediaPhoto(media='AgACAgIAAxkBAAIwZGGWxMae146f_h49ax8WeEFZHBNMAAIWtzEbv1u5SPBjOqHD6hI6AQADAgADeQADIgQ')
                 photo7 = types.InputMediaPhoto(media='AgACAgIAAxkBAAIwZWGWxMbJdf0bbu5FsJJkGcCOjjyEAAIXtzEbv1u5SHJ5See9neAeAQADAgADeQADIgQ')
                 bot.send_media_group(message.chat.id, [photo5, photo6, photo7])
-            elif "КЦ" in message.text or (("номер" in message.text.lower() or "звонит" in message.text.lower()) and "центр" in message.text.lower()):
+            elif "КЦ" in message.text or (("номер" in message.text.lower() or "звонит" in message.text.lower() or "телефон" in message.text.lower()) and "центр" in message.text.lower()):
                 bot.reply_to(message, "*Call Центр* +74995004959", parse_mode="Markdown")
             elif "лишн" in message.text.lower() and "вещ" in message.text.lower() or "лишн" in message.text.lower() and "позици" in message.text.lower() or "нет" in message.text.lower() and "позици" in message.text.lower() or "нет" in message.text.lower() and "вещ" in message.text.lower():
                 bot.reply_to(message, "Заполняем бумажный акт")
