@@ -378,7 +378,12 @@ def handle_text(message):
         elif "механик" in message.text.lower():
             bot.reply_to(message, "*Дежурный механик* +79150110787", parse_mode="Markdown")
         elif "паркоматик" in message.text.lower():
-            bot.reply_to(message, "*Паркоматика* +78003015748", parse_mode="Markdown")
+                bot.reply_to(message, "Проводим оплату через новое приложение *Московский паркинг*.\n"
+                             "В случае появления ошибки необходимо сообщить о проблеме *дежурному механику* или *инженеру БДД* с указанием IMEI устройства.", parse_mode="Markdown")
+                photo5 = types.InputMediaPhoto(media='AgACAgIAAxkBAAIwY2GWxMZi1Vk7YJgjV-gsuBm7jqGxAAIVtzEbv1u5SLQ_w-KhKBGhAQADAgADeQADIgQ')
+                photo6 = types.InputMediaPhoto(media='AgACAgIAAxkBAAIwZGGWxMae146f_h49ax8WeEFZHBNMAAIWtzEbv1u5SPBjOqHD6hI6AQADAgADeQADIgQ')
+                photo7 = types.InputMediaPhoto(media='AgACAgIAAxkBAAIwZWGWxMbJdf0bbu5FsJJkGcCOjjyEAAIXtzEbv1u5SHJ5See9neAeAQADAgADeQADIgQ')
+                bot.send_media_group(message.chat.id, [photo5, photo6, photo7])
         elif "КЦ" in message.text or (("номер" in message.text.lower() or "звонит" in message.text.lower()) and "центр" in message.text.lower()):
             bot.reply_to(message, "*Call Центр* +74995004959", parse_mode="Markdown")
         elif "лишн" in message.text.lower() and "вещ" in message.text.lower() or "лишн" in message.text.lower() and "позици" in message.text.lower() or "нет" in message.text.lower() and "позици" in message.text.lower() or "нет" in message.text.lower() and "вещ" in message.text.lower():
@@ -535,7 +540,12 @@ def handle_text(message):
             elif "механик" in message.text.lower():
                 bot.reply_to(message, "*Дежурный механик* +79150110787", parse_mode="Markdown")
             elif "паркоматик" in message.text.lower():
-                bot.reply_to(message, "*Паркоматика* +78003015748", parse_mode="Markdown")
+                bot.reply_to(message, "Проводим оплату через новое приложение *Московский паркинг*.\n"
+                             "В случае появления ошибки необходимо сообщить о проблеме *дежурному механику* или *инженеру БДД* с указанием IMEI устройства.", parse_mode="Markdown")
+                photo5 = types.InputMediaPhoto(media='AgACAgIAAxkBAAIwY2GWxMZi1Vk7YJgjV-gsuBm7jqGxAAIVtzEbv1u5SLQ_w-KhKBGhAQADAgADeQADIgQ')
+                photo6 = types.InputMediaPhoto(media='AgACAgIAAxkBAAIwZGGWxMae146f_h49ax8WeEFZHBNMAAIWtzEbv1u5SPBjOqHD6hI6AQADAgADeQADIgQ')
+                photo7 = types.InputMediaPhoto(media='AgACAgIAAxkBAAIwZWGWxMbJdf0bbu5FsJJkGcCOjjyEAAIXtzEbv1u5SHJ5See9neAeAQADAgADeQADIgQ')
+                bot.send_media_group(message.chat.id, [photo5, photo6, photo7])
             elif "КЦ" in message.text or (("номер" in message.text.lower() or "звонит" in message.text.lower()) and "центр" in message.text.lower()):
                 bot.reply_to(message, "*Call Центр* +74995004959", parse_mode="Markdown")
             elif "лишн" in message.text.lower() and "вещ" in message.text.lower() or "лишн" in message.text.lower() and "позици" in message.text.lower() or "нет" in message.text.lower() and "позици" in message.text.lower() or "нет" in message.text.lower() and "вещ" in message.text.lower():
