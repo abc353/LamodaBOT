@@ -1,7 +1,7 @@
 token = "1062778180:AAHeLcSKVCAy23PKnRhMRy5Y3HR2bs3xblg"
 vpn = 'CgACAgIAAxkBAAIH1GFJK3uBEM69kSfWNxCinKG2XC6JAAINDgAClexRSgOcbRmSsJyZIAQ'
 bps = 'CgACAgIAAxkBAAILP2FOWTxLvFr9piR4GgaP9EUt55YOAALOEAAC8dhwSumWIL4WwL0yIQQ'
-mat = ["бля", "хуй", "сука", "ебат", "пизд", "наебал", "ебал", "ебан", "заеб", "хуя", "жоп"]
+mat = ["бля", "хуй", "сука", "ебат", "пизд", "наебал", "ебал", "ебан", "заеб", "хуя", "жоп", "пидор"]
 quality = ['CAACAgIAAxkBAAN-YVBRlXDf8B_UQxMruBM4zuGjAVUAAjkAA2dmzAZUvY8kyWS4BCEE',
 'CAACAgEAAxkBAAN_YVBR-kHlnsVLo89cVMBll6mWqEMAArEIAAK_jJAEZc7fLyeQzjYhBA',
 'CAACAgIAAxkBAAOAYVBSa7pmdMhSbu0Up0BeOQhv_KgAAj0AAxgkOQ4JqIFwUJ3f-CEE',
