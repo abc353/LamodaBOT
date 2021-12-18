@@ -522,8 +522,7 @@ def handle_text(message):
                 elif "ibox" in message.text.lower() or "айбокс" in message.text.lower():
                     bot.reply_to(message, "*Позвони в службу поддержки iBox +78003334526*", parse_mode="Markdown")
                 elif "балл" in message.text.lower() and "мало" not in message.text.lower():
-                    bot.send_message(message.chat.id, "[Баллы Ноябрь](https://docs.google.com/spreadsheets/d/180rad-8dAa3t1o2HmOERYufnFDmCwQifg3Sr5Iuf4Fk/edit#gid=646783405)", parse_mode="Markdown")
-                    bot.send_message(message.chat.id, "[Баллы Октябрь Сентябрь](https://docs.google.com/spreadsheets/d/1-X9T4CkT8GP9xkLEiqj9IcX-gfS4AL_s1FNKO8m_ncQ/edit#gid=1618809001)", parse_mode="Markdown")
+                    bot.send_message(message.chat.id, "[Баллы Декабрь Ноябрь](https://docs.google.com/spreadsheets/d/180rad-8dAa3t1o2HmOERYufnFDmCwQifg3Sr5Iuf4Fk/edit#gid=646783405)", parse_mode="Markdown")
                 elif "дежурн" in message.text.lower() and "механик" not in message.text.lower():
                     bot.reply_to(message, "*Дежурный СВ* +79160558030", parse_mode="Markdown")
                 elif "мокка" in message.text.lower() or "мокко" in message.text.lower():
