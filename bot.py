@@ -397,7 +397,8 @@ def handle_text(message):
         elif "акт" in message.text.lower() and "несоответ" in message.text.lower():
             bot.send_photo(message.chat.id, photo='AgACAgIAAxkBAAIQrmFYsPYIPR5hUJx91rR2vHeOyK-4AAJWtDEb0R3JSgkNLQiFZJ_qAQADAgADeAADIQQ', caption="Бумажный акт несоответствия")
         elif "балл" in message.text.lower() and "мало" not in message.text.lower():
-            bot.send_message(message.chat.id, "[Баллы Ноябрь](https://docs.google.com/spreadsheets/d/180rad-8dAa3t1o2HmOERYufnFDmCwQifg3Sr5Iuf4Fk/edit#gid=646783405)", parse_mode="Markdown")
+            bot.send_message(message.chat.id, "[Баллы Январь](https://docs.google.com/spreadsheets/d/1q9FBi3okjf4osYc-ly3EDhsUL4eWPnr-xrIeEG1tFLQ/edit#gid=2024719826)", parse_mode="Markdown")
+            bot.send_message(message.chat.id, "[Баллы Декабрь Ноябрь](https://docs.google.com/spreadsheets/d/180rad-8dAa3t1o2HmOERYufnFDmCwQifg3Sr5Iuf4Fk/edit#gid=646783405)", parse_mode="Markdown")
             bot.send_message(message.chat.id, "[Баллы Октябрь Сентябрь](https://docs.google.com/spreadsheets/d/1-X9T4CkT8GP9xkLEiqj9IcX-gfS4AL_s1FNKO8m_ncQ/edit#gid=1127930766)", parse_mode="Markdown")
             bot.send_message(message.chat.id, "[Баллы Август Июль](https://docs.google.com/spreadsheets/d/1tFo0Fat2gachSWIWZKkqN_VU1xa7EhvuDmgMOewIzVg/edit#gid=1648712497)", parse_mode="Markdown")
         elif "ibox" in message.text.lower() or "айбокс" in message.text.lower():
@@ -522,6 +523,7 @@ def handle_text(message):
                 elif "ibox" in message.text.lower() or "айбокс" in message.text.lower():
                     bot.reply_to(message, "*Позвони в службу поддержки iBox +78003334526*", parse_mode="Markdown")
                 elif "балл" in message.text.lower() and "мало" not in message.text.lower():
+                    bot.send_message(message.chat.id, "[Баллы Январь](https://docs.google.com/spreadsheets/d/1q9FBi3okjf4osYc-ly3EDhsUL4eWPnr-xrIeEG1tFLQ/edit#gid=2024719826)", parse_mode="Markdown")
                     bot.send_message(message.chat.id, "[Баллы Декабрь Ноябрь](https://docs.google.com/spreadsheets/d/180rad-8dAa3t1o2HmOERYufnFDmCwQifg3Sr5Iuf4Fk/edit#gid=646783405)", parse_mode="Markdown")
                 elif "дежурн" in message.text.lower() and "механик" not in message.text.lower():
                     bot.reply_to(message, "*Дежурный СВ* +79160558030", parse_mode="Markdown")
