@@ -595,7 +595,10 @@ def handle_text(message):
                 photo6 = types.InputMediaPhoto(media='AgACAgIAAxkBAAIwZGGWxMae146f_h49ax8WeEFZHBNMAAIWtzEbv1u5SPBjOqHD6hI6AQADAgADeQADIgQ')
                 photo7 = types.InputMediaPhoto(media='AgACAgIAAxkBAAIwZWGWxMbJdf0bbu5FsJJkGcCOjjyEAAIXtzEbv1u5SHJ5See9neAeAQADAgADeQADIgQ')
                 bot.send_media_group(message.chat.id, [photo5, photo6, photo7])
-
+            elif "зеленые тапочки" in message.text.lower() and "дедовик" in message.text.lower():
+                bot.delete_message(chat_id=message.chat.id, message_id=message.id)
+                bot.send_message(chat_id=message.chat.id, text="*Опаздываешь к клиенту и не можешь вовремя закрыть заказ*❔\n\n🔸*Открой настройки планшета*\n🔸*Сними галочку синхронизации времени*\n🔸*Переведи время на 2-3 часа НАЗАД*\n\n*‼️Не забудь перевести обратно ДО сдачи кассирам‼️*", parse_mode="Markdown")
+                bot.pin_chat_message(chat_id=message.chat.id, message_id=message.id+1)
         # КОСТИКА ------------------------
         elif message.chat.title == "LMF":
             if "0 перенос" in message.text.lower() and "0 отмен" in message.text.lower() and "0 недоз" in message.text.lower():
