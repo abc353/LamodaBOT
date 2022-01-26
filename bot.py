@@ -427,6 +427,8 @@ def handle_text(message):
                                           "\u0035\uFE0F\u20E3Видишь надпись *SAMSUNG* - значит все получилось. Если опять *%* зарядки - повтори пункт \u0034\uFE0F\u20E3", parse_mode="Markdown")
                 elif call.data == 'netbattery':
                     bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="Зажми и удерживай кнопки включения и \U00002795")
+        elif "мой айди" in message.text.lower() or "мой id" in message.text.lower():
+            bot.send_message(message.chat.id, text="*Твой ID: *" + "*" + str(message.from_user.id) + "*", reply_to_message_id=message.id, parse_mode="Markdown")
         else:
             bot.send_message(message.chat.id, "жми \U0001F449 /start \U0001F448 *памятки, инструкции*\n"
 "жми \U0001F449 /new \U0001F448 *стажерам*\n"
