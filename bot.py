@@ -8,19 +8,15 @@ from telebot import types
 
 bot = telebot.TeleBot(constants.token)
 main_menu = types.ReplyKeyboardMarkup(True)
-main_menu.row('Инструкции')
-main_menu.row('Где бумажный чек?', 'Памятки')
-main_menu.row('Контактная информация', 'Где мой промокод')
+main_menu.row('⚠️Инструкции', 'Контакты', 'Где мой промокод')
 menu_pravila = types.ReplyKeyboardMarkup(True)
 menu_pravila.row('Как мне работать с отменами и переносами?')
 menu_pravila.row('Когда отменять заказ?', 'Не успеваю в интервал')
 menu_pravila.row('Заказ остался на карте', 'Не прошла оплата')
 menu_pravila.row('Нет соединения, Anyconnect', 'Планшет не включается')
-menu_pravila.row('Главное меню')
-menu_pamyatki = types.ReplyKeyboardMarkup(True)
-menu_pamyatki.row('БПС', 'Удаленная касса')
-menu_pamyatki.row('Подозрительный клиент', 'Правила звонков')
-menu_pamyatki.row('Электронные чаевые', 'Главное меню')
+menu_pravila.row('БПС', 'Удаленная касса', 'Где бумажный чек?')
+menu_pravila.row('Подозрительный клиент', 'Правила звонков')
+menu_pravila.row('Электронные чаевые', 'Главное меню')
 menu_stop = types.ReplyKeyboardRemove()
 new_menu1 = types.InlineKeyboardMarkup()
 button1 = types.InlineKeyboardButton('Что дальше?', callback_data='1')
@@ -131,9 +127,9 @@ def welcome(message):
         bot.send_sticker(message.chat.id, 'CAACAgIAAxkBAAIIQGFJQJ6aR-pSJuHPw2evH6cJJTOOAAJFAAN4qOYPxT4UDl0DPssgBA',
                          reply_markup=main_menu)
         bot.send_message(message.chat.id, "Привет, *" + message.chat.first_name +
-                         "*. Это твое имя в телеграм для всех остальных. Переименуй его, если оно тебе не нравится и твои коллеги будут знать, как к тебе обращаться.\n"
-                         "Бот ответит на большинство вопросов здесь или в [группе](https://t.me/joinchat/ZCNej5lPJhg3YjU6).\n"
-                         "Ниже используй кнопки для быстрой навигации по памяткам. Изучи их все!\U0001F447", parse_mode="Markdown")
+                         "*.\n\nЭто твое имя в телеграм для всех остальных. Переименуй его, если оно тебе не нравится и твои коллеги будут знать, как к тебе обращаться.\n\n"
+                         "Бот ответит на большинство вопросов здесь или в [группе](https://t.me/joinchat/ZCNej5lPJhg3YjU6).\n\n"
+                         "Ниже используй кнопки для быстрой навигации по памяткам.\n*Изучи их все!*\U0001F447", parse_mode="Markdown")
     else:
         bot.reply_to(message, "Команды доступны только в л.с. боту. Пиши @lamodadedbot")
 
@@ -215,15 +211,21 @@ def handle_text(message):
     # db.db[message.text] = [message.chat.id]
     # print(db.db)
     if message.chat.type == 'private':
-        if message.text == "Контактная информация":
+        if message.text == "Контакты":
             bot.send_message(message.chat.id, constants.contact, parse_mode="Markdown")
+        elif message.text == "Главное меню":
+            bot.send_message(message.chat.id, "жми \U0001F449 /start \U0001F448 *памятки, инструкции*\n"
+                                              "жми \U0001F449 /new \U0001F448 *стажерам*\n"
+                                              "жми \U0001F449 /gohome \U0001F448 *навигация*\n"
+                                              "жми \U0001F449 /help \U0001F448 *обратная связь, контакты*",
+                             parse_mode="Markdown", reply_markup=main_menu)
         elif message.text == "Где мой промокод":
             bot.send_message(message.chat.id, constants.promokod, parse_mode="Markdown")
         elif message.text == "Где бумажный чек?":
             bot.send_message(message.chat.id, constants.elchek, parse_mode="Markdown")
         elif message.text == "Памятки":
-            bot.send_message(message.chat.id, "Памятки", reply_markup=menu_pamyatki)
-        elif message.text == "Инструкции":
+            bot.send_message(message.chat.id, "Памятки", reply_markup=menu_pravila)
+        elif message.text == "⚠️Инструкции":
             bot.send_message(message.chat.id, "Соблюдай правила", reply_markup=menu_pravila)
         elif message.text == "Подозрительный клиент":
             bot.send_message(message.chat.id, constants.pk, parse_mode="Markdown")
@@ -320,7 +322,7 @@ def handle_text(message):
                 elif call.data == 'neotkrivaet':  # КЛИЕНТ
                     bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Хочешь, чтобы клиент примерял вещи быстрее - договорись с клиентом *ДО* примерки о времени.\nПолучи ответ - обратную связь - согласие клиента.\nВидишь заранее, что клиент не уложится в 15мин - *договорись* о большем времени.\n\nЕсли КЛ пропал, не отвечает на звонки и не открывает дверь -  Сообщи дежурному СВ.\nБудь готов вызвать полицию\U0001F693.", reply_markup=nazad_menu)
                 elif call.data == 'vozvrat' or call.data == 'tovarivozvrat':  # КЛИЕНТ
-                    bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Возврат *СТРОГО ЗАПРЕЩЕН*. Говори клиенту, что возврат доступен через ПВЗ.\n`Если ты все-таки сделал возврат и не можешь заново пробить позицию, то необходимо сбросить кэш и данные у приложения LmExpress`\n\nТакже смотри [Товары, не подлежащие возврату.](https://www.lamoda.ru/help/article/tovary-ne-podlezhashie-vozvratu-i-obmenu-ru/)", parse_mode="Markdown", reply_markup=nazad_menu)
+                    bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Возврат *СТРОГО ЗАПРЕЩЕН*. Говори клиенту, что возврат доступен через ПВЗ.\n`Если ты все-таки сделал возврат и не можешь заново пробить позицию, то необходимо сбросить кэш и данные у приложения LmExpress`\n\nТакже смотри [Товары, не подлежащие возврату.](https://www.lamoda.ru/help/article/tovary-ne-podlezhashie-vozvratu-i-obmenu-ru/)\nВернуть товар можно в течение 14 дней. Жми [Возврат](https://www.lamoda.ru/help/refund/)", parse_mode="Markdown", reply_markup=nazad_menu)
                 elif call.data == 'qr':  # КЛИЕНТ
                     bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Включи вспышку. Ищи код на бирке, коробке, ярлыке. Вводи вручную символы под кодом.\nЕсли не удалось - пиши запрос в группу с номером позиции *LM123456789*", parse_mode="Markdown", reply_markup=nazad_menu)
                 elif call.data == 'uwel':  # КЛИЕНТ
@@ -471,7 +473,7 @@ def handle_text(message):
                         elif call.data == 'neotkrivaet':  # КЛИЕНТ
                             bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Хочешь, чтобы клиент примерял вещи быстрее - договорись с клиентом *ДО* примерки о времени.\nПолучи ответ - обратную связь - согласие клиента.\nВидишь заранее, что клиент не уложится в 15мин - *договорись* о большем времени.\n\nЕсли КЛ пропал, не отвечает на звонки и не открывает дверь -  Сообщи дежурному СВ.\nБудь готов вызвать полицию\U0001F693.", reply_markup=nazad_menu)
                         elif call.data == 'vozvrat' or call.data == 'tovarivozvrat':  # КЛИЕНТ
-                            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Возврат *СТРОГО ЗАПРЕЩЕН*. Говори клиенту, что возврат доступен через ПВЗ.\n`Если ты все-таки сделал возврат и не можешь заново пробить позицию, то необходимо сбросить кэш и данные у приложения LmExpress`\n\nТакже смотри [Товары, не подлежащие возврату.](https://www.lamoda.ru/help/article/tovary-ne-podlezhashie-vozvratu-i-obmenu-ru/)", parse_mode="Markdown", reply_markup=nazad_menu)
+                            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Возврат *СТРОГО ЗАПРЕЩЕН*. Говори клиенту, что возврат доступен через ПВЗ.\n`Если ты все-таки сделал возврат и не можешь заново пробить позицию, то необходимо сбросить кэш и данные у приложения LmExpress`\n\nТакже смотри [Товары, не подлежащие возврату.](https://www.lamoda.ru/help/article/tovary-ne-podlezhashie-vozvratu-i-obmenu-ru/)\nВернуть товар можно в течение 14 дней. Жми [Возврат](https://www.lamoda.ru/help/refund/)", parse_mode="Markdown", reply_markup=nazad_menu)
                         elif call.data == 'qr':  # КЛИЕНТ
                             bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Включи вспышку. Ищи код на бирке, коробке, ярлыке. Вводи вручную символы под кодом.\nЕсли не удалось - пиши запрос в группу с номером позиции *LM123456789*", parse_mode="Markdown", reply_markup=nazad_menu)
                         elif call.data == 'uwel':  # КЛИЕНТ
