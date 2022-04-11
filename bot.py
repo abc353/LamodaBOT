@@ -147,7 +147,7 @@ def welcome(message):
                          reply_markup=main_menu)
         bot.send_message(message.chat.id, "Привет, *" + message.chat.first_name +
                          "*.\n\nЭто твое имя в телеграм для всех остальных. Переименуй его, если оно тебе не нравится и твои коллеги будут знать, как к тебе обращаться.\n\n"
-                         "Бот ответит на большинство вопросов здесь или в [группе](https://t.me/joinchat/ZCNej5lPJhg3YjU6).\n\n"
+                         "Бот ответит на большинство вопросов. Пиши боту - *проблема*.\n\n"
                          "Ниже используй кнопки для быстрой навигации по памяткам.\n*Изучи их все!*\U0001F447", parse_mode="Markdown")
     else:
         bot.reply_to(message, "Команды доступны только в л.с. боту. Пиши @lamodadedbot")
@@ -242,8 +242,6 @@ def handle_text(message):
             bot.send_message(message.chat.id, constants.promokod, parse_mode="Markdown")
         elif message.text == "Где бумажный чек?":
             bot.send_message(message.chat.id, constants.elchek, parse_mode="Markdown")
-        elif message.text == "Памятки":
-            bot.send_message(message.chat.id, "Памятки", reply_markup=menu_pravila)
         elif message.text == "⚠️Инструкции":
             bot.send_message(message.chat.id, "Соблюдай правила", reply_markup=menu_pravila)
         elif message.text == "Подозрительный клиент":
