@@ -227,7 +227,8 @@ def handle_text(message):
                                           "как включить *впн*\n"
                                           "как *подключить ридер*\n"
                                           "как *вводить дм*\n"
-                                          "как *включить планшет*", parse_mode="Markdown")
+                                          "как *включить планшет*\n"
+                                          "как *зайти в тесты*", parse_mode="Markdown")
     else:
         bot.reply_to(message, "Команды доступны только в л.с. боту. Пиши @lamodadedbot")
 
