@@ -214,6 +214,24 @@ def handle_text(message):
         bot.reply_to(message, "Команды доступны только в л.с. боту. Пиши @lamodadedbot")
 
 
+@bot.message_handler(commands='command')
+def handle_text(message):
+    if message.chat.type == 'private':
+        bot.send_message(message.chat.id, "🔸*Доступные команды - запросы*\n"
+                                          "\n"
+                                          "*проблем*а на маршруте\n"
+                                          "*контактн*ые *телефон*ы: дежурный СВ, *механик*, служба поддержки *мокка*, *колцентр*, *айбокс*\n"
+                                          "памятке по работе *паркоматик*и\n"
+                                          "*как заполнить бумажный акт*\n"
+                                          "запрос *балл*ов\n"
+                                          "как включить *впн*\n"
+                                          "как *подключить ридер*\n"
+                                          "как *вводить дм*\n"
+                                          "как *включить планшет*", parse_mode="Markdown")
+    else:
+        bot.reply_to(message, "Команды доступны только в л.с. боту. Пиши @lamodadedbot")
+
+
 @bot.message_handler(content_types='text')
 def handle_text(message):
     # матный фильтр
@@ -233,7 +251,8 @@ def handle_text(message):
         if message.text == "Контакты":
             bot.send_message(message.chat.id, constants.contact, parse_mode="Markdown")
         elif message.text == "Главное меню":
-            bot.send_message(message.chat.id, "жми \U0001F449 /start \U0001F448 *памятки, инструкции*\n"
+            bot.send_message(message.chat.id, "напиши мне - *проблема*\n"
+                                              "жми \U0001F449 /start \U0001F448 *памятки, инструкции*\n"
                                               "жми \U0001F449 /new \U0001F448 *стажерам*\n"
                                               "жми \U0001F449 /gohome \U0001F448 *навигация*\n"
                                               "жми \U0001F449 /help \U0001F448 *обратная связь, контакты*",
@@ -452,7 +471,7 @@ def handle_text(message):
         elif "мой айди" in message.text.lower() or "мой id" in message.text.lower():
             bot.send_message(message.chat.id, text="*Твой ID: *" + "*" + str(message.from_user.id) + "*", reply_to_message_id=message.id, parse_mode="Markdown")
         else:
-            bot.send_message(message.chat.id, "напиши мне - *проблема*"
+            bot.send_message(message.chat.id, "напиши мне - *проблема*\n"
 "жми \U0001F449 /start \U0001F448 *памятки, инструкции*\n"
 "жми \U0001F449 /new \U0001F448 *стажерам*\n"
 "жми \U0001F449 /gohome \U0001F448 *навигация*\n"
