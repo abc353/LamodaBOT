@@ -63,8 +63,9 @@ klient_button11 = types.InlineKeyboardButton("другая цена", callback_d
 klient_button12 = types.InlineKeyboardButton("💵 списались, заказ не закрылся", callback_data='uwel')
 klient_button13 = types.InlineKeyboardButton("требует другой адрес", callback_data='adres')
 klient_button14 = types.InlineKeyboardButton("не платит доставку", callback_data='otkaz')
+klient_button15 = types.InlineKeyboardButton("оплата картой+нал", callback_data='kartanal')
 klient.row(klient_button01, klient_button02, klient_button03, klient_button04)
-klient.row(klient_button9)
+klient.row(klient_button9, klient_button15)
 klient.row(klient_button8, klient_button2)
 klient.row(klient_button4, klient_button5)
 klient.row(klient_button3, klient_button6)
@@ -110,8 +111,9 @@ oborudovan_but6 = types.InlineKeyboardButton("завис Мокка", callback_d
 oborudovan_but7 = types.InlineKeyboardButton("не проходит оплата", callback_data='oplata')
 oborudovan_but8 = types.InlineKeyboardButton("LMexp не сканируется", callback_data='lmexp')
 oborudovan_but9 = types.InlineKeyboardButton("Не включается парковка", callback_data='parkovka')
+oborudovan_but10 = types.InlineKeyboardButton("оплата картой+нал", callback_data='kartanal')
 oborudovan.row(oborudovan_button01, oborudovan_button02, oborudovan_button03, oborudovan_button04)
-oborudovan.row(oborudovan_but7)
+oborudovan.row(oborudovan_but7, oborudovan_but10)
 oborudovan.row(oborudovan_but9, oborudovan_but2)
 oborudovan.row(oborudovan_but3, oborudovan_but4)
 oborudovan.row(oborudovan_but1)
@@ -332,7 +334,7 @@ def handle_text(message):
         elif "проблем" in message.text.lower():
             bot.send_message(message.chat.id, text="*Не можешь доставить заказ? Возникла проблема с клиентом или на маршруте? Тупит планшет?\n\U0001F447Жми кнопку\U0001F447*", parse_mode="Markdown", reply_to_message_id=message.id, reply_markup=zakaz_menu)
 
-            @bot.callback_query_handler(func=lambda call: call.data in ['zakaz_menu', 's_klientom', 's_vesch', 's_oborud', 's_marsh', 'pomenyal', 'neotdaet', 'neotkrivaet', 'vozvrat', 'qr', 'drugves', 'oplata', 'brak', 'razmer', 'elchek', 's_klientom_marsh', 'nedozvon', 'multi', 'perenos_vr', 'otmena', 'perenos', 'adres', 'bezprimerki', 'neuspevau', 'zavis', 'nepoln', 'mokka', 'nevkl', 'rider', 'oplatakarta', 'ibox', 'more100000', 'tovarivozvrat', 'nedosdacha', 'falsh', 'cena', 'lmexp', 'parkovka', 'uwel', 'otkaz'])
+            @bot.callback_query_handler(func=lambda call: call.data in ['kartanal', 'zakaz_menu', 's_klientom', 's_vesch', 's_oborud', 's_marsh', 'pomenyal', 'neotdaet', 'neotkrivaet', 'vozvrat', 'qr', 'drugves', 'oplata', 'brak', 'razmer', 'elchek', 's_klientom_marsh', 'nedozvon', 'multi', 'perenos_vr', 'otmena', 'perenos', 'adres', 'bezprimerki', 'neuspevau', 'zavis', 'nepoln', 'mokka', 'nevkl', 'rider', 'oplatakarta', 'ibox', 'more100000', 'tovarivozvrat', 'nedosdacha', 'falsh', 'cena', 'lmexp', 'parkovka', 'uwel', 'otkaz'])
             def callback_inline(call):
                 if call.data == 's_klientom':
                     bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="*Что случилось?* \U0001F447*Жми кнопку*\U0001F447", reply_markup=klient, parse_mode="Markdown")
@@ -370,6 +372,8 @@ def handle_text(message):
                     bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="❗Фиксируй *брак* в причине отказа.\nНе забудь проинформировать клиента.", parse_mode="Markdown")
                 elif call.data == 'razmer':  # КЛИЕНТ
                     bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Убедись, что размер совпадает с накладной и выбран в соответствие с размерной сеткой.\nНапример: Ботинок с отштамповкой *39* будет иметь *RU38* и *EU39*.\nЕсли размер не совпадает - \U00002757Фиксируй *пересорт* в причине отказа.", parse_mode="Markdown")
+                elif call.data == 'kartanal':  # КЛИЕНТ
+                    bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="🔸Клиент хочет оплатить и наличными и картой?\n\n🔸Продай необходимые позиции за наличные. Открой заказ, нажимай снова карзину и продай за безнал.\nТаким образом у тебя будет 2 чека на один заказ с необходимой оплатой.\n\n*Обязательно сообщи кассиру номер заказа и метод оплаты - нал безнал.*", parse_mode="Markdown")
                 elif call.data == 'nedozvon':
                     bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Убедись, что номер корректный. Если адрес полный - езжай до двери\U0001F6AA, если нет - запроси номер и адрес в КЦ.\nПродолжай попытки связи в течение дня.\nНе удалось доставить заказ и связаться с клиентом по телефону? - Ставь *недозвон*.\n\n*3* попытка доставки или *5* день хранения, а клиент не принял заказ - *Ставь отмену*.\n\n*Обязательно позвони клиенту минимум 3 раза с интервалом не чаще, чем раз в 15мин.*\n\n`Дни хранения смотри в маршрутном листе, попытки в планшете, если поставишь статус недозвон.`", parse_mode="Markdown")
                 elif call.data == 'cena':  # КЛИЕНТ
@@ -484,7 +488,7 @@ def handle_text(message):
                 if "проблем" in message.text.lower():
                     bot.send_message(message.chat.id, text="*Не можешь доставить заказ? Возникла проблема с клиентом или на маршруте? Тупит планшет?\n\U0001F447Жми кнопку\U0001F447*", parse_mode="Markdown", reply_to_message_id=message.id, reply_markup=zakaz_menu)
 
-                    @bot.callback_query_handler(func=lambda call: call.data in ['zakaz_menu', 's_klientom', 's_vesch', 's_oborud', 's_marsh', 'pomenyal', 'neotdaet', 'neotkrivaet', 'vozvrat', 'qr', 'drugves', 'oplata', 'brak', 'razmer', 'elchek', 's_klientom_marsh', 'nedozvon', 'multi', 'perenos_vr', 'otmena', 'perenos', 'adres', 'bezprimerki', 'neuspevau', 'zavis', 'nepoln', 'mokka', 'nevkl', 'rider', 'oplatakarta', 'ibox', 'more100000', 'tovarivozvrat', 'nedosdacha', 'falsh', 'cena', 'lmexp', 'parkovka', 'uwel', 'otkaz'])
+                    @bot.callback_query_handler(func=lambda call: call.data in ['kartanal', 'zakaz_menu', 's_klientom', 's_vesch', 's_oborud', 's_marsh', 'pomenyal', 'neotdaet', 'neotkrivaet', 'vozvrat', 'qr', 'drugves', 'oplata', 'brak', 'razmer', 'elchek', 's_klientom_marsh', 'nedozvon', 'multi', 'perenos_vr', 'otmena', 'perenos', 'adres', 'bezprimerki', 'neuspevau', 'zavis', 'nepoln', 'mokka', 'nevkl', 'rider', 'oplatakarta', 'ibox', 'more100000', 'tovarivozvrat', 'nedosdacha', 'falsh', 'cena', 'lmexp', 'parkovka', 'uwel', 'otkaz'])
                     def callback_inline(call):
                         if call.data == 's_klientom':
                             bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="*Что случилось?* \U0001F447*Жми кнопку*\U0001F447", reply_markup=klient, parse_mode="Markdown")
@@ -500,6 +504,8 @@ def handle_text(message):
                             bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="*Попроси клиента оплатить товар подлинной купюрой.*\nЕсли клиент отказал или не идет на контакт - вызывай полицию🚓, проинформируй дежурного супервайзера.\n\nТелефон дежурного СВ уточняй у [Бота](https://t.me/lamodadedbot).", parse_mode="Markdown")
                         elif call.data == 'pomenyal':  # КЛИЕНТ
                             bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Покажи клиенту, чем отличаются позиции. Сообщи, что продать позицию по ложной цене не сможешь.")
+                        elif call.data == 'kartanal':  # КЛИЕНТ
+                            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="🔸Клиент хочет оплатить и наличными и картой?\n\n🔸Продай необходимые позиции за наличные. Открой заказ, нажимай снова карзину и продай за безнал.\nТаким образом у тебя будет 2 чека на один заказ с необходимой оплатой.\n\n*Обязательно сообщи кассиру номер заказа и метод оплаты - нал безнал.*", parse_mode="Markdown")
                         elif call.data == 'neotdaet':  # КЛИЕНТ
                             bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="*Проверил позиции?* Попроси клиента вернуть вещь, которую ты *проверил* вместе с ним *ДО* примерки.\nНе отдает? Сообщи клиенту, что будешь вынужден вызвать полицию\U0001F693. При отказе звони дежурному СВ.\n\nКак проверить позиции уточняй у [Бота](https://t.me/lamodadedbot). Пиши *БПС*", parse_mode="Markdown")
                         elif call.data == 'elchek':  # КЛИЕНТ
