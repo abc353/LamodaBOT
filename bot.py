@@ -10,13 +10,10 @@ bot = telebot.TeleBot(constants.token)
 main_menu = types.ReplyKeyboardMarkup(True)
 main_menu.row('⚠️Инструкции', 'Контакты', 'Где мой промокод')
 menu_pravila = types.ReplyKeyboardMarkup(True)
-menu_pravila.row('Как мне работать с отменами и переносами?')
-menu_pravila.row('Когда отменять заказ?', 'Не успеваю в интервал')
-menu_pravila.row('Заказ остался на карте', 'Не прошла оплата')
-menu_pravila.row('Нет соединения, Anyconnect', 'Планшет не включается')
-menu_pravila.row('БПС', 'Удаленная касса', 'Где бумажный чек?')
+menu_pravila.row('БПС', 'Где бумажный чек?')
 menu_pravila.row('Подозрительный клиент', 'Правила звонков')
 menu_pravila.row('Электронные чаевые', 'Главное меню')
+menu_pravila.row('Удаленная касса', 'Баллы, мотивация')
 menu_stop = types.ReplyKeyboardRemove()
 new_menu1 = types.InlineKeyboardMarkup()
 button1 = types.InlineKeyboardButton('Что дальше?', callback_data='1')
@@ -112,7 +109,7 @@ oborudovan_but7 = types.InlineKeyboardButton("не проходит оплата
 oborudovan_but8 = types.InlineKeyboardButton("LMexp не сканируется", callback_data='lmexp')
 oborudovan_but9 = types.InlineKeyboardButton("не включается парковка", callback_data='parkovka')
 oborudovan_but10 = types.InlineKeyboardButton("двойная оплата", callback_data='kartanal')
-oborudovan_but11 = types.InlineKeyboardButton("нет соединения", callback_data='netsoedinenia')
+oborudovan_but11 = types.InlineKeyboardButton("нет соединения, vpn", callback_data='netsoedinenia')
 oborudovan_but12 = types.InlineKeyboardButton("закрыл без чека", callback_data='bezcheka')
 oborudovan.row(oborudovan_button01, oborudovan_button02, oborudovan_button03, oborudovan_button04)
 oborudovan.row(oborudovan_but7, oborudovan_but10)
@@ -253,12 +250,13 @@ def handle_text(message):
         if message.text == "Контакты":
             bot.send_message(message.chat.id, constants.contact, parse_mode="Markdown")
         elif message.text == "Главное меню":
-            bot.send_message(message.chat.id, "напиши мне - *проблема*\n"
-                                              "жми \U0001F449 /start \U0001F448 *памятки, инструкции*\n"
+            bot.send_message(message.chat.id, "Пиши - *проблема*\n\n"
+                                              "жми \U0001F449 /start \U0001F448 *инструкции, контакты*\n"
                                               "жми \U0001F449 /new \U0001F448 *стажерам*\n"
                                               "жми \U0001F449 /gohome \U0001F448 *навигация*\n"
-                                              "жми \U0001F449 /help \U0001F448 *обратная связь, контакты*",
-                             parse_mode="Markdown", reply_markup=main_menu)
+                                              "жми \U0001F449 /command \U0001F448 *список команд*\n"
+                                              "жми \U0001F449 /help \U0001F448 *обратная связь, контакты*\n\n"
+                                              "👇🏻👇🏻👇🏻жми *меню*", parse_mode="Markdown")
         elif message.text == "Где мой промокод":
             bot.send_message(message.chat.id, constants.promokod, parse_mode="Markdown")
         elif message.text == "Где бумажный чек?":
@@ -267,6 +265,25 @@ def handle_text(message):
             bot.send_message(message.chat.id, "Соблюдай правила", reply_markup=menu_pravila)
         elif message.text == "Подозрительный клиент":
             bot.send_message(message.chat.id, constants.pk, parse_mode="Markdown")
+        elif message.text == "Баллы, мотивация":
+            bot.send_message(message.chat.id, "🔸*Баллы за доставленный заказ*\n"
+                                              "3 балла 1-10 заказ\n"
+                                              "4 балла 11-25 заказ\n"
+                                              "5 баллов 26-32 заказ\n"
+                                              "6 баллов после 33 заказа\n\n"
+                                              "🔸*Баллы за продажу (% выкупа в рублях)*\n"
+                                              "11-20% 2 балла\n"
+                                              "21-30% 3 балла\n"
+                                              "31-40% 4 балла\n"
+                                              "41-50% 5 баллов\n"
+                                              "51-60% 6 баллов\n"
+                                              "61-70% 7 баллов\n"
+                                              "71-80% 8 баллов\n"
+                                              "81%+ 9 баллов\n\n"
+                                              "🔸*Баллы за точный интервал*\n"
+                                              "1ч интервал - 2 балла\n"
+                                              "15мин интервал - 7 баллов\n\n"
+                                              "🔸*-6 баллов за перенос/недозвон день в день*", parse_mode="Markdown")
         elif message.text == "Электронные чаевые":
             bot.send_message(message.chat.id, "*Lamoda* дает возможность получать чаевые от клиентов на карту.\n"
                              "Для этого зарегистрируйся по [ссылке.](https://lk.cloudtips.ru/sign-up?plc=5fb69de7701a1fedbc28da6e)\n"
@@ -317,18 +334,6 @@ def handle_text(message):
                                               "6️⃣*Статусы заказов в LEOS*\nВсе статусы в ЛЕОС соответствовали данным,"
                                               " полученным от клиента. Если записей с отменой или"
                                               " переносом нет - это 0", parse_mode="Markdown")
-        elif message.text == "Как мне работать с отменами и переносами?":
-            bot.send_message(message.chat.id, constants.perenos, parse_mode="Markdown")
-        elif message.text == "Когда отменять заказ?":
-            bot.send_message(message.chat.id, constants.otmena, parse_mode="Markdown")
-        elif message.text == "Не успеваю в интервал":
-            bot.send_message(message.chat.id, constants.opozdanie, parse_mode="Markdown")
-        elif message.text == "Заказ остался на карте":
-            bot.send_message(message.chat.id, constants.bezcheka, parse_mode="Markdown")
-        elif message.text == "Не прошла оплата":
-            bot.send_message(message.chat.id, constants.oplata, parse_mode="Markdown")
-        elif message.text == "Планшет не включается":
-            bot.send_message(message.chat.id, "Можно вынуть АКБ?", reply_markup=plansh_menu)
 
             @bot.callback_query_handler(func=lambda call: call.data in ['dabattery', 'netbattery'])
             def callback_inline(call):
@@ -340,11 +345,6 @@ def handle_text(message):
                                           "\u0035\uFE0F\u20E3Видишь надпись *SAMSUNG* - значит все получилось. Если опять *%* зарядки - повтори пункт \u0034\uFE0F\u20E3", parse_mode="Markdown")
                 elif call.data == 'netbattery':
                     bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="Зажми и удерживай кнопки включения и \U00002795")
-        elif message.text == "Нет соединения, Anyconnect":
-            bot.send_animation(message.chat.id, animation=constants.vpn)
-            bot.send_message(message.chat.id, "Добавляем сертификат как на видео")
-        elif message.text == "Главное меню":
-            bot.send_message(message.chat.id, "Главное меню", reply_markup=main_menu)
         elif "зайти" in message.text.lower() and "тест" in message.text.lower():
             test_photo1 = types.InputMediaPhoto(media="AgACAgIAAxkBAAIf7GFx1FEfLsyI4nu6xp5WIrreISnxAAK_ujEbGAqRSz3RE0a4iF5WAQADAgADeAADIQQ")
             test_photo2 = types.InputMediaPhoto(media="AgACAgIAAxkBAAIf7WFx1pm78PZ_2SB5S6ALK9aW6XlcAAJatTEb7GeQS5tAa61yo3gJAQADAgADeAADIQQ")
@@ -469,7 +469,9 @@ def handle_text(message):
         elif "ibox" in message.text.lower() or "айбокс" in message.text.lower():
             bot.reply_to(message, "*Позвони в службу поддержки iBox +78003334526*", parse_mode="Markdown")
         elif "vpn" in message.text.lower() or "впн" in message.text.lower() or "connect" in message.text.lower():
-            bot.send_animation(message.chat.id, animation=constants.vpn, caption="Добавляем сертификат")
+            bot.send_animation(message.chat.id, animation=constants.vpn, caption=" - очисти данные приложения *cisco anyconnect*\n"
+                                                                                 " - импортируй сертификат повторно, если подключение не создано автоматически\n"
+                                                                                 " - создай подключение вручную, в качестве сервера для подключения укажи *avpn.lamoda.ru*", parse_mode="Markdown")
         elif "подключить" in message.text.lower() and "ридер" in message.text.lower():
             photo2 = types.InputMediaPhoto(media='AgACAgIAAxkBAAIUAAFhXWq_a4XctxVHDLvi-Zh0McuekwAC9rUxGzfi8UpW5N-ot69n9AEAAwIAA20AAyEE', caption="Заходим в iBox - Настройки - P17")
             photo3 = types.InputMediaPhoto(media='AgACAgIAAxkBAAIUAWFdat_jon5RlxhJdd16uC0STsyNAAL3tTEbN-LxSu-cKoefkYRVAQADAgADbQADIQQ', caption="- Жмем на номер ридера")
@@ -622,7 +624,9 @@ def handle_text(message):
                                    photo='AgACAgIAAxkBAAIQrmFYsPYIPR5hUJx91rR2vHeOyK-4AAJWtDEb0R3JSgkNLQiFZJ_qAQADAgADeAADIQQ',
                                    caption="Бумажный акт несоответствия")
                 elif "vpn" in message.text.lower() or "впн" in message.text.lower() or "connect" in message.text.lower():
-                    bot.send_animation(message.chat.id, animation=constants.vpn, caption="Добавляем сертификат")
+                    bot.send_animation(message.chat.id, animation=constants.vpn, caption=" - очисти данные приложения *cisco anyconnect*\n"
+                                                                                         " - импортируй сертификат повторно, если подключение не создано автоматически\n"
+                                                                                         " - создай подключение вручную, в качестве сервера для подключения укажи *avpn.lamoda.ru*", parse_mode="Markdown")
                 elif "подключить" in message.text.lower() and "ридер" in message.text.lower():
                     photo2 = types.InputMediaPhoto(media='AgACAgIAAxkBAAIUAAFhXWq_a4XctxVHDLvi-Zh0McuekwAC9rUxGzfi8UpW5N-ot69n9AEAAwIAA20AAyEE', caption="Заходим в iBox - Настройки - P17")
                     photo3 = types.InputMediaPhoto(media='AgACAgIAAxkBAAIUAWFdat_jon5RlxhJdd16uC0STsyNAAL3tTEbN-LxSu-cKoefkYRVAQADAgADbQADIQQ', caption="- Жмем на номер ридера")
