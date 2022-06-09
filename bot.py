@@ -106,7 +106,7 @@ oborudovan_but3 = types.InlineKeyboardButton("не подключается ри
 oborudovan_but4 = types.InlineKeyboardButton("не работает iBox", callback_data='ibox')
 oborudovan_but6 = types.InlineKeyboardButton("завис Мокка", callback_data='mokka')
 oborudovan_but7 = types.InlineKeyboardButton("не проходит оплата", callback_data='oplata')
-oborudovan_but8 = types.InlineKeyboardButton("LMexp не сканируется", callback_data='lmexp')
+oborudovan_but8 = types.InlineKeyboardButton("вылетает приложение", callback_data='lmexp')
 oborudovan_but9 = types.InlineKeyboardButton("не включается парковка", callback_data='parkovka')
 oborudovan_but10 = types.InlineKeyboardButton("двойная оплата", callback_data='kartanal')
 oborudovan_but11 = types.InlineKeyboardButton("нет соединения, vpn", callback_data='netsoedinenia')
@@ -131,11 +131,13 @@ marsh_but4 = types.InlineKeyboardButton("отмена", callback_data='otmena')
 marsh_but5 = types.InlineKeyboardButton("перенос", callback_data='perenos')
 marsh_but6 = types.InlineKeyboardButton("другой адрес", callback_data='adres')
 marsh_but7 = types.InlineKeyboardButton("не отвечает на звонок", callback_data='nedozvon')
+marsh_but8 = types.InlineKeyboardButton("закрыл без чека", callback_data='bezcheka')
 marsh.row(marsh_but01, marsh_but02, marsh_but03, marsh_but04)
 marsh.row(marsh_but3)
 marsh.row(marsh_but2, marsh_but5)
 marsh.row(marsh_but7, marsh_but4)
 marsh.row(marsh_but6, marsh_but1)
+marsh.row(marsh_but8)
 
 
 @bot.message_handler(commands=['start'])
@@ -424,7 +426,7 @@ def handle_text(message):
                 elif call.data == 'nepoln':
                     bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Запиши всю информацию по адресу при первом звонке клиенту. Если клиент больше не отвечает - уточни адрес в КЦ или сделай запрос в чат. Езжай до двери\U0001F6AA")
                 elif call.data == 'lmexp':
-                    bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="\U000026A0*Сканируешь бейдж, Lmexpress вылетает?*\n*Сбрось кэш и данные* у Lmexpress через настройки телефона-приложения.\n\n*QR код сканируется с ошибкой? Не можешь зайти?*\nЗапроси новый у дежурного СВ.\n\nТелефон дежурного СВ уточняй у [Бота](https://t.me/lamodadedbot).", parse_mode="Markdown")
+                    bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="🔸*Вылетает приложение или не сканируется бейдж?*\n\n* - обнови заказы*\n* - сбрось кэш и данные* у Lmexpress через настройки телефона-приложения.\n\n🔸*QR код сканируется с ошибкой? Не можешь зайти?*\n - запроси новый у дежурного СВ.\n\nТелефон дежурного СВ уточняй у [Бота](https://t.me/lamodadedbot).", parse_mode="Markdown")
                 elif call.data == 'mokka':
                     bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Включи впн, обнови заказы. Позвони в Мокка, чтобы уточнить статус оплаты.\nКак включить впн и узнать номер Мокка ты можешь у [Бота](https://t.me/lamodadedbot). Пиши *впн* и *номер мокка*", parse_mode="Markdown")
                 elif call.data == 'zavis':
@@ -667,7 +669,8 @@ def handle_text(message):
             elif message.text.lower() == "спасибо":
                 bot.delete_message(message.chat.id, message.id)
             elif "такси" in message.text.lower():
-                bot.reply_to(message, "🚕Группируемся по 4 человека в одном направлении, доступно 3 машины🚕\nПарни, в сообщении пишем *НАПРАВЛЕНИЕ* и примерное *время*.\n`Еду в Бирюлево ЮГ 23:30.`", parse_mode="Markdown")
+                bot.reply_to(message, "🚕 #такси *Запрос на такси от " + str(message.from_user.first_name) + "*\n\n"
+                                      "`запросы принимаются до 23:00`", parse_mode="Markdown")
             elif "паркоматик" in message.text.lower():
                 bot.reply_to(message, "Проводим оплату через новое приложение *Московский паркинг*.\n"
                                       "В случае появления ошибки необходимо сообщить о проблеме *дежурному механику* или *инженеру БДД* с указанием IMEI устройства.", parse_mode="Markdown")
