@@ -463,7 +463,8 @@ def handle_text(message):
         elif "акт" in message.text.lower() and "несоответ" in message.text.lower():
             bot.send_photo(message.chat.id, photo='AgACAgIAAxkBAAIQrmFYsPYIPR5hUJx91rR2vHeOyK-4AAJWtDEb0R3JSgkNLQiFZJ_qAQADAgADeAADIQQ', caption="Бумажный акт несоответствия")
         elif "балл" in message.text.lower() and "мало" not in message.text.lower():
-            bot.send_message(message.chat.id, "[Баллы Май](https://docs.google.com/spreadsheets/d/1h2ujK7HiXIYtdODYjmq_KWvZZmNpbjzOtxGMgQlPoQ0/edit#gid=252022905)", parse_mode="Markdown")
+            bot.send_message(message.chat.id, "[Баллы Июль](https://docs.google.com/spreadsheets/d/1K-QPzxtj-PBbzHiRxYiZ1jCoxm6BaRNhge_l2gueanc/edit?usp=sharing)", parse_mode="Markdown")
+            bot.send_message(message.chat.id, "[Баллы Июнь Май](https://docs.google.com/spreadsheets/d/1h2ujK7HiXIYtdODYjmq_KWvZZmNpbjzOtxGMgQlPoQ0/edit#gid=252022905)", parse_mode="Markdown")
             bot.send_message(message.chat.id, "[Баллы Март Апрель](https://docs.google.com/spreadsheets/d/13_S1ojhmj7GzrrlMnSEaysZRZGJzxZkE8Q2yk1q_0xY/edit#gid=479252611)", parse_mode="Markdown")
             bot.send_message(message.chat.id, "[Баллы Февраль Январь](https://docs.google.com/spreadsheets/d/1q9FBi3okjf4osYc-ly3EDhsUL4eWPnr-xrIeEG1tFLQ/edit#gid=2024719826)", parse_mode="Markdown")
             bot.send_message(message.chat.id, "[Баллы Декабрь Ноябрь](https://docs.google.com/spreadsheets/d/180rad-8dAa3t1o2HmOERYufnFDmCwQifg3Sr5Iuf4Fk/edit#gid=646783405)", parse_mode="Markdown")
@@ -604,7 +605,7 @@ def handle_text(message):
                 elif "ibox" in message.text.lower() or "айбокс" in message.text.lower():
                     bot.reply_to(message, "*Позвони в службу поддержки iBox +78003334526*", parse_mode="Markdown")
                 elif "балл" in message.text.lower() and "мало" not in message.text.lower():
-                    bot.send_message(message.chat.id, "[Баллы](https://docs.google.com/spreadsheets/d/1h2ujK7HiXIYtdODYjmq_KWvZZmNpbjzOtxGMgQlPoQ0/edit#gid=252022905)", parse_mode="Markdown")
+                    bot.send_message(message.chat.id, "[Баллы](https://docs.google.com/spreadsheets/d/1K-QPzxtj-PBbzHiRxYiZ1jCoxm6BaRNhge_l2gueanc/edit?usp=sharing)", parse_mode="Markdown")
                 elif "дежурн" in message.text.lower() and "механик" not in message.text.lower():
                     bot.reply_to(message, "*Дежурный СВ* +79160558030", parse_mode="Markdown")
                 elif "мокка" in message.text.lower() or "мокко" in message.text.lower():
