@@ -161,7 +161,7 @@ def handle_text(message):
         @bot.callback_query_handler(func=lambda call: call.data in ['1', '2', '3', '4'])
         def callback_inline(call):
             if call.data == '1':
-                bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="Внимательно изучи [СТАНДАРТНЫЙ НАБОР ОПЕРАЦИЙ ТОРГОВОГО ПРЕДСТАВИТЕЛЯ](https://drive.google.com/file/d/19TFv_5iqnTdJK_bfFS8hW7ivFIcGyACp/view?usp=sharing)\n"
+                bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="Внимательно изучи проблемные ситуации на маршруте. Пиши боту @lamodadedbot - *проблема*.\n"
                                       "В нем подробно расписан твой день, начиная с подготовки к маршруту, заканчивая вечерней приемкой.", parse_mode="Markdown", reply_markup=new_menu2)
             elif call.data == '2':
                 bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="Возьми с собой:\n"
@@ -256,9 +256,9 @@ def handle_text(message):
                                               "жми \U0001F449 /start \U0001F448 *инструкции, контакты*\n"
                                               "жми \U0001F449 /new \U0001F448 *стажерам*\n"
                                               "жми \U0001F449 /gohome \U0001F448 *навигация*\n"
-                                              "жми \U0001F449 /command \U0001F448 *список команд*\n"
+                                              #"жми \U0001F449 /command \U0001F448 *список команд*\n"
                                               "жми \U0001F449 /help \U0001F448 *обратная связь, контакты*\n\n"
-                                              "👇🏻👇🏻👇🏻жми *меню*", parse_mode="Markdown")
+                                              "👇🏻👇🏻👇🏻жми *меню*", parse_mode="Markdown", reply_markup=main_menu)
         elif message.text == "Где мой промокод":
             bot.send_message(message.chat.id, constants.promokod, parse_mode="Markdown")
         elif message.text == "Где бумажный чек?":
@@ -505,7 +505,7 @@ def handle_text(message):
                                               "жми \U0001F449 /start \U0001F448 *инструкции, контакты*\n"
                                               "жми \U0001F449 /new \U0001F448 *стажерам*\n"
                                               "жми \U0001F449 /gohome \U0001F448 *навигация*\n"
-                                              "жми \U0001F449 /command \U0001F448 *список команд*\n"
+                                              #"жми \U0001F449 /command \U0001F448 *список команд*\n"
                                               "жми \U0001F449 /help \U0001F448 *обратная связь, контакты*\n\n"
                                               "👇🏻👇🏻👇🏻жми *меню*", parse_mode="Markdown")
             file_name = "logi.txt"
