@@ -1,4 +1,4 @@
-token = "1062778180:AAHeLcSKVCAy23PKnRhMRy5Y3HR2bs3xblg"
+token = "5584155755:AAGkzO-rjenPQF9Qov3U_y19hkrvhiWrnC4"
 vpn = 'CgACAgIAAxkBAAIH1GFJK3uBEM69kSfWNxCinKG2XC6JAAINDgAClexRSgOcbRmSsJyZIAQ'
 bps = 'CgACAgIAAxkBAAILP2FOWTxLvFr9piR4GgaP9EUt55YOAALOEAAC8dhwSumWIL4WwL0yIQQ'
 mat = ["бля", "хуй", "сука", "ебат", "пизд", "наебал", "ебал", "ебан", "заеб", "хуя", "жоп", "пидор"]
