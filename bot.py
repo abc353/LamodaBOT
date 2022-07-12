@@ -13,7 +13,7 @@ menu_pravila = types.ReplyKeyboardMarkup(True)
 menu_pravila.row('БПС', 'Где бумажный чек?')
 menu_pravila.row('Подозрительный клиент', 'Правила звонков')
 menu_pravila.row('Электронные чаевые', 'Главное меню')
-menu_pravila.row('Удаленная касса', 'Баллы, мотивация')
+menu_pravila.row('Удаленная касса')
 menu_stop = types.ReplyKeyboardRemove()
 new_menu1 = types.InlineKeyboardMarkup()
 button1 = types.InlineKeyboardButton('Что дальше?', callback_data='1')
@@ -228,6 +228,7 @@ def handle_text(message):
                                           "как *подключить ридер*\n"
                                           "как *вводить дм*\n"
                                           "как *включить планшет*\n"
+                                          "как рассчитывать *балл*ы и *мотивац*ию\n"
                                           "как *зайти в тесты*", parse_mode="Markdown")
     else:
         bot.reply_to(message, "Команды доступны только в л.с. боту. Пиши @idivgopuanyaBot")
@@ -267,7 +268,7 @@ def handle_text(message):
             bot.send_message(message.chat.id, "Соблюдай правила", reply_markup=menu_pravila)
         elif message.text == "Подозрительный клиент":
             bot.send_message(message.chat.id, constants.pk, parse_mode="Markdown")
-        elif message.text == "Баллы, мотивация":
+        elif "балл" in message.text.lower() and "мотивац" in message.text.lower():
             bot.send_message(message.chat.id, "🔸*Баллы за доставленный заказ*\n"
                                               "3 балла 1-10 заказ\n"
                                               "4 балла 11-25 заказ\n"
